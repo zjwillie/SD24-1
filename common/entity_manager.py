@@ -1,7 +1,13 @@
 import typing
+import os
+import sys
 
-from components import *
-from utils import get_JSON_data
+# Adjusting the path temporarily if the module is run as the main script
+if __name__ == "__main__":
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from common.components import *
+from common.utils import get_JSON_data
 
 class EntityManager:
     def __init__(self):
@@ -106,8 +112,6 @@ def main():
         print(f"Entity {i}:")
         print(entity_manager.get_component(entity, NameComponent).name)
         print(entity_manager.get_component(entity, UUIDComponent).uuid)
-
-
 
 
 if __name__ == "__main__":

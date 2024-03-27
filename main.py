@@ -64,6 +64,8 @@ def main():
 
     # endregion
 
+    entity_manager = EntityManager()
+
     pygame.quit()
     os._exit(0)
 

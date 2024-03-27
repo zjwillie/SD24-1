@@ -1,4 +1,4 @@
-from components import *
+from common.components import *
 
 class ComponentFactory:
     def create_component(self, component_name, component_data):
