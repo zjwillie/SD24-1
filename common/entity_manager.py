@@ -10,7 +10,7 @@ from common.components import *
 from common.utils import get_JSON_data
 
 class EntityManager:
-    def __init__(self):
+    def __init__(self, loggers):
         self.next_enity_id = 0
         self.factory = ComponentFactory()
 
@@ -21,6 +21,8 @@ class EntityManager:
         self.component_maps = {}
 
         self.subscriptions = {}
+
+        self.loggers = loggers
 
     def create_entity(self, components: typing.List[typing.Any] = []):
         entity_id = self.next_enity_id
