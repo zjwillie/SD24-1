@@ -10,14 +10,12 @@ from common.input_manager import InputManager
 from common.system_manager import SystemManager
 
 class ECSWorld:
-    def __init__(self, loggers):
-        self.entity_manager = EntityManager(loggers)
-        self.event_manager = EventManager(loggers)
-        self.input_manager = InputManager(loggers)
-        self.system_manager = SystemManager(loggers)
-        
-        self.loggers = loggers
-
+    def __init__(self, game_state, world_data = None):
+        self.game_state = game_state
+        self.entity_manager = EntityManager(self)
+        self.event_manager = EventManager(self)
+        self.input_manager = InputManager(self)
+        self.system_manager = SystemManager(self)
 
 def main():
     pass
