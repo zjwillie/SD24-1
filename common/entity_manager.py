@@ -7,10 +7,12 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from common.components import *
-from common.utils import get_JSON_data
+from core.utils import get_JSON_data
 
 class EntityManager:
-    def __init__(self, loggers):
+    def __init__(self, logger):
+        self.logger = logger
+
         self.next_enity_id = 0
         self.factory = ComponentFactory()
 
@@ -21,8 +23,6 @@ class EntityManager:
         self.component_maps = {}
 
         self.subscriptions = {}
-
-        self.loggers = loggers
 
     def create_entity(self, components: typing.List[typing.Any] = []):
         entity_id = self.next_enity_id

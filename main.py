@@ -23,7 +23,19 @@ def main():
         profiler = cProfile.Profile()
         profiler.enable()
 
+#?##############################################################################
+
     game_manager = GameManager()
+    game_manager.test_initialize() #! This is just for testing purposes
+
+    while game_manager.game_state.exit_requested == False:
+        game_manager.game_state.clock.tick(60)
+        delta_time = game_manager.game_state.clock.get_time()
+        game_manager.update(delta_time)
+
+        pygame.display.flip()
+
+#?##############################################################################
 
     if run_profiler:
         profiler.disable()

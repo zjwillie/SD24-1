@@ -1,1 +1,0 @@
-2024-03-28 13:06:15,006 - component - DEBUG - Component debug message goes to the file.

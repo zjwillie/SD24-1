@@ -9,15 +9,24 @@ from common.components import NameComponent, UUIDComponent
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
+from core.logging_manager import LoggingManager
+
 class GameManager:
     def __init__(self):
 
         self.game_state = GameState()
-        self.world = ECSWorld(self.game_state)
+        self.world = None
 
-        self.initialize()
+        self.logger = LoggingManager()
+        self.logger.initialize_logging()
+        self.logger.set_output_to_console('game_manager')
+        self.logger.change_log_level('game_manager', "DEBUG")
 
-    def initialize(self):
+
+    def test_initialize(self):
+
+        self.world = ECSWorld(self.game_state, self.logger)
+
         test_dict = {
             "NameComponent": {
                 "name": "Player 2"
@@ -32,14 +41,25 @@ class GameManager:
         test_world_json = "common/test_world.json"
         self.world.entity_manager.create_world_entities(test_world_json)
 
+        self.world.event_manager.subscribe("escape", self.quit_game)
+
+    def quit_game(self, event):
+        self.logger.loggers['game_manager'].info("Quitting Game")
+        self.game_state.exit_requested = True
+
+
+    def update(self, delta_time):
+        self.world.input_manager.update(delta_time)
 
 def main():
     game_manager = GameManager()
+
+    game_manager.test_initialize()
     
     for entity in game_manager.world.entity_manager.entities:
-        print(entity)
-        print(game_manager.world.entity_manager.get_component(entity, NameComponent).name)
-        print(game_manager.world.entity_manager.get_component(entity, UUIDComponent).uuid)
+        game_manager.logger.loggers['game_manager'].debug(f"Entity: {entity}")
+        game_manager.logger.loggers['game_manager'].warning(f"{game_manager.world.entity_manager.get_component(entity, NameComponent).name}")
+        game_manager.logger.loggers['game_manager'].critical(f"{game_manager.world.entity_manager.get_component(entity, UUIDComponent).uuid}")
 
     
 if __name__ == "__main__":

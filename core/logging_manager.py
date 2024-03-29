@@ -1,4 +1,5 @@
 import logging
+import os
 
 class LoggingManager:
     def __init__(self):
@@ -8,7 +9,11 @@ class LoggingManager:
 
     def initialize_logging(self):
         self.loggers = {
+            'entity': logging.getLogger('entity'),
+            'input_manager': logging.getLogger('input_manager'),
+            'game_manager': logging.getLogger('game_manager'),
             'component': logging.getLogger('component'),
+            'system': logging.getLogger('system'),
             'current': logging.getLogger('current')
         }
         for logger_name in self.loggers:
@@ -16,8 +21,13 @@ class LoggingManager:
             logger.setLevel(logging.WARNING if logger_name == 'component' else logging.DEBUG)
             self.handlers[logger_name] = logging.StreamHandler()  # Default to console
             self.setup_handler(self.handlers[logger_name], logger)
+            logger.propagate = False
 
     def setup_handler(self, handler, logger):
+        # Remove all handlers from the logger
+        while logger.hasHandlers():
+            logger.removeHandler(logger.handlers[0])
+
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
         handler.setLevel(logging.DEBUG)  # Handle all messages
@@ -27,7 +37,7 @@ class LoggingManager:
         logger = self.loggers.get(logger_name)
         if logger:
             logger.removeHandler(self.handlers[logger_name])  # Remove the previous handler
-            file_handler = logging.FileHandler(filename)
+            file_handler = logging.FileHandler(os.path.join('core', 'logs', filename))
             self.setup_handler(file_handler, logger)
             self.handlers[logger_name] = file_handler  # Update the current handler
 
@@ -40,6 +50,9 @@ class LoggingManager:
             self.handlers[logger_name] = console_handler  # Update the current handler
 
     def change_log_level(self, logger_name, new_level):
+        if new_level is False:
+            new_level = logging.CRITICAL + 1
+
         logger = self.loggers.get(logger_name)
         if logger:
             logger.setLevel(new_level)
