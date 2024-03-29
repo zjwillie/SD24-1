@@ -36,3 +36,6 @@ class EventManager:
             self.logger.loggers['event_manager'].info(f"Event:\n Type: {event.type}, Data: {event.data}") if troubleshooting else None
             for subscriber in self.subscribers.get(event.type, []):
                 subscriber(event)
+
+    def update(self):
+        self.process_events()

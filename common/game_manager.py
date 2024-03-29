@@ -49,6 +49,7 @@ class GameManager:
 
 
     def update(self, delta_time):
+        self.world.event_manager.update()
         self.world.input_manager.update(delta_time)
 
 def main():

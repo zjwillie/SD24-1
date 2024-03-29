@@ -1,6 +1,7 @@
 import os
 import pygame
 import sys
+import time
 
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -20,17 +21,19 @@ class InputManager:
                 escape_event = Event("escape")
                 self.event_manager.post(escape_event)
 
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     escape_event = Event("escape")
                     self.event_manager.post(escape_event)
 
-                print("hi")
-                self.logger.loggers['input_manager'].info(f"Key Down: {event.key}")
-                key_down_event = Event("key_down", event.key)
+                key_down_event = Event("key_down", (event.key, time.time()))
+                self.logger.loggers['input_manager'].info(f"Key Down: {key_down_event}")
                 self.event_manager.post(key_down_event)
 
-            if event.type == pygame.KEYUP:
+            elif event.type == pygame.KEYUP:
+                key_up_event = Event("key_down", (event.key, time.time()))
                 self.logger.loggers['input_manager'].info(f"Key Up: {event.key}")
-                key_up_event = Event("key_up", event.key)
                 self.event_manager.post(key_up_event)
+
+            else:
+                print(f"Event: {event}")
