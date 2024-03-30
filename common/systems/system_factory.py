@@ -1,4 +1,5 @@
-from common.systems import PlayerSystem
+from common.systems.player_system import PlayerSystem
+from common.systems.time_system import TimeSystem
 
 class SystemFactory:
     def create_system(self, system_name, game_state, entity_manager, event_manager, logger):
@@ -15,3 +16,6 @@ class SystemFactory:
 
     def create_PlayerSystem(self, **kwargs):
         return PlayerSystem(**kwargs)
+    
+    def create_TimeSystem(self, **kwargs):
+        return TimeSystem(**kwargs)

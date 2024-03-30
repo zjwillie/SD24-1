@@ -5,4 +5,4 @@ class PlayerSystem(System):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
     def update(self, delta_time):
-        print("Player System Update")
+        pass

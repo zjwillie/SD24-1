@@ -21,7 +21,7 @@ class SystemManager:
         self.logger.loggers["system"].info(f"Adding system: {system_name}")
         self.systems[system_name] = system
 
-    def remove_system(self, system):
+    def remove_system(self, system, system_name):
         self.logger.loggers["system"].info(f"Removing system: {system_name}")
         del self.systems[system_name]
 

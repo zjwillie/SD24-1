@@ -3,7 +3,9 @@ import sys
 
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-                    
+
+from common.components import *
+
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 

@@ -1,9 +1,10 @@
 {
     "entities":[
         "common/test_json_entity.json",
-        "common/test_json_entity.json"
+        "entities/character.json"
     ],
     "systems":[
-        "PlayerSystem"
+        "PlayerSystem",
+        "TimeSystem"
     ]
 }

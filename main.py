@@ -7,8 +7,6 @@ import time
 import typing
 import uuid
 
-# package imports
-#from common.components import *
 from common.game_manager import GameManager
 
 # Debugging

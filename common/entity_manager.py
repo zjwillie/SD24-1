@@ -6,7 +6,13 @@ import sys
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from common.components import *
+from common.components.base_component import Component
+from common.components.component_factory import ComponentFactory
+from common.components.player_component import PlayerComponent
+from common.components.name_component import NameComponent
+from common.components.uuid_component import UUIDComponent
+
+
 from core.utils import get_JSON_data
 
 class EntityManager:

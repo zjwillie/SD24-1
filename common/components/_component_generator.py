@@ -1,19 +1,25 @@
 import os
 
 def create_component(component_name):
-    # Convert to snake_case for filenames
-    file_name = ''.join(['_' + i.lower() if i.isupper() else i for i in component_name]).lstrip('_') + '.py'
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+
+    # Create filename in snake_case
+    file_name = component_name.lower() + '_component.py'
+
+    # Create class name in CamelCase
+    class_name = component_name + 'Component'
 
     # Path to the new component module
-    component_path = os.path.join('components', file_name)
+    component_path = os.path.join(script_dir, file_name)
 
     # Create the component module file
     with open(component_path, 'w') as f:
-        f.write(f"""# {component_name}.py
+        f.write(f"""# {class_name}.py
 
-from .base_component import BaseComponent
+from .base_component import Component
 
-class {component_name}(BaseComponent):
+class {class_name}(Component):
     def __init__(self):
         super().__init__()
         # Component initialization
@@ -21,15 +27,20 @@ class {component_name}(BaseComponent):
 """)
 
     # Update the component factory
-    factory_path = os.path.join('components', 'component_factory.py')
+    factory_path = os.path.join(script_dir, 'component_factory.py')
     with open(factory_path, 'a') as f:
         f.write(f"""
 
-    def create_{component_name.lower()}(self, **kwargs):
-        return {component_name}(**kwargs)
+    def create_{class_name}(self, **kwargs):
+        return {class_name}(**kwargs)
 """)
 
-    print(f"Component {component_name} created and added to the factory.")
+    # Update __init__.py
+    init_path = os.path.join(script_dir, '__init__.py')
+    with open(init_path, 'a') as f:
+        f.write(f"\nfrom .{file_name.replace('.py', '')} import {class_name}")
+
+    print(f"Component {class_name} created and added to the factory.")
 
 # Example usage
-create_component('NewComponent')
+create_component('Type')

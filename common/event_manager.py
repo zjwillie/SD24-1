@@ -4,7 +4,7 @@ class Event:
         self.data = data
     
     def __str__(self):
-        return f"Event: Type({self.type}) Data({self.data}) <- EVENT OBJECT"
+        return f"Event: Type({self.type}) Data{self.data} <- EVENT OBJECT"
 
 class EventManager:
     def __init__(self, logger):
