@@ -1,5 +1,3 @@
-
-
 class Event:
     def __init__(self, type, data=None):
         self.type = type
@@ -30,10 +28,10 @@ class EventManager:
             subscriber(event)
         self.events.remove(event)
 
-    def process_events(self, troubleshooting=False):
+    def process_events(self):
         while self.events:
             event = self.events.pop(0)
-            self.logger.loggers['event_manager'].info(f"Event:\n Type: {event.type}, Data: {event.data}") if troubleshooting else None
+            self.logger.loggers['event_manager'].info(f"Event:\n Type: {event.type}, Data: {event.data}")
             for subscriber in self.subscribers.get(event.type, []):
                 subscriber(event)
 

@@ -68,11 +68,10 @@ class EntityManager:
         entity_dict = get_JSON_data(entity_json)
         return self.create_entity_from_dict(entity_dict)
     
-    def create_world_entities(self, world_json: str):
+    def create_world_entities(self, world_entities: dict):
         entities = []
-        world_dict = get_JSON_data(world_json)
-        for entity_json in world_dict["entities"]:
-            new_entity = self.create_entity_from_JSON(entity_json)
+        for entity_JSON in world_entities:
+            new_entity = self.create_entity_from_JSON(entity_JSON)
             entities.append(new_entity)
         return entities
 

@@ -35,5 +35,7 @@ class InputManager:
                 self.logger.loggers['input_manager'].info(f"Key Up: {event.key}")
                 self.event_manager.post(key_up_event)
 
+            # Append any unhandled events to the event manager
             else:
-                print(f"Event: {event}")
+                unhandled_event = Event("unflagged", event)
+                #TODO self.event_manager.events.append(unhandled_event)

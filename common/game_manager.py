@@ -3,13 +3,12 @@ import sys
 
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from common.components import NameComponent, UUIDComponent
                     
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
 from core.logging_manager import LoggingManager
+from core.utils import get_JSON_data
 
 class GameManager:
     def __init__(self):
@@ -24,9 +23,10 @@ class GameManager:
 
 
     def test_initialize(self):
-
-        self.world = ECSWorld(self.game_state, self.logger)
-
+        test_world_dict = get_JSON_data("common/test_world.json")
+        self.world = ECSWorld(self.game_state, self.logger, test_world_dict)
+        
+        """
         test_dict = {
             "NameComponent": {
                 "name": "Player 2"
@@ -38,9 +38,9 @@ class GameManager:
         test_json = "common/test_json_entity.json"
         self.world.entity_manager.create_entity_from_JSON(test_json)
 
-        test_world_json = "common/test_world.json"
         self.world.entity_manager.create_world_entities(test_world_json)
-
+        """
+        
         self.world.event_manager.subscribe("escape", self.quit_game)
 
     def quit_game(self, event):
@@ -51,6 +51,7 @@ class GameManager:
     def update(self, delta_time):
         self.world.event_manager.update()
         self.world.input_manager.update(delta_time)
+        self.world.system_manager.update(delta_time)
 
 def main():
     game_manager = GameManager()
