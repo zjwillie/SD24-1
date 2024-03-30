@@ -29,11 +29,11 @@ def main():
     game_manager.test_initialize() #! This is just for testing purposes
 
     while game_manager.game_state.exit_requested == False:
-        game_manager.game_state.clock.tick(60)
-        delta_time = game_manager.game_state.clock.get_time()
+
+        delta_time = game_manager.game_state.clock.tick(60) / 1000.0       
+       
         game_manager.update(delta_time)
 
-        pygame.display.flip()
 
 #?##############################################################################
 
