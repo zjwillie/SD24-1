@@ -4,8 +4,8 @@
     },
     "UUIDComponent": {},
     "BackgroundComponent": {},
-    "ImageComponent": {
-        "images": ["images/menus/main_menu.png"]
+    "ImagesComponent": {
+        "images_locations": ["images/menus/main_menu.png"]
     },
     "RenderComponent": {
         "layer": 1

@@ -10,8 +10,8 @@
     "RenderComponent": {
         "layer": 2
     },
-    "ImageComponent": {
-        "images": ["images/buttons/menu_bar_yellow_165x45.png"]
+    "ImagesComponent": {
+        "images_locations": ["images/menus/menu_bar_yellow_165x45.png"]
     },
     "MenuComponent": {},
     "InputComponent": {},

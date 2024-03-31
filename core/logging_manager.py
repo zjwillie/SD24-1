@@ -9,7 +9,7 @@ class LoggingManager:
 
     def initialize_logging(self):
         self.loggers = {
-            'entity': logging.getLogger('entity'),
+            'entity_manager': logging.getLogger('entity'),
             'event_manager': logging.getLogger('event_manager'),
             'input_manager': logging.getLogger('input_manager'),
             'game_manager': logging.getLogger('game_manager'),

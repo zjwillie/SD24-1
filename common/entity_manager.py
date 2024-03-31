@@ -8,8 +8,11 @@ if __name__ == "__main__":
 
 from common.components.base_component import Component
 from common.components.component_factory import ComponentFactory
-from common.components.player_component import PlayerComponent
+
+from common.components.images_component import ImagesComponent
 from common.components.name_component import NameComponent
+from common.components.player_component import PlayerComponent
+from common.components.render_component import RenderComponent
 from common.components.uuid_component import UUIDComponent
 
 
@@ -25,10 +28,38 @@ class EntityManager:
         self.player_ID = None
 
         self.entities = {}
+        self.entities_to_render = set()
+        self.entities_with_image = set()
 
         self.component_maps = {}
 
         self.subscriptions = {}
+
+        self.subscribe_to_component(RenderComponent, self.render_component_callback)
+        self.subscribe_to_component(PlayerComponent, self.player_component_callback)
+        self.subscribe_to_component(ImagesComponent, self.images_component_callback)
+
+    def images_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with images.")
+            self.entities_with_image.add(entity_id)
+        elif action == "remove":
+            self.entities_with_image.remove(entity_id)
+
+    def player_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} as player.")
+            self.player_ID = entity_id
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} as player.")
+            self.player_ID = None
+
+    def render_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to render list.")
+            self.entities_to_render.add(entity_id)
+        elif action == "remove":
+            self.entities_to_render.remove(entity_id)
 
     def create_entity(self, components: typing.List[typing.Any] = []):
         entity_id = self.next_enity_id
@@ -50,6 +81,12 @@ class EntityManager:
         self.component_maps.setdefault(component_type, {})[entity_id] = component
 
         self.notify_subscribers(component_type, entity_id, component, "add")
+    
+    def remove_component(self, entity_id: int, component_type: typing.Type[Component]):
+        component = self.component_maps.get(component_type, {}).pop(entity_id, None)
+
+        if component:
+            self.notify_subscribers(component_type, entity_id, component, "remove")
 
     def notify_subscribers(self, component_type: typing.Type[Component], entity_id: int, component: Component, action: str) -> None:
         for callback in self.subscriptions.get(component_type, []):

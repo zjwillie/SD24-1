@@ -5,6 +5,7 @@ from common.components.menu_component import MenuComponent
 from common.components.menuselector_component import MenuSelectorComponent
 from common.components.name_component import NameComponent
 from common.components.player_component import PlayerComponent
+from common.components.position_component import PositionComponent
 from common.components.render_component import RenderComponent
 from common.components.type_component import TypeComponent
 from common.components.uuid_component import UUIDComponent
@@ -19,6 +20,7 @@ class ComponentFactory:
             'MenuSelectorComponent': MenuSelectorComponent,
             'NameComponent': NameComponent,
             'PlayerComponent': PlayerComponent,
+            'PositionComponent': PositionComponent,
             'RenderComponent': RenderComponent,
             'TypeComponent': TypeComponent,
             'UUIDComponent': UUIDComponent,
@@ -30,8 +32,8 @@ class ComponentFactory:
             try:
                 return component_class(**component_data)
             except ValueError:
-                print(f"Error: Factory method for {component_name} not found. Skipping this component.")
+                print(f"CRITICAL: Error: {component_name} constructor raised a ValueError. Check the keys in component_data.")
                 return None
         else:
-            print(f"Error: Factory method for {component_name} not found. Skipping this component.")
+            print(f"Error: Component class for {component_name} not found in component_classes.")
             return None
