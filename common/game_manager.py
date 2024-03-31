@@ -21,7 +21,7 @@ class GameManager:
         self.logger = LoggingManager()
         self.logger.initialize_logging()
         self.logger.set_output_to_console('game_manager')
-        self.logger.change_log_level('game_manager', "DEBUG")
+        self.logger.change_log_level('game_manager', "INFO")
 
 
     def test_initialize(self):
@@ -44,6 +44,12 @@ class GameManager:
         """
         
         self.world.event_manager.subscribe("escape", self.quit_game)
+        self.world.event_manager.subscribe("change_state", self.change_state)
+
+    def change_state(self, event):
+        self.logger.loggers['game_manager'].info(f"Changing State to: {event.data}")
+        if event.data == "quit":
+            self.quit_game(event)
 
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")

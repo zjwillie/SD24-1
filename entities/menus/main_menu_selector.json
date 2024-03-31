@@ -14,7 +14,6 @@
         "images_locations": ["images/menus/menu_bar_yellow_165x45.png"]
     },
     "MenuComponent": {},
-    "InputComponent": {},
     "MenuSelectorComponent": {
         "options": [
             {"name": "start_game", "position": [75, 378]},

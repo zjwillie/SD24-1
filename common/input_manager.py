@@ -11,6 +11,8 @@ from common.event_manager import Event
 class InputManager:
     def __init__(self, event_manager, logger):
         self.logger = logger
+        self.logger.change_log_level("input_manager", "OFF")
+
         self.event_manager = event_manager
         self.key_event_map = {
             pygame.K_0: "0",
@@ -113,13 +115,13 @@ class InputManager:
 
             elif event.type == pygame.KEYDOWN:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], (event.key, time.time()))
+                    key_event = Event(self.key_event_map[event.key], ("key_down", time.time()))
                     self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
                     self.event_manager.post(key_event)
 
             elif event.type == pygame.KEYUP:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], (event.key, time.time()))
+                    key_event = Event(self.key_event_map[event.key], ("key_up", time.time()))
                     self.logger.loggers['input_manager'].info(f"Key Up: {event.key}")
                     self.event_manager.post(key_event)
 

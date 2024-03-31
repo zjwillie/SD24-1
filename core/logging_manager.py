@@ -56,9 +56,20 @@ class LoggingManager:
             console_handler = logging.StreamHandler()
             self.setup_handler(console_handler, logger)
             self.handlers[logger_name] = console_handler  # Update the current handler
-
+            
     def change_log_level(self, logger_name, new_level):
-        if new_level is False:
+        level_map = {
+            'DEBUG': logging.DEBUG,
+            'INFO': logging.INFO,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL,
+            'OFF': logging.CRITICAL + 1
+        }
+
+        if new_level in level_map:
+            new_level = level_map[new_level]
+        else:
             new_level = logging.CRITICAL + 1
 
         logger = self.loggers.get(logger_name)

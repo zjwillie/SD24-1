@@ -9,7 +9,8 @@ class Event:
 class EventManager:
     def __init__(self, logger):
         self.logger = logger
-
+        self.logger.change_log_level("event_manager", "OFF")
+        
         self.events = []
         self.subscribers = {}
 

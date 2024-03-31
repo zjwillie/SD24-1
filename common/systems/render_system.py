@@ -26,8 +26,6 @@ class RenderSystem(System):
             position = self.entity_manager.get_component(entity, PositionComponent).position
 
             self.screen.blit(image_to_blit, position)
-            
-            #TODO - Stopped here, just added position so we can render the images
 
         pygame.display.flip()
 

@@ -6,8 +6,6 @@ class PlayerSystem(System):
 
         self.logger = logger.loggers['player_system']
 
-        self.event_manager.subscribe("up", self.test_up)
-
     def test_up(self, event):
         self.logger.info("Up Event Received")
 
