@@ -49,13 +49,13 @@ class GameManager:
         self.logger.loggers['game_manager'].info("Quitting Game")
         self.game_state.exit_requested = True
 
-
     def update(self, delta_time):
-        self.world.event_manager.update()
         self.world.input_manager.update(delta_time)
+        self.world.event_manager.update()
         self.world.system_manager.update(delta_time)
 
 def main():
+
     game_manager = GameManager()
 
     game_manager.test_initialize()
@@ -67,4 +67,5 @@ def main():
 
     
 if __name__ == "__main__":
+    from common.components import *
     main()

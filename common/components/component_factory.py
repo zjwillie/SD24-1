@@ -1,17 +1,27 @@
-from common.components.name_component import NameComponent
-from common.components.uuid_component import UUIDComponent
 from common.components.id_component import IDComponent
-from common.components.type_component import TypeComponent
+from common.components.images_component import ImagesComponent
+from common.components.menubutton_component import MenuButtonComponent
+from common.components.menu_component import MenuComponent
+from common.components.menuselector_component import MenuSelectorComponent
+from common.components.name_component import NameComponent
 from common.components.player_component import PlayerComponent
+from common.components.render_component import RenderComponent
+from common.components.type_component import TypeComponent
+from common.components.uuid_component import UUIDComponent
 
 class ComponentFactory:
     def __init__(self):
         self.component_classes = {
-            'NameComponent': NameComponent,
-            'UUIDComponent': UUIDComponent,
             'IDComponent': IDComponent,
+            'ImagesComponent': ImagesComponent,
+            'MenuButtonComponent': MenuButtonComponent,
+            'MenuComponent': MenuComponent,
+            'MenuSelectorComponent': MenuSelectorComponent,
+            'NameComponent': NameComponent,
+            'PlayerComponent': PlayerComponent,
+            'RenderComponent': RenderComponent,
             'TypeComponent': TypeComponent,
-            'PlayerComponent': PlayerComponent
+            'UUIDComponent': UUIDComponent,
         }
 
     def create_component(self, component_name, component_data):

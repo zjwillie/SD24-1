@@ -1,15 +1,12 @@
 from .base_system import System
 
-class PlayerSystem(System):
+class RenderSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
-        self.logger = logger.loggers['player_system']
+        self.logger = logger.loggers['render_system']
 
-        self.event_manager.subscribe("up", self.test_up)
-
-    def test_up(self, event):
-        self.logger.info("Up Event Received")
+        self.screen = game_state.screen
 
     def update(self, delta_time):
         pass

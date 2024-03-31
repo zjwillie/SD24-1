@@ -1,10 +1,14 @@
 {
     "entities":[
         "common/test_json_entity.json",
-        "entities/character.json"
+        "entities/character.json",
+        "entities/menus/main_menu.json",
+        "entities/menus/main_menu_selector.json"
     ],
     "systems":[
         "PlayerSystem",
-        "TimeSystem"
+        "TimeSystem",
+        "MenuSystem",
+        "RenderSystem"
     ]
 }

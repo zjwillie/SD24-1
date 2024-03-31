@@ -15,7 +15,9 @@ class LoggingManager:
             'game_manager': logging.getLogger('game_manager'),
             'component': logging.getLogger('component'),
             'system': logging.getLogger('system'),
-            'current': logging.getLogger('current')
+            'player_system': logging.getLogger('player_system'),
+            'render_system': logging.getLogger('render_system'),
+            'current': logging.getLogger('current'),
         }
         for logger_name in self.loggers:
             logger = self.loggers[logger_name]
@@ -34,7 +36,7 @@ class LoggingManager:
         while logger.hasHandlers():
             logger.removeHandler(logger.handlers[0])
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s: %(name)s - %(levelname)s: %(message)s')
         handler.setFormatter(formatter)
         handler.setLevel(logging.DEBUG)  # Handle all messages
         logger.addHandler(handler)

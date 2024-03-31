@@ -55,6 +55,9 @@ class EntityManager:
         for callback in self.subscriptions.get(component_type, []):
             callback(entity_id, component, action)
 
+    def subscribe_to_component(self, component_type: typing.Type[Component], callback: typing.Callable):
+        self.subscriptions.setdefault(component_type, []).append(callback)
+
     def get_component(self, entity_id: int, component_type: typing.Type[Component]) -> typing.Optional[Component]:
         return self.component_maps.get(component_type, {}).get(entity_id, None)
 

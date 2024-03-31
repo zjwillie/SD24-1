@@ -1,0 +1,26 @@
+{
+    "NameComponent": {
+        "name": "main_menu_selector"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "RenderComponent": {
+        "layer": 2
+    },
+    "ImageComponent": {
+        "images": ["images/buttons/menu_bar_yellow_165x45.png"]
+    },
+    "MenuComponent": {},
+    "InputComponent": {},
+    "MenuSelectorComponent": {
+        "options": [
+            {"name": "start_game", "position": [75, 378]},
+            {"name": "continue", "position": [75, 425]},
+            {"name": "options", "position": [75, 475]},
+            {"name": "quit", "position": [75, 523]}
+        ]
+    }
+}
