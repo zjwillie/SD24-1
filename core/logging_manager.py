@@ -10,6 +10,7 @@ class LoggingManager:
     def initialize_logging(self):
         self.loggers = {
             'entity': logging.getLogger('entity'),
+            'event_manager': logging.getLogger('event_manager'),
             'input_manager': logging.getLogger('input_manager'),
             'game_manager': logging.getLogger('game_manager'),
             'component': logging.getLogger('component'),
@@ -22,6 +23,11 @@ class LoggingManager:
             self.handlers[logger_name] = logging.StreamHandler()  # Default to console
             self.setup_handler(self.handlers[logger_name], logger)
             logger.propagate = False
+
+    def getLogger(self, name):
+        if name not in self.loggers:
+            self.loggers[name] = logging.getLogger(name)
+        return self.loggers[name]
 
     def setup_handler(self, handler, logger):
         # Remove all handlers from the logger

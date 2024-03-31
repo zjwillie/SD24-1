@@ -25,7 +25,11 @@ class InputManager:
                 if event.key == pygame.K_ESCAPE:
                     escape_event = Event("escape")
                     self.event_manager.post(escape_event)
+                elif event.key == pygame.K_UP:
+                    up_event = Event("up")
+                    self.event_manager.post(up_event)
 
+                # TODO Not just key down!!! Needs to send the damn key
                 key_down_event = Event("key_down", (event.key, time.time()))
                 self.logger.loggers['input_manager'].info(f"Key Down: {key_down_event}")
                 self.event_manager.post(key_down_event)

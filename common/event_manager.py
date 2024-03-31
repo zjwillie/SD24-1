@@ -1,6 +1,6 @@
 class Event:
-    def __init__(self, type, data=None):
-        self.type = type
+    def __init__(self, event_type, data=None):
+        self.type = event_type
         self.data = data
     
     def __str__(self):
@@ -23,6 +23,7 @@ class EventManager:
             self.subscribers[event_type].remove(callback)
 
     def post(self, event):
+        self.logger.loggers['event_manager'].info(f"Event Posted:\n Type: {event.type}, Data: {event.data}")
         self.events.append(event)
         for subscriber in self.subscribers.get(event.type, []):
             subscriber(event)

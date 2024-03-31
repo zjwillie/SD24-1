@@ -32,7 +32,6 @@ class SystemManager:
         self.logger.loggers["system"].info(f"Adding world systems: {world_data}")
         for system_name in world_data:
             system = self.factory.create_system(system_name, self.game_state, self.entity_manager, self.event_manager, self.logger)
-            print(system)
             self.add_system(system, system_name)
 
     def update(self, delta_time):
