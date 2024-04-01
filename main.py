@@ -33,7 +33,6 @@ def main():
        
         game_manager.update(delta_time)
 
-
 #?##############################################################################
 
     if run_profiler:

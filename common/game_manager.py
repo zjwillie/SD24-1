@@ -6,6 +6,8 @@ if __name__ == "__main__":
 
 from common.components import *
 
+from common.event_manager import Event
+
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
@@ -21,7 +23,7 @@ class GameManager:
         self.logger = LoggingManager()
         self.logger.initialize_logging()
         self.logger.set_output_to_console('game_manager')
-        self.logger.change_log_level('game_manager', "INFO")
+        self.logger.change_log_level('game_manager', "OFF")
 
     def intialize_game(self):
         main_menu_dict = get_JSON_data("world/main_menu_world.json")
@@ -38,6 +40,9 @@ class GameManager:
 
         self.world.event_manager.subscribe("escape", self.quit_game)
         self.world.event_manager.subscribe("change_state", self.change_state)
+
+        self.world.event_manager.post(Event("set_menu", ("main_menu_background", "main_menu_selector")))
+
 
     def test_initialize(self):
         test_world_dict = get_JSON_data("common/test_world.json")
@@ -67,43 +72,10 @@ class GameManager:
             self.quit_game(event)
 
         elif event.data == "options":
-            print("options")
-            # Turn on the option menu and option selector
-            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
-            self.world.entity_manager.entities_to_render.add(options_menu)
-
-            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
-            self.world.entity_manager.entities_to_render.add(options_selector)
-            self.world.entity_manager.menu_entities.add(options_selector)
-            self.world.entity_manager.get_component(options_selector, MenuSelectorComponent).current_selection = 0
-
-            # Turn off the main menu and main menu selector
-            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
-            self.world.entity_manager.entities_to_render.remove(main_menu)
-
-            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
-            self.world.entity_manager.entities_to_render.remove(main_selector)
-            self.world.entity_manager.menu_entities.remove(main_selector)
-
+            self.world.event_manager.post(Event("set_menu", ("options_menu_background", "options_menu_selector")))
 
         elif event.data == "main_menu":
-            print("main_menu")
-            # Turn on the main menu and main menu selector
-            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
-            self.world.entity_manager.entities_to_render.add(main_menu)
-
-            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
-            self.world.entity_manager.entities_to_render.add(main_selector)
-            self.world.entity_manager.menu_entities.add(main_selector)
-            self.world.entity_manager.get_component(main_selector, MenuSelectorComponent).current_selection = 0
-
-            # Turn off the option menu and option selector
-            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
-            self.world.entity_manager.entities_to_render.remove(options_menu)
-
-            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
-            self.world.entity_manager.entities_to_render.remove(options_selector)
-            self.world.entity_manager.menu_entities.remove(options_selector)
+            self.world.event_manager.post(Event("set_menu", ("main_menu_background", "main_menu_selector")))
 
 
     def quit_game(self, event):

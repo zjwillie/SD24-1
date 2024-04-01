@@ -11,7 +11,7 @@ class MenuSystem(System):
         super().__init__(game_state, entity_manager, event_manager, logger)
         
         self.logger = logger
-        self.logger.change_log_level('menu_system', "OFF")
+        self.logger.change_log_level('menu_system', "INFO")
 
         self.menu_entities = []
         self.current_menu = None
@@ -21,8 +21,29 @@ class MenuSystem(System):
         self.event_manager.subscribe("right", self.handle_menu_event)
         self.event_manager.subscribe("up", self.handle_menu_event)
         self.event_manager.subscribe("left", self.handle_menu_event)
-
         self.event_manager.subscribe("return", self.handle_menu_event)
+
+        self.event_manager.subscribe("set_menu", self.set_menu)
+
+    def set_menu(self, event):
+        self.logger.loggers['menu_system'].info(f'Set menu: {event.type} {event.data}!')
+
+        if self.current_menu:
+            self.entity_manager.entities_to_render.remove(self.current_menu)
+            self.entity_manager.menu_entities.remove(self.current_menu)
+        if self.current_selector:
+            self.entity_manager.entities_to_render.remove(self.current_selector)
+            self.entity_manager.menu_entities.remove(self.current_selector)
+
+        self.current_menu = self.entity_manager.get_entity_by_name(event.data[0])
+        self.current_selector = self.entity_manager.get_entity_by_name(event.data[1])
+
+        self.entity_manager.entities_to_render.add(self.current_menu)
+        self.entity_manager.menu_entities.add(self.current_menu)
+        self.entity_manager.entities_to_render.add(self.current_selector)
+        self.entity_manager.menu_entities.add(self.current_selector)
+
+        self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
 
         #TODO enter, joystick...., and mouse pressed for menu selector
 
@@ -35,39 +56,34 @@ class MenuSystem(System):
 
 
     def handle_menu_event(self, event, troubleshooting=False):
-        print(f"Event received in menu system - Type '{event.type}', Data '{event.data}'") if troubleshooting else None
+        self.logger.loggers['menu_system'].info(f"Event received in menu system - Type '{event.type}', Data '{event.data}'")
 
-        if (event.type == "down" or event.type == "right") and event.data[0] == "key_down":
-            print(f"Down event received in menu system: {event.data}") if troubleshooting else None
-            # TODO Coming back after updating "Update Key Maps" in input system to handle one at a time
-            
-            # TODO This is only to change the current selector
-            for entity in self.entity_manager.menu_entities:
-                if self.entity_manager.has_component(entity, MenuSelectorComponent):
-                    selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
-                    selector_component.current_selection += 1
-                    if selector_component.current_selection >= len(selector_component.options):
-                        selector_component.current_selection = 0
+        if (event.type == "down") and event.data[0] == "key_down":
+            self.logger.loggers['menu_system'].info(f"Down event received in menu system: {event.data}")
 
-        elif (event.type == "up" or event.type == "left") and event.data[0] == "key_down":
-            print(f"Up event received in menu system: {event.data}") if troubleshooting else None
-            # TODO Coming back after updating "Update Key Maps" in input system to handle one at a time
-            
-            # TODO This is only to change the current selector
-            for entity in self.entity_manager.menu_entities:
-                if self.entity_manager.has_component(entity, MenuSelectorComponent):
-                    selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
-                    selector_component.current_selection -= 1
-                    if selector_component.current_selection < 0:
-                        selector_component.current_selection = len(selector_component.options) - 1
+            if self.current_selector:
+                selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
+                selector_component.current_selection += 1
+                if selector_component.current_selection >= len(selector_component.options):
+                    selector_component.current_selection = 0
+
+        elif (event.type == "up") and event.data[0] == "key_down":
+            self.logger.loggers['menu_system'].info(f"Up event received in menu system: {event.data}")
+
+            if self.current_selector:
+                selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
+                selector_component.current_selection -= 1
+                if selector_component.current_selection < 0:
+                    selector_component.current_selection = len(selector_component.options) - 1
 
         elif event.type == "return" and event.data[0] == "key_down":
-            print(f"Return event received in menu system: {event.data}") if troubleshooting else None
-            for entity in self.entity_manager.menu_entities:
-                if self.entity_manager.has_component(entity, MenuSelectorComponent):
-                    selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
-                    print(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}") if troubleshooting else None
-                    self.event_manager.post(Event("change_state", selector_component.options[selector_component.current_selection]["name"]))
+            self.logger.loggers['menu_system'].info(f"Return event received in menu system: {event.data}")
+            if self.current_selector:
+                selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
+                self.logger.loggers['menu_system'].info(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}")
+                self.event_manager.post(Event("change_state", selector_component.options[selector_component.current_selection]["name"]))
+
+
 
         """                    
         #TODO Not updated from SD
