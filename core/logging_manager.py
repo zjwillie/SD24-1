@@ -16,6 +16,7 @@ class LoggingManager:
             'component': logging.getLogger('component'),
             'system': logging.getLogger('system'),
             'player_system': logging.getLogger('player_system'),
+            'menu_system': logging.getLogger('menu_system'),
             'render_system': logging.getLogger('render_system'),
             'current': logging.getLogger('current'),
         }

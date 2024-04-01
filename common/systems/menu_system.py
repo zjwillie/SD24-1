@@ -9,6 +9,9 @@ from common.components.position_component import PositionComponent
 class MenuSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
+        
+        self.logger = logger
+        self.logger.change_log_level('menu_system', "OFF")
 
         self.menu_entities = []
         self.event_queue = []

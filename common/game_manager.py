@@ -33,6 +33,7 @@ class GameManager:
 
         options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
         self.world.entity_manager.entities_to_render.remove(options_selector)
+        self.world.entity_manager.menu_entities.remove(options_selector)
 
 
         self.world.event_manager.subscribe("escape", self.quit_game)
@@ -64,7 +65,8 @@ class GameManager:
         self.logger.loggers['game_manager'].info(f"Changing State to: {event.data}")
         if event.data == "quit":
             self.quit_game(event)
-        if event.data == "options":
+
+        elif event.data == "options":
             print("options")
             # Turn on the option menu and option selector
             options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
@@ -72,6 +74,8 @@ class GameManager:
 
             options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
             self.world.entity_manager.entities_to_render.add(options_selector)
+            self.world.entity_manager.menu_entities.add(options_selector)
+            self.world.entity_manager.get_component(options_selector, MenuSelectorComponent).current_selection = 0
 
             # Turn off the main menu and main menu selector
             main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
@@ -79,9 +83,27 @@ class GameManager:
 
             main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
             self.world.entity_manager.entities_to_render.remove(main_selector)
+            self.world.entity_manager.menu_entities.remove(main_selector)
 
 
-            *** Need to fix the menu system to handle the change of menu states ***
+        elif event.data == "main_menu":
+            print("main_menu")
+            # Turn on the main menu and main menu selector
+            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
+            self.world.entity_manager.entities_to_render.add(main_menu)
+
+            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
+            self.world.entity_manager.entities_to_render.add(main_selector)
+            self.world.entity_manager.menu_entities.add(main_selector)
+            self.world.entity_manager.get_component(main_selector, MenuSelectorComponent).current_selection = 0
+
+            # Turn off the option menu and option selector
+            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
+            self.world.entity_manager.entities_to_render.remove(options_menu)
+
+            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
+            self.world.entity_manager.entities_to_render.remove(options_selector)
+            self.world.entity_manager.menu_entities.remove(options_selector)
 
 
     def quit_game(self, event):

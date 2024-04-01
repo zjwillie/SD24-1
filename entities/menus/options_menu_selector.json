@@ -16,9 +16,9 @@
     "MenuComponent": {},
     "MenuSelectorComponent": {
         "options": [
-            {"name": "full_screen", "position": [75, 378]},
-            {"name": "sound", "position": [75, 425]},
-            {"name": "main_menu", "position": [75, 523]}
+            {"name": "full_screen", "position": [90, 154]},
+            {"name": "sound", "position": [90, 282]},
+            {"name": "main_menu", "position": [96, 426]}
         ]
     }
 }
