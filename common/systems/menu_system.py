@@ -39,6 +39,7 @@ class MenuSystem(System):
         self.entity_manager.entities_to_render.add(self.current_selector)
         self.entity_manager.menu_entities.add(self.current_selector)
 
+        #TODO need a flag to avoid moving selector if not needed
         self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
 
         #TODO enter, joystick...., and mouse pressed for menu selector

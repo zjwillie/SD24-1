@@ -72,7 +72,7 @@ class GameManager:
 
         elif event.data == "options":
             if self.world.game_state.sound_on:
-                self.world.event_manager.post(Event("set_menu", ("options_menu_background", "options_menu_selector")))
+                self.world.event_manager.post(Event("set_menu", ("options_menu_background", "options_menu_selector",)))
             else:
                 self.world.event_manager.post(Event("set_menu", ("options_menu_background_no_sound", "options_menu_selector")))
 
