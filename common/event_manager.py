@@ -9,7 +9,7 @@ class Event:
 class EventManager:
     def __init__(self, logger):
         self.logger = logger
-        self.logger.change_log_level("event_manager", "OFF")
+        self.logger.change_log_level("event_manager", "INFO")
         
         self.events = []
         self.subscribers = {}
@@ -26,9 +26,15 @@ class EventManager:
     def post(self, event):
         self.logger.loggers['event_manager'].info(f"Event Posted:\n Type: {event.type}, Data: {event.data}")
         self.events.append(event)
+
+    def urgent_post(self, event):
+        self.logger.loggers['event_manager'].info(f"Urgent Event Posted:\n Type: {event.type}, Data: {event.data}")
+        self.events.insert(0, event)
+
+    def critical_post(self, event):
+        self.logger.loggers['event_manager'].info(f"Critical Event Posted:\n Type: {event.type}, Data: {event.data}")
         for subscriber in self.subscribers.get(event.type, []):
             subscriber(event)
-        self.events.remove(event)
 
     def process_events(self):
         while self.events:

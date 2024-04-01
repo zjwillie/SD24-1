@@ -14,7 +14,8 @@ class MenuSystem(System):
         self.logger.change_log_level('menu_system', "OFF")
 
         self.menu_entities = []
-        self.event_queue = []
+        self.current_menu = None
+        self.current_selector = None
 
         self.event_manager.subscribe("down", self.handle_menu_event)
         self.event_manager.subscribe("right", self.handle_menu_event)
@@ -67,7 +68,8 @@ class MenuSystem(System):
                     selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
                     print(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}") if troubleshooting else None
                     self.event_manager.post(Event("change_state", selector_component.options[selector_component.current_selection]["name"]))
-                    
+
+        """                    
         #TODO Not updated from SD
         if event.type == "mouse":
             print(f"Mouse event received in menu system: ({event.data})") if troubleshooting else None
@@ -84,3 +86,4 @@ class MenuSystem(System):
                             print(f"Mouse clicked on {menu_option}") if troubleshooting else None
                             self.event_manager.post(Event("change_state", menu_selector.menu_options[menu_selector.current_selection][0]))
         
+        """
