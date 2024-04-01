@@ -8,7 +8,6 @@
     "systems":[
         "PlayerSystem",
         "TimeSystem",
-        "MenuSystem",
         "RenderSystem"
     ]
 }

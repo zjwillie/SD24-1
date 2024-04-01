@@ -1,0 +1,12 @@
+{
+    "entities":[
+        "entities/menus/main_menu.json",
+        "entities/menus/main_menu_selector.json",
+        "entities/menus/options_menu.json",
+        "entities/menus/options_menu_selector.json"
+    ],
+    "systems":[
+        "MenuSystem",
+        "RenderSystem"
+    ]
+}

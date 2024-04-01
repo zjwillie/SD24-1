@@ -23,6 +23,20 @@ class GameManager:
         self.logger.set_output_to_console('game_manager')
         self.logger.change_log_level('game_manager', "INFO")
 
+    def intialize_game(self):
+        main_menu_dict = get_JSON_data("world/main_menu_world.json")
+        self.world = ECSWorld(self.game_state, self.logger, main_menu_dict)
+
+        # Turn off the option menu and option selector
+        options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
+        self.world.entity_manager.entities_to_render.remove(options_menu)
+
+        options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
+        self.world.entity_manager.entities_to_render.remove(options_selector)
+
+
+        self.world.event_manager.subscribe("escape", self.quit_game)
+        self.world.event_manager.subscribe("change_state", self.change_state)
 
     def test_initialize(self):
         test_world_dict = get_JSON_data("common/test_world.json")
@@ -50,6 +64,25 @@ class GameManager:
         self.logger.loggers['game_manager'].info(f"Changing State to: {event.data}")
         if event.data == "quit":
             self.quit_game(event)
+        if event.data == "options":
+            print("options")
+            # Turn on the option menu and option selector
+            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
+            self.world.entity_manager.entities_to_render.add(options_menu)
+
+            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
+            self.world.entity_manager.entities_to_render.add(options_selector)
+
+            # Turn off the main menu and main menu selector
+            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
+            self.world.entity_manager.entities_to_render.remove(main_menu)
+
+            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
+            self.world.entity_manager.entities_to_render.remove(main_selector)
+
+
+            *** Need to fix the menu system to handle the change of menu states ***
+
 
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")

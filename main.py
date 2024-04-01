@@ -25,7 +25,7 @@ def main():
 #?##############################################################################
 
     game_manager = GameManager()
-    game_manager.test_initialize() #! This is just for testing purposes
+    game_manager.intialize_game() #! This is just for testing purposes
 
     while game_manager.game_state.exit_requested == False:
 

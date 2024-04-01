@@ -111,6 +111,12 @@ class EntityManager:
     def get_component(self, entity_id: int, component_type: typing.Type[Component]) -> typing.Optional[Component]:
         return self.component_maps.get(component_type, {}).get(entity_id, None)
 
+    def get_entity_by_name(self, name: str) -> typing.Optional[int]:
+        for entity_id, component in self.component_maps.get(NameComponent, {}).items():
+            if component.name == name:
+                return entity_id
+        return None
+
     def has_component(self, entity_id: int, component_type: typing.Type[Component]) -> bool:
         return entity_id in self.component_maps.get(component_type, {})
 

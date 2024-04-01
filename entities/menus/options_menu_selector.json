@@ -1,0 +1,24 @@
+{
+    "NameComponent": {
+        "name": "options_menu_selector"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "RenderComponent": {
+        "layer": 2
+    },
+    "ImagesComponent": {
+        "images_locations": ["images/menus/menu_bar_blue_188x45.png"]
+    },
+    "MenuComponent": {},
+    "MenuSelectorComponent": {
+        "options": [
+            {"name": "full_screen", "position": [75, 378]},
+            {"name": "sound", "position": [75, 425]},
+            {"name": "main_menu", "position": [75, 523]}
+        ]
+    }
+}
