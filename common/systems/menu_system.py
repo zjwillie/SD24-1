@@ -28,12 +28,8 @@ class MenuSystem(System):
     def set_menu(self, event):
         self.logger.loggers['menu_system'].info(f'Set menu: {event.type} {event.data}!')
 
-        if self.current_menu:
-            self.entity_manager.entities_to_render.remove(self.current_menu)
-            self.entity_manager.menu_entities.remove(self.current_menu)
-        if self.current_selector:
-            self.entity_manager.entities_to_render.remove(self.current_selector)
-            self.entity_manager.menu_entities.remove(self.current_selector)
+        self.entity_manager.entities_to_render.clear()
+        self.entity_manager.menu_entities.clear()
 
         self.current_menu = self.entity_manager.get_entity_by_name(event.data[0])
         self.current_selector = self.entity_manager.get_entity_by_name(event.data[1])
@@ -55,7 +51,7 @@ class MenuSystem(System):
                 position_component.position = selector_component.options[selector_component.current_selection]['position']
 
 
-    def handle_menu_event(self, event, troubleshooting=False):
+    def handle_menu_event(self, event):
         self.logger.loggers['menu_system'].info(f"Event received in menu system - Type '{event.type}', Data '{event.data}'")
 
         if (event.type == "down") and event.data[0] == "key_down":

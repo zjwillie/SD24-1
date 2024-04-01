@@ -3,7 +3,8 @@
         "entities/menus/main_menu.json",
         "entities/menus/main_menu_selector.json",
         "entities/menus/options_menu.json",
-        "entities/menus/options_menu_selector.json"
+        "entities/menus/options_menu_selector.json",
+        "entities/menus/options_menu_sound_off.json"
     ],
     "systems":[
         "MenuSystem",

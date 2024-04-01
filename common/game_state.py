@@ -9,6 +9,9 @@ class GameState:
         self.clock = None
         self.start_time = None
 
+        self.sound_on = False
+        self.volume = 1.0
+
         self.caption = "ECS SD Build 0.0.4.1"
         self.icon_path = "images/icons/main_icon.png"
 

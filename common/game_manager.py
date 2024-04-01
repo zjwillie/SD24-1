@@ -37,7 +37,6 @@ class GameManager:
         self.world.entity_manager.entities_to_render.remove(options_selector)
         self.world.entity_manager.menu_entities.remove(options_selector)
 
-
         self.world.event_manager.subscribe("escape", self.quit_game)
         self.world.event_manager.subscribe("change_state", self.change_state)
 
@@ -72,10 +71,17 @@ class GameManager:
             self.quit_game(event)
 
         elif event.data == "options":
-            self.world.event_manager.post(Event("set_menu", ("options_menu_background", "options_menu_selector")))
+            if self.world.game_state.sound_on:
+                self.world.event_manager.post(Event("set_menu", ("options_menu_background", "options_menu_selector")))
+            else:
+                self.world.event_manager.post(Event("set_menu", ("options_menu_background_no_sound", "options_menu_selector")))
 
         elif event.data == "main_menu":
             self.world.event_manager.post(Event("set_menu", ("main_menu_background", "main_menu_selector")))
+
+        elif event.data == "sound":
+            self.world.game_state.sound_on = not self.world.game_state.sound_on
+            self.world.event_manager.post(Event("change_state", "options"))
 
 
     def quit_game(self, event):
