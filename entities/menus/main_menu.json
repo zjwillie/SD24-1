@@ -1,0 +1,17 @@
+{
+    "NameComponent": {
+        "name": "main_menu_background"
+    },
+    "UUIDComponent": {},
+    "BackgroundComponent": {},
+    "ImagesComponent": {
+        "images_locations": ["images/menus/main_menu.png"]
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    }
+}

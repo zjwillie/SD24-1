@@ -7,8 +7,6 @@ import time
 import typing
 import uuid
 
-# package imports
-#from common.components import *
 from common.game_manager import GameManager
 
 # Debugging
@@ -17,6 +15,7 @@ import pstats
 
 def main():
 
+    # Flag to run the profiler
     run_profiler = False
 
     if run_profiler:
@@ -26,7 +25,7 @@ def main():
 #?##############################################################################
 
     game_manager = GameManager()
-    game_manager.test_initialize() #! This is just for testing purposes
+    game_manager.intialize_game() #! This is just for testing purposes
 
     while game_manager.game_state.exit_requested == False:
 

@@ -9,12 +9,16 @@ class LoggingManager:
 
     def initialize_logging(self):
         self.loggers = {
-            'entity': logging.getLogger('entity'),
+            'entity_manager': logging.getLogger('entity'),
+            'event_manager': logging.getLogger('event_manager'),
             'input_manager': logging.getLogger('input_manager'),
             'game_manager': logging.getLogger('game_manager'),
             'component': logging.getLogger('component'),
             'system': logging.getLogger('system'),
-            'current': logging.getLogger('current')
+            'player_system': logging.getLogger('player_system'),
+            'menu_system': logging.getLogger('menu_system'),
+            'render_system': logging.getLogger('render_system'),
+            'current': logging.getLogger('current'),
         }
         for logger_name in self.loggers:
             logger = self.loggers[logger_name]
@@ -23,12 +27,17 @@ class LoggingManager:
             self.setup_handler(self.handlers[logger_name], logger)
             logger.propagate = False
 
+    def getLogger(self, name):
+        if name not in self.loggers:
+            self.loggers[name] = logging.getLogger(name)
+        return self.loggers[name]
+
     def setup_handler(self, handler, logger):
         # Remove all handlers from the logger
         while logger.hasHandlers():
             logger.removeHandler(logger.handlers[0])
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s: %(name)s - %(levelname)s: %(message)s')
         handler.setFormatter(formatter)
         handler.setLevel(logging.DEBUG)  # Handle all messages
         logger.addHandler(handler)
@@ -48,9 +57,20 @@ class LoggingManager:
             console_handler = logging.StreamHandler()
             self.setup_handler(console_handler, logger)
             self.handlers[logger_name] = console_handler  # Update the current handler
-
+            
     def change_log_level(self, logger_name, new_level):
-        if new_level is False:
+        level_map = {
+            'DEBUG': logging.DEBUG,
+            'INFO': logging.INFO,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL,
+            'OFF': logging.CRITICAL + 1
+        }
+
+        if new_level in level_map:
+            new_level = level_map[new_level]
+        else:
             new_level = logging.CRITICAL + 1
 
         logger = self.loggers.get(logger_name)

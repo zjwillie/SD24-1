@@ -21,7 +21,7 @@ class SystemManager:
         self.logger.loggers["system"].info(f"Adding system: {system_name}")
         self.systems[system_name] = system
 
-    def remove_system(self, system):
+    def remove_system(self, system, system_name):
         self.logger.loggers["system"].info(f"Removing system: {system_name}")
         del self.systems[system_name]
 
@@ -32,7 +32,6 @@ class SystemManager:
         self.logger.loggers["system"].info(f"Adding world systems: {world_data}")
         for system_name in world_data:
             system = self.factory.create_system(system_name, self.game_state, self.entity_manager, self.event_manager, self.logger)
-            print(system)
             self.add_system(system, system_name)
 
     def update(self, delta_time):

@@ -1,6 +1,17 @@
-from common.systems import PlayerSystem
+from common.systems.player_system import PlayerSystem
+from common.systems.menu_system import MenuSystem
+from common.systems.render_system import RenderSystem
+from common.systems.time_system import TimeSystem
 
 class SystemFactory:
+    def __init__(self):
+        self.system_classes = {
+            'PlayerSystem': PlayerSystem,
+            'MenuSystem': MenuSystem,
+            'RenderSystem': RenderSystem,
+            'TimeSystem': TimeSystem
+        }
+
     def create_system(self, system_name, game_state, entity_manager, event_manager, logger):
         system_data = {
             'game_state': game_state,
@@ -8,10 +19,13 @@ class SystemFactory:
             'event_manager': event_manager,
             'logger': logger
         }
-        factory_method = getattr(self, f"create_{system_name}", None)
-        if factory_method:
-            return factory_method(**system_data)
-        raise ValueError(f"Factory method for {system_name} not found")
-
-    def create_PlayerSystem(self, **kwargs):
-        return PlayerSystem(**kwargs)
+        system_class = self.system_classes.get(system_name)
+        if system_class:
+            try:
+                return system_class(**system_data)
+            except ValueError:
+                print(f"Error: Factory method for {system_name} not found. Skipping this system.")
+                return None
+        else:
+            print(f"Error: Factory method for {system_name} not found. Skipping this system.")
+            return None
