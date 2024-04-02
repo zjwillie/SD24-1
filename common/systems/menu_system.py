@@ -39,8 +39,8 @@ class MenuSystem(System):
         self.entity_manager.entities_to_render.add(self.current_selector)
         self.entity_manager.menu_entities.add(self.current_selector)
 
-        #TODO need a flag to avoid moving selector if not needed
-        self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
+        if event.data[2]:
+            self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
 
         #TODO enter, joystick...., and mouse pressed for menu selector
 
@@ -78,7 +78,7 @@ class MenuSystem(System):
             if self.current_selector:
                 selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
                 self.logger.loggers['menu_system'].info(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}")
-                self.event_manager.post(Event("change_state", selector_component.options[selector_component.current_selection]["name"]))
+                self.event_manager.post(Event("change_state", (selector_component.options[selector_component.current_selection]["name"], True)))
 
 
 
