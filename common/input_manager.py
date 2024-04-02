@@ -9,9 +9,12 @@ if __name__ == "__main__":
 from common.event_manager import Event
 
 class InputManager:
-    def __init__(self, event_manager, logger):
+
+    def __init__(self, event_manager, logger, time_between_repeats=None):
         self.logger = logger
         self.logger.change_log_level("input_manager", "OFF")
+
+        self.TIME_BETWEEN_REPEATS = time_between_repeats
 
         self.event_manager = event_manager
 
@@ -104,10 +107,48 @@ class InputManager:
             pygame.K_KP_DIVIDE: "keypad_divide",
         }
 
-    def update_key_map(self, new_map):
-        self.key_event_map = new_map
+        self.key_repeat_interval = {}
+        self.key_repeat_timer = {}
 
-    def update(self, delta_time):
+        self.keys_down = {}
+        self.keys_down_time = {}
+        self.key_repeat_interval = {}
+        self.key_repeat_timer = {}
+
+        self.event_manager.subscribe(self.event_manager.TIME_BETWEEN_REPEATS, self.update_key_repeat_time)
+
+    def key_down(self, key, repeat_interval=None):
+        self.keys_down[key] = True
+        self.keys_down_time[key] = time.time()
+        if repeat_interval is not None:
+            self.key_repeat_interval[key] = repeat_interval
+            self.key_repeat_timer[key] = time.time()
+
+    def key_up(self, key):
+        if key in self.key_repeat_interval:
+            del self.key_repeat_interval[key]
+            del self.key_repeat_timer[key]
+
+        if key in self.keys_down_time:
+            duration = time.time() - self.keys_down_time[key]
+            del self.keys_down_time[key]
+            key_event = Event(self.key_event_map[key], (self.event_manager.KEY_UP, time.time(), duration))
+            self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
+            self.event_manager.post(key_event)
+
+    def update_key_repeat_time(self, event):
+        self.TIME_BETWEEN_REPEATS = event.data
+
+    def set_key_repeat_interval(self, key, interval):
+        self.key_repeat_interval[key] = interval
+
+    def remove_key_repeat_interval(self, key):
+        if key in self.key_repeat_interval:
+            del self.key_repeat_interval[key]
+
+#? **************** UPDATE FUNCTION ****************
+
+    def update(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.logger.loggers['input_manager'].info("Quitting Game")
@@ -116,17 +157,46 @@ class InputManager:
 
             elif event.type == pygame.KEYDOWN:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_DOWN, time.time()))
+                    # Post the key, that it is a down event, the time, and that it is not a repeat
+                    key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_DOWN, time.time(), False))
                     self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
                     self.event_manager.post(key_event)
 
+                    # Record the time when the key is pressed
+                    self.keys_down[event.key] = True
+                    self.keys_down_time[event.key] = time.time()
+                    if self.TIME_BETWEEN_REPEATS is not None:
+                        self.key_repeat_interval[event.key] = self.TIME_BETWEEN_REPEATS
+                        self.key_repeat_timer[event.key] = time.time()
+
             elif event.type == pygame.KEYUP:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_UP, time.time()))
-                    self.logger.loggers['input_manager'].info(f"Key Up: {event.key}")
-                    self.event_manager.post(key_event)
+                    if event.key in self.key_repeat_interval:
+                        del self.key_repeat_interval[event.key]
+                        del self.key_repeat_timer[event.key]
+
+                    if event.key in self.keys_down_time:
+                        # Calculate the duration the key was held down for
+                        duration = time.time() - self.keys_down_time[event.key]
+                        del self.keys_down_time[event.key]
+
+                        # Post the key, that it is an up event, the time, and the duration
+                        key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_UP, time.time(), duration))
+                        self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
+                        self.event_manager.post(key_event)
+
+
+        for key in self.key_repeat_interval:
+            if time.time() - self.key_repeat_timer[key] > self.key_repeat_interval[key]:
+
+                # Post the key, that it is a down event, the time, and that it is a repeat
+                repeat_event = Event(self.key_event_map[key], (self.event_manager.KEY_DOWN, time.time(), True))
+                self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
+                self.event_manager.post(repeat_event)
+                self.key_repeat_timer[key] = time.time()
 
             # Append any unhandled events to the event manager
             else:
-                unhandled_event = Event("unflagged", event)
+                #unhandled_event = Event("unflagged", event)
                 #TODO self.event_manager.events.append(unhandled_event)
+                pass

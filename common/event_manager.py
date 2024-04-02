@@ -1,8 +1,10 @@
+import time
+
 class Event:
     def __init__(self, event_type, data=None):
         self.type = event_type
         self.data = data
-    
+
     def __str__(self):
         return f"Event: Type({self.type}) Data{self.data} <- EVENT OBJECT"
 
@@ -23,6 +25,8 @@ class EventManager:
     OPTIONS_MENU_BACKGROUND = "options_menu_background"
     OPTIONS_MENU_BACKGROUND_NO_SOUND = "options_menu_background_no_sound"
     OPTIONS_MENU_SELECTOR = "options_menu_selector"
+
+    TIME_BETWEEN_REPEATS = "time_between_repeats"
 
     SET_MENU = "set_menu"
     QUIT = "quit"
@@ -65,7 +69,7 @@ class EventManager:
     def process_events(self):
         while self.events:
             event = self.events.pop(0)
-            self.logger.loggers['event_manager'].info(f"Event:\n Type: {event.type}, Data: {event.data}")
+            self.logger.loggers['event_manager'].info(f"Event processing:\n Type: {event.type}, Data: {event.data}")
             for subscriber in self.subscribers.get(event.type, []):
                 subscriber(event)
 
