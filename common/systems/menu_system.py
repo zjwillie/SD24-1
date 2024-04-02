@@ -55,25 +55,17 @@ class MenuSystem(System):
     def handle_menu_event(self, event):
         self.logger.loggers['menu_system'].info(f"Event received in menu system - Type '{event.type}', Data '{event.data}'")
 
-        if (event.type == "down") and event.data[0] == "key_down":
+        if (event.type == self.event_manager.EVENT_DOWN) and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.loggers['menu_system'].info(f"Down event received in menu system: {event.data}")
 
-            if self.current_selector:
-                selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
-                selector_component.current_selection += 1
-                if selector_component.current_selection >= len(selector_component.options):
-                    selector_component.current_selection = 0
+            self.update_selection(1)
 
-        elif (event.type == "up") and event.data[0] == "key_down":
+        elif (event.type == self.event_manager.EVENT_UP) and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.loggers['menu_system'].info(f"Up event received in menu system: {event.data}")
 
-            if self.current_selector:
-                selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
-                selector_component.current_selection -= 1
-                if selector_component.current_selection < 0:
-                    selector_component.current_selection = len(selector_component.options) - 1
+            self.update_selection(-1)
 
-        elif event.type == "return" and event.data[0] == "key_down":
+        elif event.type == self.event_manager.EVENT_RETURN and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.loggers['menu_system'].info(f"Return event received in menu system: {event.data}")
             if self.current_selector:
                 selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
@@ -81,6 +73,14 @@ class MenuSystem(System):
                 self.event_manager.post(Event("change_state", (selector_component.options[selector_component.current_selection]["name"], True)))
 
 
+    def update_selection(self, increment):
+        if self.current_selector:
+            selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
+            selector_component.current_selection += increment
+            if selector_component.current_selection >= len(selector_component.options):
+                selector_component.current_selection = 0
+            elif selector_component.current_selection < 0:
+                selector_component.current_selection = len(selector_component.options) - 1
 
         """                    
         #TODO Not updated from SD
