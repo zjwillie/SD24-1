@@ -18,7 +18,9 @@ class RenderSystem(System):
         self.screen.fill((0, 0, 0))
 
         # Render all entities with images
-        for entity in self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image):
+        entities_to_blit = []
+        for entity in sorted(self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image), 
+                             key=lambda entity: self.entity_manager.get_component(entity, RenderComponent).layer):
 
             image_component = self.entity_manager.get_component(entity, ImagesComponent)
             images = image_component.images
@@ -27,8 +29,10 @@ class RenderSystem(System):
 
             position = self.entity_manager.get_component(entity, PositionComponent).position
 
-            self.screen.blit(image_to_blit, position)
+            entities_to_blit.append((image_to_blit, position))
+
+        for image, position in entities_to_blit:
+            self.screen.blit(image, position)
 
         pygame.display.flip()
-
         

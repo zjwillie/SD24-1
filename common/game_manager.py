@@ -6,6 +6,8 @@ if __name__ == "__main__":
 
 from common.components import *
 
+from common.event_manager import Event
+
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
@@ -28,16 +30,18 @@ class GameManager:
         self.world = ECSWorld(self.game_state, self.logger, main_menu_dict)
 
         # Turn off the option menu and option selector
-        options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
+        options_menu = self.world.entity_manager.get_entity_by_name(self.world.event_manager.OPTIONS_MENU_BACKGROUND)
         self.world.entity_manager.entities_to_render.remove(options_menu)
 
-        options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
+        options_selector = self.world.entity_manager.get_entity_by_name(self.world.event_manager.OPTIONS_MENU_SELECTOR)
         self.world.entity_manager.entities_to_render.remove(options_selector)
         self.world.entity_manager.menu_entities.remove(options_selector)
 
+        self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
 
-        self.world.event_manager.subscribe("escape", self.quit_game)
-        self.world.event_manager.subscribe("change_state", self.change_state)
+        self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
+
 
     def test_initialize(self):
         test_world_dict = get_JSON_data("common/test_world.json")
@@ -62,48 +66,23 @@ class GameManager:
         self.world.event_manager.subscribe("change_state", self.change_state)
 
     def change_state(self, event):
-        self.logger.loggers['game_manager'].info(f"Changing State to: {event.data}")
-        if event.data == "quit":
+        self.logger.loggers['game_manager'].info(f"Changing State to: {event.data[0]}")
+        if event.data[0] == self.world.event_manager.QUIT:
             self.quit_game(event)
 
-        elif event.data == "options":
-            print("options")
-            # Turn on the option menu and option selector
-            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
-            self.world.entity_manager.entities_to_render.add(options_menu)
+        elif event.data[0] == self.world.event_manager.OPTIONS:
+            if self.world.game_state.sound_on:
+                self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
+            else:
+                self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND_NO_SOUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
 
-            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
-            self.world.entity_manager.entities_to_render.add(options_selector)
-            self.world.entity_manager.menu_entities.add(options_selector)
-            self.world.entity_manager.get_component(options_selector, MenuSelectorComponent).current_selection = 0
+        elif event.data[0] == self.world.event_manager.MAIN_MENU:
+            self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, event.data[1])))
 
-            # Turn off the main menu and main menu selector
-            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
-            self.world.entity_manager.entities_to_render.remove(main_menu)
-
-            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
-            self.world.entity_manager.entities_to_render.remove(main_selector)
-            self.world.entity_manager.menu_entities.remove(main_selector)
-
-
-        elif event.data == "main_menu":
-            print("main_menu")
-            # Turn on the main menu and main menu selector
-            main_menu = self.world.entity_manager.get_entity_by_name("main_menu_background")
-            self.world.entity_manager.entities_to_render.add(main_menu)
-
-            main_selector = self.world.entity_manager.get_entity_by_name("main_menu_selector")
-            self.world.entity_manager.entities_to_render.add(main_selector)
-            self.world.entity_manager.menu_entities.add(main_selector)
-            self.world.entity_manager.get_component(main_selector, MenuSelectorComponent).current_selection = 0
-
-            # Turn off the option menu and option selector
-            options_menu = self.world.entity_manager.get_entity_by_name("options_menu_background")
-            self.world.entity_manager.entities_to_render.remove(options_menu)
-
-            options_selector = self.world.entity_manager.get_entity_by_name("options_menu_selector")
-            self.world.entity_manager.entities_to_render.remove(options_selector)
-            self.world.entity_manager.menu_entities.remove(options_selector)
+        elif event.data[0] == self.world.event_manager.SOUND:
+            self.world.game_state.sound_on = not self.world.game_state.sound_on
+            # Need to pass False so the selector doesn't reset
+            self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
 
 
     def quit_game(self, event):
@@ -115,6 +94,8 @@ class GameManager:
         self.world.event_manager.update()
         self.world.system_manager.update(delta_time)
 
+####################################################################################################
+
 def main():
 
     game_manager = GameManager()
@@ -125,8 +106,7 @@ def main():
         game_manager.logger.loggers['game_manager'].debug(f"Entity: {entity}")
         game_manager.logger.loggers['game_manager'].warning(f"{game_manager.world.entity_manager.get_component(entity, NameComponent).name}")
         game_manager.logger.loggers['game_manager'].critical(f"{game_manager.world.entity_manager.get_component(entity, UUIDComponent).uuid}")
-
-    
+   
 if __name__ == "__main__":
     from common.components import *
     main()

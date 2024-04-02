@@ -7,9 +7,35 @@ class Event:
         return f"Event: Type({self.type}) Data{self.data} <- EVENT OBJECT"
 
 class EventManager:
+    # region Event Types
+    EVENT_DOWN = "down"
+    EVENT_UP = "up"
+    EVENT_LEFT = "left"
+    EVENT_RIGHT = "right"
+    EVENT_RETURN = "return"
+    EVENT_ESCAPE = "escape"
+
+    KEY_DOWN = "key_down"
+    KEY_UP = "key_up"
+
+    MAIN_MENU_BACKGROUND = "main_menu_background"
+    MAIN_MENU_SELECTOR = "main_menu_selector"
+    OPTIONS_MENU_BACKGROUND = "options_menu_background"
+    OPTIONS_MENU_BACKGROUND_NO_SOUND = "options_menu_background_no_sound"
+    OPTIONS_MENU_SELECTOR = "options_menu_selector"
+
+    SET_MENU = "set_menu"
+    QUIT = "quit"
+    CHANGE_STATE = "change_state"
+    OPTIONS = "options"
+    MAIN_MENU = "main_menu"
+    SOUND = "sound"
+    EXIT_REQUESTED = "exit_requested"
+    # endregion
+
     def __init__(self, logger):
         self.logger = logger
-        self.logger.change_log_level("event_manager", "INFO")
+        self.logger.change_log_level("event_manager", "OFF")
         
         self.events = []
         self.subscribers = {}
