@@ -185,6 +185,11 @@ class InputManager:
                         self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
                         self.event_manager.post(key_event)
 
+            # Append any unhandled events to the event manager
+            else:
+                #unhandled_event = Event("unflagged", event)
+                #TODO self.event_manager.events.append(unhandled_event)
+                pass
 
         for key in self.key_repeat_interval:
             if time.time() - self.key_repeat_timer[key] > self.key_repeat_interval[key]:
@@ -194,9 +199,3 @@ class InputManager:
                 self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
                 self.event_manager.post(repeat_event)
                 self.key_repeat_timer[key] = time.time()
-
-            # Append any unhandled events to the event manager
-            else:
-                #unhandled_event = Event("unflagged", event)
-                #TODO self.event_manager.events.append(unhandled_event)
-                pass
