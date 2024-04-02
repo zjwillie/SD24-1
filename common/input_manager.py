@@ -14,6 +14,7 @@ class InputManager:
         self.logger.change_log_level("input_manager", "OFF")
 
         self.event_manager = event_manager
+
         self.key_event_map = {
             pygame.K_0: "0",
             pygame.K_1: "1",
@@ -110,18 +111,18 @@ class InputManager:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.logger.loggers['input_manager'].info("Quitting Game")
-                escape_event = Event("escape")
+                escape_event = Event(self.event_manager.EVENT_ESCAPE, (self.event_manager.QUIT, time.time()))
                 self.event_manager.post(escape_event)
 
             elif event.type == pygame.KEYDOWN:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], ("key_down", time.time()))
+                    key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_DOWN, time.time()))
                     self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
                     self.event_manager.post(key_event)
 
             elif event.type == pygame.KEYUP:
                 if event.key in self.key_event_map:
-                    key_event = Event(self.key_event_map[event.key], ("key_up", time.time()))
+                    key_event = Event(self.key_event_map[event.key], (self.event_manager.KEY_UP, time.time()))
                     self.logger.loggers['input_manager'].info(f"Key Up: {event.key}")
                     self.event_manager.post(key_event)
 
