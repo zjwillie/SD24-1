@@ -24,7 +24,8 @@
             "d": "right",
             "space": "return",
             "return": "return",
-            "escape": "escape"
+            "escape": "escape",
+            "tab": "tab"
         }
     }
 }
