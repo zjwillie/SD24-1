@@ -26,7 +26,9 @@
             "return": "return",
             "escape": "escape"
         },
-        "TIME_BETWEEN_REPEATS":0.2,
+        "KEY_REPEAT_INITAL_DELAY":0.4,
+        "KEY_REPEAT_INITAL_SPEED":0.2,
+        "KEY_REPEAT_MAX_SPEED":0.09,
         "repeat_keys":
         [
             "up",

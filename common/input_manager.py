@@ -12,14 +12,17 @@ from common.event_manager import Event
 
 # InputManager class handles all the keyboard inputs
 class InputManager:
+    REPEAT_DIVISION_FACTOR = 1.6
 
     # Initialize the InputManager with an event manager, logger, and time between key repeats
-    def __init__(self, event_manager, logger, time_between_repeats=None):
+    def __init__(self, event_manager, logger, key_repeat_initial_dealy=None, key_repeat_intial_speed=None, key_repeat_max_speed=None):
         self.logger = logger
         self.logger.change_log_level("input_manager", "INFO")
 
         # Time between key repeats
-        self.TIME_BETWEEN_REPEATS = time_between_repeats
+        self.KEY_REPEAT_INITAL_DELAY = key_repeat_initial_dealy
+        self.KEY_REPEAT_INITAL_SPEED = key_repeat_intial_speed
+        self.KEY_REPEAT_MAX_SPEED = key_repeat_max_speed
 
         # Event manager instance
         self.event_manager = event_manager
@@ -120,20 +123,23 @@ class InputManager:
         # Key repeat interval and timer
         self.key_repeat_interval = {}
         self.key_repeat_timer = {}
-        self.repeat_keys = []
+        self.repeat_keys = {}
 
         # Keys currently being pressed down
         self.keys_down = {}
         self.keys_down_time = {}
 
-        # Subscribe to TIME_BETWEEN_REPEATS event
-        self.event_manager.subscribe(self.event_manager.TIME_BETWEEN_REPEATS, self.update_key_repeat_time)
-
     # Load world data
     def load_world(self, world_data_input):
-        if "TIME_BETWEEN_REPEATS" in world_data_input:
-            self.TIME_BETWEEN_REPEATS = world_data_input["TIME_BETWEEN_REPEATS"]
-        
+        if "KEY_REPEAT_INITAL_DELAY" in world_data_input:
+            self.KEY_REPEAT_INITAL_DELAY = world_data_input["KEY_REPEAT_INITAL_DELAY"]
+
+        if "KEY_REPEAT_INITAL_SPEED" in world_data_input:
+            self.KEY_REPEAT_INITAL_SPEED = world_data_input["KEY_REPEAT_INITAL_SPEED"]
+
+        if "KEY_REPEAT_MAX_SPEED" in world_data_input:
+            self.KEY_REPEAT_MAX_SPEED = world_data_input["KEY_REPEAT_MAX_SPEED"]
+
         if "repeat_keys" in world_data_input:
             self.repeat_keys = world_data_input["repeat_keys"]
 
@@ -142,10 +148,6 @@ class InputManager:
         else:
             self.logger.loggers['input_manager'].critical("No keybindings found in world data")
             raise ValueError("No keybindings found in world data")
-
-    # Update key repeat time
-    def update_key_repeat_time(self, event):
-        self.TIME_BETWEEN_REPEATS = event.data
 
     # Update function to handle key events
     def update(self):
@@ -162,17 +164,17 @@ class InputManager:
                 if event.key in self.key_event_map:
                     action = self.current_input_map.get(self.key_event_map[event.key])
                     if action:
-                        # Post the action, that it is a down event, the time, and that it is not a repeat
-                        key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), False))
-                        self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
-                        self.event_manager.post(key_event)
-                        # Store the action in keys_down
-                        self.keys_down[action] = time.time()
+                        if action not in self.keys_down:
+                            self.keys_down[action] = True
+                            self.keys_down_time[action] = time.time()
 
-                        # Record the time when the key is pressed
-                        self.keys_down_time[action] = time.time()
-                        if self.TIME_BETWEEN_REPEATS is not None:
-                            self.key_repeat_interval[action] = self.TIME_BETWEEN_REPEATS
+                            # Post the action, that it is a down event, and the time
+                            key_event = Event(action, (self.event_manager.KEY_DOWN, time.time()))
+                            self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
+                            self.event_manager.post(key_event)
+
+                        if action in self.repeat_keys and action not in self.key_repeat_interval:
+                            self.key_repeat_interval[action] = self.KEY_REPEAT_INITAL_SPEED
                             self.key_repeat_timer[action] = time.time()
 
             # Handle key up events
@@ -200,19 +202,28 @@ class InputManager:
             # Append any unhandled events to the event manager
             else:
                 #unhandled_event = Event("unflagged", event)
+                print(event)
                 #TODO self.event_manager.events.append(unhandled_event)
                 pass
 
         # Handle key repeat events
         for action in self.key_repeat_interval:
-            # Only repeat keys that are in the repeat_keys list
-            if action in self.repeat_keys and time.time() - self.key_repeat_timer[action] > self.key_repeat_interval[action]:
-                # Post the action, that it is a down event, the time, and that it is a repeat
-                repeat_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), True))
-                self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
-                self.event_manager.post(repeat_event)
-                self.key_repeat_timer[action] = time.time()
+            # Only repeat keys that are in the repeat_keys dictionary
+            if action in self.repeat_keys:
+                # Add a delay before repeating
+                if time.time() - self.keys_down_time[action] > self.KEY_REPEAT_INITAL_DELAY:
+                    # Increase the repeat speed exponentially until it reaches max speed
+                    if time.time() - self.key_repeat_timer[action] > self.key_repeat_interval[action]:
+                        # Change the division factor from 2 to a larger number for a more gradual speed increase
+                        self.key_repeat_interval[action] = max(self.key_repeat_interval[action] / self.REPEAT_DIVISION_FACTOR, self.KEY_REPEAT_MAX_SPEED)
+
+                        # Post the action, that it is a down event, the time, and that it is a repeat
+                        repeat_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), True))
+                        self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
+                        self.event_manager.post(repeat_event)
+                        self.key_repeat_timer[action] = time.time()
 
         # If the keys down or keys down time has changed, post a KEYS_DOWN_UPDATE event
         if prev_keys_down != self.keys_down or prev_keys_down_time != self.keys_down_time:
+            self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down, self.keys_down_time)))
             self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down, self.keys_down_time)))
