@@ -37,6 +37,8 @@ class EventManager:
     MAIN_MENU = "main_menu"
     SOUND = "sound"
     EXIT_REQUESTED = "exit_requested"
+
+    START_GAME = "start_game"
     # endregion
 
     def __init__(self, logger):
