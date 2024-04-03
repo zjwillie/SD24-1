@@ -26,30 +26,8 @@ class GameManager:
         self.logger.change_log_level('game_manager', "INFO")
 
     def intialize_game(self):
-        main_menu_dict = get_JSON_data("world/main_menu_world.json")
-        self.world = ECSWorld(self.game_state, self.logger, main_menu_dict)
+        self.load_main_menu()
 
-        # Turn off the option menu and option selector
-        options_menu = self.world.entity_manager.get_entity_by_name(self.world.event_manager.OPTIONS_MENU_BACKGROUND)
-        self.world.entity_manager.entities_to_render.remove(options_menu)
-
-        options_selector = self.world.entity_manager.get_entity_by_name(self.world.event_manager.OPTIONS_MENU_SELECTOR)
-        self.world.entity_manager.entities_to_render.remove(options_selector)
-        self.world.entity_manager.menu_entities.remove(options_selector)
-
-        self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
-        self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
-        self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
-
-        # Sets the main menu background and selector to be visible intially
-        self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
-
-    def load_world(self, world_data):
-        self.world = ECSWorld(self.game_state, self.logger, world_data)
-
-        self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
-        self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
-        self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
 
     def change_state(self, event):
         self.logger.loggers['game_manager'].info(f"Changing State to: {event.data[0]}")
@@ -64,7 +42,7 @@ class GameManager:
                 self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND_NO_SOUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
 
         elif event.data[0] == self.world.event_manager.MAIN_MENU:
-            self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, event.data[1])))
+            self.load_main_menu()
 
         elif event.data[0] == self.world.event_manager.SOUND:
             self.world.game_state.sound_on = not self.world.game_state.sound_on
@@ -72,8 +50,25 @@ class GameManager:
             self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
 
         elif event.data[0] == self.world.event_manager.START_GAME:
-            self.load_world(get_JSON_data("world/game_world.json"))
+            self.start_game(get_JSON_data("world/game_world.json"))
 
+    def start_game(self, world_data):
+        self.world = ECSWorld(self.game_state, self.logger, world_data)
+
+        self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
+
+    def load_main_menu(self):
+        main_menu_dict = get_JSON_data("world/main_menu_world.json")
+        self.world = ECSWorld(self.game_state, self.logger, main_menu_dict)
+
+        self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
+
+
+        self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
 
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")
