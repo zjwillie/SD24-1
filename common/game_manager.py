@@ -41,7 +41,7 @@ class GameManager:
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
         
         #TODO this should be in world data
-        self.world.event_manager.post(Event(self.world.event_manager.TIME_BETWEEN_REPEATS, 0.2))
+        #self.world.event_manager.post(Event(self.world.event_manager.TIME_BETWEEN_REPEATS, 0.2))
 
         self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
 
@@ -96,6 +96,7 @@ class GameManager:
         self.world.input_manager.update()
         self.world.event_manager.update()
         self.world.system_manager.update(delta_time)
+        self.logger.loggers["game_manager"].info(f"Keys that are down: {self.world.input_manager.keys_down}")
 
 ####################################################################################################
 

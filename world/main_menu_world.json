@@ -9,5 +9,18 @@
     "systems":[
         "MenuSystem",
         "RenderSystem"
-    ]
+    ],
+    "input":
+    {
+        "keybindings":
+        {
+            "up":"w",
+            "down":"s",
+            "left":"a",
+            "right":"d",
+            "select":"e",
+            "back":"q"
+        },
+        "TIME_BETWEEN_REPEATS":0.2
+    }
 }

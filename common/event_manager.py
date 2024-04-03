@@ -20,6 +20,8 @@ class EventManager:
     KEY_DOWN = "key_down"
     KEY_UP = "key_up"
 
+    KEYS_DOWN_UPDATE = "keys_down_update"
+
     MAIN_MENU_BACKGROUND = "main_menu_background"
     MAIN_MENU_SELECTOR = "main_menu_selector"
     OPTIONS_MENU_BACKGROUND = "options_menu_background"

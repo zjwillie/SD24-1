@@ -112,10 +112,12 @@ class InputManager:
 
         self.keys_down = {}
         self.keys_down_time = {}
-        self.key_repeat_interval = {}
-        self.key_repeat_timer = {}
 
         self.event_manager.subscribe(self.event_manager.TIME_BETWEEN_REPEATS, self.update_key_repeat_time)
+
+    def load_world(self, world_data_input):
+        if "TIME_BETWEEN_REPEATS" in world_data_input:
+            self.TIME_BETWEEN_REPEATS = world_data_input["TIME_BETWEEN_REPEATS"]
 
     def key_down(self, key, repeat_interval=None):
         self.keys_down[key] = True
@@ -136,6 +138,9 @@ class InputManager:
             self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
             self.event_manager.post(key_event)
 
+        if key in self.keys_down:
+            del self.keys_down[key] 
+
     def update_key_repeat_time(self, event):
         self.TIME_BETWEEN_REPEATS = event.data
 
@@ -149,6 +154,9 @@ class InputManager:
 #? **************** UPDATE FUNCTION ****************
 
     def update(self):
+        prev_keys_down = self.keys_down.copy()
+        prev_keys_down_time = self.keys_down_time.copy()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.logger.loggers['input_manager'].info("Quitting Game")
@@ -185,6 +193,9 @@ class InputManager:
                         self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
                         self.event_manager.post(key_event)
 
+                    if event.key in self.keys_down:
+                        del self.keys_down[event.key]
+
             # Append any unhandled events to the event manager
             else:
                 #unhandled_event = Event("unflagged", event)
@@ -199,3 +210,6 @@ class InputManager:
                 self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
                 self.event_manager.post(repeat_event)
                 self.key_repeat_timer[key] = time.time()
+
+        if prev_keys_down != self.keys_down or prev_keys_down_time != self.keys_down_time:
+            self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down, self.keys_down_time)))

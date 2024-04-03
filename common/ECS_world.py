@@ -25,6 +25,7 @@ class ECSWorld:
     def load_world(self, world_data):
         self.entity_manager.create_world_entities(world_data["entities"])
         self.system_manager.add_systems(world_data["systems"])
+        self.input_manager.load_world(world_data["input"])
 
 def main():
     pass
