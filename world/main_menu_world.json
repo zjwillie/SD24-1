@@ -14,12 +14,17 @@
     {
         "keybindings":
         {
-            "up":"w",
-            "down":"s",
-            "left":"a",
-            "right":"d",
-            "select":"e",
-            "back":"q"
+            "up": "up",
+            "w": "up",
+            "down": "down",
+            "s": "down",
+            "left": "left",
+            "a": "left",
+            "right": "right",
+            "d": "right",
+            "space": "return",
+            "return": "return",
+            "escape": "escape"
         },
         "TIME_BETWEEN_REPEATS":0.2
     }

@@ -96,7 +96,7 @@ class GameManager:
         self.world.input_manager.update()
         self.world.event_manager.update()
         self.world.system_manager.update(delta_time)
-        self.logger.loggers["game_manager"].info(f"Keys that are down: {self.world.input_manager.keys_down}")
+        #self.logger.loggers["game_manager"].info(f"Keys that are down: {self.world.input_manager.keys_down}")
 
 ####################################################################################################
 
