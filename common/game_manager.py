@@ -37,6 +37,7 @@ class GameManager:
         self.world.entity_manager.entities_to_render.remove(options_selector)
         self.world.entity_manager.menu_entities.remove(options_selector)
 
+        self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
         
