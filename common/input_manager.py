@@ -17,7 +17,7 @@ class InputManager:
     # Initialize the InputManager with an event manager, logger, and time between key repeats
     def __init__(self, event_manager, logger, key_repeat_initial_dealy=None, key_repeat_intial_speed=None, key_repeat_max_speed=None):
         self.logger = logger
-        self.logger.change_log_level("input_manager", "INFO")
+        self.logger.change_log_level("input_manager", "OFF")
 
         # Time between key repeats
         self.KEY_REPEAT_INITAL_DELAY = key_repeat_initial_dealy
@@ -130,7 +130,7 @@ class InputManager:
         self.keys_down_time = {}
 
     # Load world data
-    def load_world(self, world_data_input):
+    def load_input_data(self, world_data_input):
         if "KEY_REPEAT_INITAL_DELAY" in world_data_input:
             self.KEY_REPEAT_INITAL_DELAY = world_data_input["KEY_REPEAT_INITAL_DELAY"]
 
@@ -202,7 +202,7 @@ class InputManager:
             # Append any unhandled events to the event manager
             else:
                 #unhandled_event = Event("unflagged", event)
-                print(event)
+                #print(event)
                 #TODO self.event_manager.events.append(unhandled_event)
                 pass
 
@@ -225,4 +225,5 @@ class InputManager:
 
         # If the keys down or keys down time has changed, post a KEYS_DOWN_UPDATE event
         if prev_keys_down != self.keys_down or prev_keys_down_time != self.keys_down_time:
-            self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down, self.keys_down_time)))
+            self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down_time)))
+            #print("THESE KEYS AREW SEENT", self.keys_down_time)
