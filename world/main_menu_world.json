@@ -26,6 +26,13 @@
             "return": "return",
             "escape": "escape"
         },
-        "TIME_BETWEEN_REPEATS":0.2
+        "TIME_BETWEEN_REPEATS":0.2,
+        "repeat_keys":
+        [
+            "up",
+            "down",
+            "w",
+            "s"
+        ]
     }
 }

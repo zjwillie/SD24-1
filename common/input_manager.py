@@ -16,7 +16,7 @@ class InputManager:
     # Initialize the InputManager with an event manager, logger, and time between key repeats
     def __init__(self, event_manager, logger, time_between_repeats=None):
         self.logger = logger
-        self.logger.change_log_level("input_manager", "OFF")
+        self.logger.change_log_level("input_manager", "INFO")
 
         # Time between key repeats
         self.TIME_BETWEEN_REPEATS = time_between_repeats
@@ -120,6 +120,7 @@ class InputManager:
         # Key repeat interval and timer
         self.key_repeat_interval = {}
         self.key_repeat_timer = {}
+        self.repeat_keys = []
 
         # Keys currently being pressed down
         self.keys_down = {}
@@ -132,6 +133,10 @@ class InputManager:
     def load_world(self, world_data_input):
         if "TIME_BETWEEN_REPEATS" in world_data_input:
             self.TIME_BETWEEN_REPEATS = world_data_input["TIME_BETWEEN_REPEATS"]
+        
+        if "repeat_keys" in world_data_input:
+            self.repeat_keys = world_data_input["repeat_keys"]
+
         if "keybindings" in world_data_input:
             self.current_input_map = world_data_input["keybindings"]
         else:
@@ -200,7 +205,8 @@ class InputManager:
 
         # Handle key repeat events
         for action in self.key_repeat_interval:
-            if time.time() - self.key_repeat_timer[action] > self.key_repeat_interval[action]:
+            # Only repeat keys that are in the repeat_keys list
+            if action in self.repeat_keys and time.time() - self.key_repeat_timer[action] > self.key_repeat_interval[action]:
                 # Post the action, that it is a down event, the time, and that it is a repeat
                 repeat_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), True))
                 self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
