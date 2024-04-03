@@ -11,7 +11,7 @@ class MenuSystem(System):
         super().__init__(game_state, entity_manager, event_manager, logger)
         
         self.logger = logger
-        self.logger.change_log_level('menu_system', "INFO")
+        self.logger.change_log_level('menu_system', "OFF")
 
         self.menu_entities = []
         self.current_menu = None
