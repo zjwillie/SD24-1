@@ -16,6 +16,7 @@ class EventManager:
     EVENT_RIGHT = "right"
     EVENT_RETURN = "return"
     EVENT_ESCAPE = "escape"
+    EVENT_TAB = "tab"
 
     KEY_DOWN = "key_down"
     KEY_UP = "key_up"

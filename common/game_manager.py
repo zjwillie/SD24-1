@@ -47,21 +47,27 @@ class GameManager:
             self.quit_game(event)
 
         elif event.data[0] == self.world.event_manager.OPTIONS:
-            if self.world.game_state.sound_on:
-                self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
-            else:
-                self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND_NO_SOUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
+            self.change_menu(event)
 
         elif event.data[0] == self.world.event_manager.MAIN_MENU:
             self.load_main_menu()
 
         elif event.data[0] == self.world.event_manager.SOUND:
-            self.world.game_state.sound_on = not self.world.game_state.sound_on
-            # Need to pass False so the selector doesn't reset
-            self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
+            self.toggle_sound(event)
 
         elif event.data[0] == self.world.event_manager.START_GAME:
             self.start_game(get_JSON_data("world/game_world.json"))
+
+    def change_menu(self, event):
+        if self.world.game_state.sound_on:
+            self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
+        else:
+            self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND_NO_SOUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
+
+    def toggle_sound(self, event):
+        self.world.game_state.sound_on = not self.world.game_state.sound_on
+        # Need to pass False so the selector doesn't reset
+        self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
 
     def start_game(self, world_data):
         self.world = ECSWorld(self.game_state, self.logger, world_data)
@@ -77,7 +83,6 @@ class GameManager:
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
-
 
         self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
 

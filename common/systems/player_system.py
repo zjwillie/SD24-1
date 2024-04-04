@@ -1,4 +1,5 @@
 from .base_system import System
+from common.event_manager import Event
 
 class PlayerSystem(System):
     ACTION_QUEUE_MAX_SIZE = 5
@@ -17,6 +18,12 @@ class PlayerSystem(System):
         self.event_manager.subscribe(self.event_manager.EVENT_DOWN, self.update_action_queue)
         self.event_manager.subscribe(self.event_manager.EVENT_LEFT, self.update_action_queue)
         self.event_manager.subscribe(self.event_manager.EVENT_RIGHT, self.update_action_queue)
+
+        self.event_manager.subscribe(self.event_manager.EVENT_TAB, self.open_main_menu)
+
+    def open_main_menu(self, event):
+        self.logger.info("Opening Main Menu")
+        self.event_manager.post(Event(self.event_manager.CHANGE_STATE, (self.event_manager.MAIN_MENU, True)))
 
     def update_action_queue(self, event):
         self.logger.info(f"Key Down Event Received: {event.type, event.data}")

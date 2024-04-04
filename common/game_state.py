@@ -12,7 +12,7 @@ class GameState:
         self.sound_on = False
         self.volume = 1.0
 
-        self.caption = "ECS SD Build 0.0.4.1"
+        self.caption = "ECS SD Build 0.0.4.2"
         self.icon_path = "images/icons/main_icon.png"
 
         self.loggers = None
