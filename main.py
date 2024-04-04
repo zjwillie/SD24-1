@@ -1,7 +1,6 @@
 import os
 import pygame
 
-
 from common.game_manager import GameManager
 
 # Debugging
