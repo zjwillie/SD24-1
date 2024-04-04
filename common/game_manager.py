@@ -28,7 +28,7 @@ class GameManager:
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
-            'player_system': 'ON',
+            'player_system': 'OFF',
             'menu_system': 'OFF',
             'render_system': 'OFF',
         }

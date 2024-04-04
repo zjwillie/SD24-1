@@ -13,3 +13,5 @@ from .menuselector_component import MenuSelectorComponent
 from .images_component import ImagesComponent
 from .render_component import RenderComponent
 from .position_component import PositionComponent
+from .cameraaware_component import CameraAwareComponent
+from .cameraaware_component import CameraAwareComponent

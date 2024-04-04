@@ -1,0 +1,20 @@
+{
+    "NameComponent": {
+        "name": "Home background"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "images": ["images/level_backgrounds/home_background.png"]
+    },
+    "SizeComponent": {
+        "width": 4000,
+        "height": 4000
+    }
+}

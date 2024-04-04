@@ -1,6 +1,7 @@
 {
     "entities":[
-        "entities/character/character.json"
+        "entities/character/character.json",
+        "entities/levels/home/home.json"
     ],
     "systems":[
         "PlayerSystem",
