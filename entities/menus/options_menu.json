@@ -3,7 +3,6 @@
         "name": "options_menu_background"
     },
     "UUIDComponent": {},
-    "BackgroundComponent": {},
     "ImagesComponent": {
         "images_locations": ["images/menus/options_menu.png"]
     },

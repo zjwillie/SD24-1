@@ -21,9 +21,20 @@ class GameManager:
         self.world = None
 
         self.logger = LoggingManager()
-        self.logger.initialize_logging()
+        log_levels = {
+            'entity_manager': 'OFF',
+            'event_manager': 'OFF',
+            'input_manager': 'OFF',
+            'game_manager': 'OFF',
+            'component': 'OFF',
+            'system': 'OFF',
+            'player_system': 'ON',
+            'menu_system': 'OFF',
+            'render_system': 'OFF',
+        }
+        self.logger.set_log_levels(log_levels)
         self.logger.set_output_to_console('game_manager')
-        self.logger.change_log_level('game_manager', "INFO")
+
 
     def intialize_game(self):
         self.load_main_menu()
@@ -80,30 +91,8 @@ class GameManager:
         self.world.system_manager.update(delta_time)
         #self.logger.loggers["game_manager"].info(f"Keys that are down: {self.world.input_manager.keys_down}")
 
-####################################
-# region old code
-    def test_initialize(self):
-        test_world_dict = get_JSON_data("common/test_world.json")
-        self.world = ECSWorld(self.game_state, self.logger, test_world_dict)
-        
-        """
-        test_dict = {
-            "NameComponent": {
-                "name": "Player 2"
-            },
-            "UUIDComponent": {}
-        }
-        self.world.entity_manager.create_entity_from_dict(test_dict)
 
-        test_json = "common/test_json_entity.json"
-        self.world.entity_manager.create_entity_from_JSON(test_json)
 
-        self.world.entity_manager.create_world_entities(test_world_json)
-        """
-        
-        self.world.event_manager.subscribe("escape", self.quit_game)
-        self.world.event_manager.subscribe("change_state", self.change_state)
-# endregion
 ####################################################################################################
 
 def main():

@@ -57,9 +57,14 @@ class LoggingManager:
             console_handler = logging.StreamHandler()
             self.setup_handler(console_handler, logger)
             self.handlers[logger_name] = console_handler  # Update the current handler
-            
+
+    def set_log_levels(self, log_levels):
+        for logger_name, level in log_levels.items():
+            self.change_log_level(logger_name, level)
+
     def change_log_level(self, logger_name, new_level):
         level_map = {
+            'ON': logging.DEBUG,
             'DEBUG': logging.DEBUG,
             'INFO': logging.INFO,
             'WARNING': logging.WARNING,

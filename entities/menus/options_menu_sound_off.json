@@ -3,7 +3,6 @@
         "name": "options_menu_background_no_sound"
     },
     "UUIDComponent": {},
-    "BackgroundComponent": {},
     "ImagesComponent": {
         "images_locations": ["images/menus/options_menu_sound_off.png"]
     },
