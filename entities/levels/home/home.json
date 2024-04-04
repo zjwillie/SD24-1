@@ -1,4 +1,7 @@
 {
+    "CameraAwareComponent": {
+        "is_dynamic": false
+    },
     "NameComponent": {
         "name": "Home background"
     },
@@ -10,8 +13,8 @@
     "RenderComponent": {
         "layer": 1
     },
-    "ImageComponent": {
-        "images": ["images/level_backgrounds/home_background.png"]
+    "ImagesComponent": {
+        "images_locations": ["images/level_backgrounds/home_background.png"]
     },
     "SizeComponent": {
         "width": 4000,

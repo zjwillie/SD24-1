@@ -40,18 +40,11 @@ class EntityManager:
 
         self.subscriptions = {}
 
-        self.subscribe_to_component(RenderComponent, self.render_component_callback)
-        self.subscribe_to_component(PlayerComponent, self.player_component_callback)
         self.subscribe_to_component(ImagesComponent, self.images_component_callback)
         self.subscribe_to_component(MenuComponent, self.menu_component_callback)
+        self.subscribe_to_component(PlayerComponent, self.player_component_callback)
+        self.subscribe_to_component(RenderComponent, self.render_component_callback)
 
-    def menu_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to menu entities.")
-            self.menu_entities.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from menu entities.")
-        
     def images_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":
             self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with images.")
@@ -59,12 +52,20 @@ class EntityManager:
         elif action == "remove":
             self.entities_with_image.remove(entity_id)
 
+    def menu_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to menu entities.")
+            self.menu_entities.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from menu entities.")
+            self.menu_entities.remove(entity_id)
+
     def player_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":
             self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} as player.")
             self.player_ID = entity_id
         elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} as player.")
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} as player and setting player_ID to None.")
             self.player_ID = None
 
     def render_component_callback(self, entity_id: int, component: Component, action: str):

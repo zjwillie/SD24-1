@@ -1,4 +1,4 @@
-from common.components.cameraaware_component import CameraAwareComponent
+from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.id_component import IDComponent
 from common.components.images_component import ImagesComponent
 from common.components.menubutton_component import MenuButtonComponent
@@ -14,7 +14,7 @@ from common.components.uuid_component import UUIDComponent
 class ComponentFactory:
     def __init__(self):
         self.component_classes = {
-            'CameraAwareComponent': CameraAwareComponent,
+            'CameraAnchorComponent': CameraAnchorComponent,
             'IDComponent': IDComponent,
             'ImagesComponent': ImagesComponent,
             'MenuButtonComponent': MenuButtonComponent,

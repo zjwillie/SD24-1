@@ -1,6 +1,8 @@
 from .base_system import System
 from common.event_manager import Event
 
+from common.components import NameComponent
+
 class PlayerSystem(System):
     ACTION_QUEUE_MAX_SIZE = 5
 
@@ -8,6 +10,8 @@ class PlayerSystem(System):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
         self.logger = logger.loggers['player_system']
+
+        self.player_ID = self.entity_manager.player_ID
 
         self.keys_down = {}
         self.action_queue = []
@@ -34,9 +38,10 @@ class PlayerSystem(System):
         #self.logger.info(f"Key Down Event Received: {event.data} -> {list(event.data.keys())}")
         self.keys_down = event.data
 
-    def test_up(self, event):
-        self.logger.info("Up Event Received")
+    def get_component(self, entity_id, component_type):
+        return self.entity_manager.get_component(entity_id, component_type)    
 
     def update(self, delta_time):
         #self.logger.info(f"Keys that are down: {self.keys_down}")
         self.logger.info(f"Action Queue: {self.action_queue}")
+        #print(self.get_component(self.player_ID, NameComponent).name)

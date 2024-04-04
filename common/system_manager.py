@@ -15,7 +15,9 @@ class SystemManager:
         self.systems = {}
         self.factory = SystemFactory()
 
+        # Must pass in logger to be able to log, can't change to .loggers["system"]
         self.logger = logger
+        
 
     def add_system(self, system, system_name):
         self.logger.loggers["system"].info(f"Adding system: {system_name}")
