@@ -17,11 +17,11 @@ class MenuSystem(System):
         self.current_menu = None
         self.current_selector = None
 
-        self.event_manager.subscribe("down", self.handle_menu_event)
-        self.event_manager.subscribe("right", self.handle_menu_event)
-        self.event_manager.subscribe("up", self.handle_menu_event)
-        self.event_manager.subscribe("left", self.handle_menu_event)
-        self.event_manager.subscribe("return", self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_DOWN, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_RIGHT, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_UP, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_LEFT, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_RETURN, self.handle_menu_event)
 
         self.event_manager.subscribe(self.event_manager.MOUSE_POSITION, self.handle_menu_event)
 
