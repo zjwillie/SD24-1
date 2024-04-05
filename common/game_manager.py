@@ -56,7 +56,8 @@ class GameManager:
             self.toggle_sound(event)
 
         elif event.data[0] == self.world.event_manager.START_GAME:
-            self.start_game(get_JSON_data("world/game_world.json"))
+            self.start_game()
+
 
     def change_menu(self, event):
         if self.world.game_state.sound_on:
@@ -64,13 +65,10 @@ class GameManager:
         else:
             self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND_NO_SOUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
 
-    def toggle_sound(self, event):
-        self.world.game_state.sound_on = not self.world.game_state.sound_on
-        # Need to pass False so the selector doesn't reset
-        self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
 
-    def start_game(self, world_data):
-        self.world = ECSWorld(self.game_state, self.logger, world_data)
+    def start_game(self):
+        start_game_dict = get_JSON_data("world/game_world.json")
+        self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
@@ -86,9 +84,18 @@ class GameManager:
 
         self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
 
+
+
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")
         self.game_state.exit_requested = True
+
+    def toggle_sound(self, event):
+        self.world.game_state.sound_on = not self.world.game_state.sound_on
+        # Need to pass False so the selector doesn't reset
+        self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
+
+#?###########################################################################################
 
     def update(self, delta_time):
         self.world.input_manager.update()
