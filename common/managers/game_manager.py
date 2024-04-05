@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
 from common.components import *
 
-from common.event_manager import Event
+from common.managers.event_manager import Event
 
 from common.ECS_world import ECSWorld
 from common.game_state import GameState

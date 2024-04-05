@@ -1,7 +1,7 @@
 import os
 import pygame
 
-from common.game_manager import GameManager
+from common.managers.game_manager import GameManager
 
 # Debugging
 import cProfile

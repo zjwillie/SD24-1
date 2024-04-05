@@ -1,6 +1,6 @@
 from .base_system import System
 
-from common.event_manager import Event
+from common.managers.event_manager import Event
 
 from common.components.menuselector_component import MenuSelectorComponent
 from common.components.render_component import RenderComponent

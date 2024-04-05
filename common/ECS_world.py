@@ -4,10 +4,10 @@ import sys
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from common.entity_manager import EntityManager
-from common.event_manager import EventManager
-from common.input_manager import InputManager
-from common.system_manager import SystemManager
+from common.managers.entity_manager import EntityManager
+from common.managers.event_manager import EventManager
+from common.managers.input_manager import InputManager
+from common.managers.system_manager import SystemManager
 
 class ECSWorld:
     def __init__(self, game_state, logger, world_data = None):

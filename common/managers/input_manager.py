@@ -8,7 +8,7 @@ import time
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from common.event_manager import Event
+from common.managers.event_manager import Event
 
 # InputManager class handles all the keyboard inputs
 class InputManager:

@@ -1,5 +1,5 @@
 from .base_system import System
-from common.event_manager import Event
+from common.managers.event_manager import Event
 
 from common.components import NameComponent
 
