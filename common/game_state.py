@@ -32,6 +32,16 @@ class GameState:
         self.clock = pygame.time.Clock()
         self.start_time = pygame.time.get_ticks()
 
+        self.check_for_joysticks()
+
+    def check_for_joysticks(self):
+        # check for joysticks
+        if pygame.joystick.get_count() > 0:
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+        else:
+            self.joystick = None
+
     def set_caption(self, caption):
         pygame.display.set_caption(caption)
 

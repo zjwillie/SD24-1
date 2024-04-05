@@ -24,7 +24,10 @@
             "d": "right",
             "space": "return",
             "return": "return",
-            "escape": "escape"
+            "escape": "escape",
+            "mouse_left": "return",
+            "mouse_scroll_up": "up",
+            "mouse_scroll_down": "down"
         },
         "KEY_REPEAT_INITAL_DELAY":0.4,
         "KEY_REPEAT_INITAL_SPEED":0.2,

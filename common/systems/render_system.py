@@ -22,6 +22,10 @@ class RenderSystem(System):
         for entity in sorted(self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image), 
                              key=lambda entity: self.entity_manager.get_component(entity, RenderComponent).layer):
 
+            render_component = self.entity_manager.get_component(entity, RenderComponent).render
+            if not render_component:
+                continue
+            
             image_component = self.entity_manager.get_component(entity, ImagesComponent)
             images = image_component.images
             current_image = image_component.current_image

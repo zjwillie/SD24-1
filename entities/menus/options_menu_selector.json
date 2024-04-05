@@ -8,7 +8,8 @@
         "y": 0
     },
     "RenderComponent": {
-        "layer": 2
+        "layer": 2,
+        "render": false
     },
     "ImagesComponent": {
         "images_locations": ["images/menus/menu_bar_blue_188x45.png"]
@@ -16,9 +17,13 @@
     "MenuComponent": {},
     "MenuSelectorComponent": {
         "options": [
-            {"name": "full_screen", "position": [90, 154]},
-            {"name": "sound", "position": [90, 282]},
-            {"name": "main_menu", "position": [96, 426]}
+            {"name": "full_screen", "position": [90, 154], "size": [188, 45]},
+            {"name": "sound", "position": [90, 282], "size": [188, 45]},
+            {"name": "main_menu", "position": [96, 426], "size": [188, 45]}
         ]
+    },
+    "SizeComponent": {
+        "width": 188,
+        "height": 45
     }
 }

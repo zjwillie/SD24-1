@@ -15,14 +15,14 @@ class InputManager:
     REPEAT_DIVISION_FACTOR = 1.6
 
     # Initialize the InputManager with an event manager, logger, and time between key repeats
-    def __init__(self, event_manager, logger, key_repeat_initial_dealy=None, key_repeat_intial_speed=None, key_repeat_max_speed=None):
-        self.logger = logger
-        self.logger.change_log_level("input_manager", "OFF")
+    def __init__(self, event_manager, logger):
+
+        self.logger = logger.loggers['input_manager']
 
         # Time between key repeats
-        self.KEY_REPEAT_INITAL_DELAY = key_repeat_initial_dealy
-        self.KEY_REPEAT_INITAL_SPEED = key_repeat_intial_speed
-        self.KEY_REPEAT_MAX_SPEED = key_repeat_max_speed
+        self.KEY_REPEAT_INITAL_DELAY = None
+        self.KEY_REPEAT_INITAL_SPEED = None
+        self.KEY_REPEAT_MAX_SPEED = None
 
         # Event manager instance
         self.event_manager = event_manager
@@ -117,6 +117,16 @@ class InputManager:
             pygame.K_KP_DIVIDE: "keypad_divide",
         }
 
+        self.mouse_event_map = {
+            1: "mouse_left",
+            2: "mouse_middle",
+            3: "mouse_right",
+            4: "mouse_scroll_up",
+            5: "mouse_scroll_down",
+            6: "mouse_forward",
+            7: "mouse_back"
+        }
+
         # Current input map
         self.current_input_map = {}
 
@@ -146,7 +156,7 @@ class InputManager:
         if "keybindings" in world_data_input:
             self.current_input_map = world_data_input["keybindings"]
         else:
-            self.logger.loggers['input_manager'].critical("No keybindings found in world data")
+            self.logger.critical("No keybindings found in world data")
             raise ValueError("No keybindings found in world data")
 
     # Update function to handle key events
@@ -159,6 +169,7 @@ class InputManager:
             if event.type == pygame.QUIT:
                 self.event_manager.post(Event(self.event_manager.QUIT))
 
+            #^ KEYBOARD #########################################################################################
             # Handle key down events
             elif event.type == pygame.KEYDOWN:
                 if event.key in self.key_event_map:
@@ -169,8 +180,8 @@ class InputManager:
                             self.keys_down_time[action] = time.time()
 
                             # Post the action, that it is a down event, and the time
-                            key_event = Event(action, (self.event_manager.KEY_DOWN, time.time()))
-                            self.logger.loggers['input_manager'].info(f"Key Down: {key_event}")
+                            key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), self.event_manager.KEYBOARD_EVENT))
+                            self.logger.info(f"Key Down: {key_event}")
                             self.event_manager.post(key_event)
 
                         if action in self.repeat_keys and action not in self.key_repeat_interval:
@@ -193,11 +204,32 @@ class InputManager:
 
                             # Post the action, that it is an up event, the time, and the duration
                             key_event = Event(action, (self.event_manager.KEY_UP, time.time(), duration))
-                            self.logger.loggers['input_manager'].info(f"Key Up: {key_event}, Duration: {duration}")
+                            self.logger.info(f"Key Up: {key_event}, Duration: {duration}")
                             self.event_manager.post(key_event)
 
                         if action in self.keys_down:
                             del self.keys_down[action]
+
+            #^ MOUSE #########################################################################################
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button in self.mouse_event_map:
+                    action = self.current_input_map.get(self.mouse_event_map[event.button])
+                    if action:
+                        self.keys_down[action] = True
+                        self.keys_down_time[action] = time.time()
+
+                        mouse_pos = event.pos
+
+                        # Post the action, that it is a down event, and the time
+                        key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), self.event_manager.MOUSE_EVENT, mouse_pos))
+                        self.logger.info(f"Mouse Down: {key_event}")
+                        self.event_manager.post(key_event)
+
+            elif event.type == pygame.MOUSEMOTION:
+                mouse_pos = event.pos
+                # Could send if a mouse button is held down or not as well, would need to keep a list of mouse being down but dont' think this is needed right now
+                self.logger.info(f"Mouse Motion: {mouse_pos}")
+                self.event_manager.post(Event(self.event_manager.MOUSE_POSITION, mouse_pos))
 
             # Append any unhandled events to the event manager
             else:
@@ -219,7 +251,7 @@ class InputManager:
 
                         # Post the action, that it is a down event, the time, and that it is a repeat
                         repeat_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), True))
-                        self.logger.loggers['input_manager'].info(f"Key Repeat: {repeat_event}")
+                        self.logger.info(f"Key Repeat: {repeat_event}")
                         self.event_manager.post(repeat_event)
                         self.key_repeat_timer[action] = time.time()
 

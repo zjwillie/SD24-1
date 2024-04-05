@@ -14,3 +14,4 @@ from .position_component import PositionComponent
 from .render_component import RenderComponent
 from .type_component import TypeComponent
 from .uuid_component import UUIDComponent
+from .size_component import SizeComponent

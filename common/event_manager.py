@@ -23,6 +23,11 @@ class EventManager:
 
     KEYS_DOWN_UPDATE = "keys_down_update"
 
+    KEYBOARD_EVENT = "keyboard_event"
+    MOUSE_EVENT = "mouse_event"
+    MOUSE_POSITION = "mouse_position"
+    JOYSTICK_EVENT = "joystick_event"
+
     MAIN_MENU_BACKGROUND = "main_menu_background"
     MAIN_MENU_SELECTOR = "main_menu_selector"
     OPTIONS_MENU_BACKGROUND = "options_menu_background"
