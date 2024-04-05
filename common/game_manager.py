@@ -24,16 +24,16 @@ class GameManager:
         log_levels = {
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'OFF',
+            'input_manager': 'ON',
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
             'player_system': 'OFF',
-            'menu_system': 'OFF',
+            'menu_system': 'ON',
             'render_system': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
-        self.logger.set_output_to_console('game_manager')
+        #self.logger.set_output_to_console('game_manager')
 
 
     def intialize_game(self):
@@ -42,6 +42,8 @@ class GameManager:
 
     def change_state(self, event):
         self.logger.loggers['game_manager'].info(f"Changing State to: {event.data[0]}")
+        if event.data[1]:
+            self.logger.loggers['game_manager'].info(f"Selector: {event.data[1]}")
 
         if event.data[0] == self.world.event_manager.QUIT:
             self.quit_game(event)
@@ -60,6 +62,7 @@ class GameManager:
 
 
     def change_menu(self, event):
+        # Event data[1] is the selector, postion, if it's True, it is reset, if it's False, it is not and remains (this way we can toggle selections)
         if self.world.game_state.sound_on:
             self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.OPTIONS_MENU_BACKGROUND, self.world.event_manager.OPTIONS_MENU_SELECTOR, event.data[1])))
         else:
@@ -108,7 +111,9 @@ class GameManager:
 ####################################################################################################
 
 def main():
+    pass
 
+    """
     game_manager = GameManager()
 
     game_manager.test_initialize()
@@ -117,7 +122,8 @@ def main():
         game_manager.logger.loggers['game_manager'].debug(f"Entity: {entity}")
         game_manager.logger.loggers['game_manager'].warning(f"{game_manager.world.entity_manager.get_component(entity, NameComponent).name}")
         game_manager.logger.loggers['game_manager'].critical(f"{game_manager.world.entity_manager.get_component(entity, UUIDComponent).uuid}")
-   
+    """
+
 if __name__ == "__main__":
     from common.components import *
     main()

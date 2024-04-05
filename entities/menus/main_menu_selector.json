@@ -8,7 +8,8 @@
         "y": 0
     },
     "RenderComponent": {
-        "layer": 2
+        "layer": 2,
+        "render": false
     },
     "ImagesComponent": {
         "images_locations": ["images/menus/menu_bar_yellow_165x45.png"]
@@ -16,10 +17,14 @@
     "MenuComponent": {},
     "MenuSelectorComponent": {
         "options": [
-            {"name": "start_game", "position": [75, 378]},
-            {"name": "continue", "position": [75, 425]},
-            {"name": "options", "position": [75, 475]},
-            {"name": "quit", "position": [75, 523]}
+            {"name": "start_game", "position": [75, 378], "size": [165, 45]},
+            {"name": "load_game", "position": [75, 425], "size": [165, 45]},
+            {"name": "options", "position": [75, 475], "size": [165, 45]},
+            {"name": "quit", "position": [75, 523], "size": [165, 45]}
         ]
+    },
+    "SizeComponent": {
+        "width": 165,
+        "height": 45
     }
 }

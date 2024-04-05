@@ -7,7 +7,8 @@
         "images_locations": ["images/menus/options_menu_sound_off.png"]
     },
     "RenderComponent": {
-        "layer": 1
+        "layer": 1,
+        "render": false
     },
     "PositionComponent": {
         "x": 0,
