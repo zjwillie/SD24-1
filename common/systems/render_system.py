@@ -25,6 +25,9 @@ class RenderSystem(System):
             render_component = self.entity_manager.get_component(entity, RenderComponent).render
             if not render_component:
                 continue
+
+            if len(self.entity_manager.get_component(entity, ImagesComponent).images) == 0:
+                continue
             
             image_component = self.entity_manager.get_component(entity, ImagesComponent)
             images = image_component.images

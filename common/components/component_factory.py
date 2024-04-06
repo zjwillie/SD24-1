@@ -1,3 +1,4 @@
+from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.id_component import IDComponent
 from common.components.images_component import ImagesComponent
@@ -15,6 +16,7 @@ from common.components.uuid_component import UUIDComponent
 class ComponentFactory:
     def __init__(self):
         self.component_classes = {
+            'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
             'IDComponent': IDComponent,
             'ImagesComponent': ImagesComponent,

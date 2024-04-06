@@ -11,7 +11,8 @@ class ImagesComponent(Component):
         self.images = []
         self.current_image = 0
 
-        self.initialize_images()
+        if images_locations:
+            self.initialize_images()
 
     def initialize_images(self):
         for location in self.images_locations:

@@ -8,9 +8,7 @@
         "name": "Hiro Nakamura"
     },
     "AgeComponent": {},
-    "CameraAwareComponent": {
-        "is_dynamic": false
-    },
+    "CameraAnchorComponent": {},
     "DescriptionComponent": {
         "description": "The main character of the game"
     },
@@ -69,7 +67,8 @@
     "DamageComponent": {
         "damage": 5
     },
-    "SpriteComponent": {
+    "ImagesComponent": {
+        "images_locations":[]
     },
     "RenderComponent": {
         "layer": 1
@@ -81,10 +80,8 @@
         "acceleration": 1000
     },
     "AnimationComponent": {
-        "animations": {
-            "sprite_sheets": {
-                "default": "images/sprites/character/character 0.1.png"
-            },
+        "animation_data": {
+            "sprite_sheet_location": "images/character/character 0.1.png",
             "frame_width": 64,
             "frame_height": 64,
             "animations": {
