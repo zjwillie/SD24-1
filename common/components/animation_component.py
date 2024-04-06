@@ -40,6 +40,12 @@ class AnimationComponent(Component):
         
         self.animations = self.initialize_animations(animation_data)
 
+        self.set_animation('light_attack_down')
+
+
+    def set_animation(self, name: str):
+        self.current_animation = self.animations[name]
+
     def initialize_animations(self, animation_data: dict):
         animations = {}
         for name, data in animation_data['animations'].items():

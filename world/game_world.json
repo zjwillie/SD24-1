@@ -4,6 +4,7 @@
         "entities/levels/home/home.json"
     ],
     "systems":[
+        "AnimationSystem",
         "PlayerSystem",
         "RenderSystem",
         "TimeSystem"

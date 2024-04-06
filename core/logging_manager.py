@@ -15,6 +15,7 @@ class LoggingManager:
             'game_manager': logging.getLogger('game_manager'),
             'component': logging.getLogger('component'),
             'system': logging.getLogger('system'),
+            'animation_system': logging.getLogger('animation_system'),
             'player_system': logging.getLogger('player_system'),
             'menu_system': logging.getLogger('menu_system'),
             'render_system': logging.getLogger('render_system'),

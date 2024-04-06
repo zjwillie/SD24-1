@@ -71,7 +71,7 @@
         "images_locations":[]
     },
     "RenderComponent": {
-        "layer": 1
+        "layer": 3
     },
     "VelocityComponent": {
         "max_velocity": 100
