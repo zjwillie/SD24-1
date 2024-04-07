@@ -6,7 +6,7 @@ from common.managers.game_manager import GameManager
 # Debugging
 import cProfile
 import pstats
-
+ 
 def main():
 
     # Flag to run the profiler

@@ -161,8 +161,6 @@ class InputManager:
 
     # Update function to handle key events
     def update(self):
-        prev_keys_down = self.keys_down.copy()
-        prev_keys_down_time = self.keys_down_time.copy()
 
         # Loop through all pygame events
         for event in pygame.event.get():
@@ -256,6 +254,4 @@ class InputManager:
                         self.key_repeat_timer[action] = time.time()
 
         # If the keys down or keys down time has changed, post a KEYS_DOWN_UPDATE event
-        if prev_keys_down != self.keys_down or prev_keys_down_time != self.keys_down_time:
-            self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down_time)))
-            #print("THESE KEYS AREW SEENT", self.keys_down_time)
+        self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down_time)))

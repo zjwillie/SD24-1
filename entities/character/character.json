@@ -19,7 +19,7 @@
         "x": 280,
         "y": 250
     },
-    "DirectionComponent": {},
+    "DirectionMovingComponent": {},
     "FacingComponent": {
         "direction": "down"
     },

@@ -1,5 +1,9 @@
+# Component factory
+
+
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
+from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.id_component import IDComponent
 from common.components.images_component import ImagesComponent
 from common.components.menubutton_component import MenuButtonComponent
@@ -18,6 +22,7 @@ class ComponentFactory:
         self.component_classes = {
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
+            'DirectionMovingComponent': DirectionMovingComponent,
             'IDComponent': IDComponent,
             'ImagesComponent': ImagesComponent,
             'MenuButtonComponent': MenuButtonComponent,

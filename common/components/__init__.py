@@ -16,3 +16,4 @@ from .type_component import TypeComponent
 from .uuid_component import UUIDComponent
 from .size_component import SizeComponent
 from .animation_component import AnimationComponent
+from .directionmoving_component import DirectionMovingComponent
