@@ -19,7 +19,7 @@ from common.components.render_component import RenderComponent
 from common.components.uuid_component import UUIDComponent
 
 
-from core.utils import get_JSON_data
+from support.utils import get_JSON_data
 
 class EntityManager:
     def __init__(self, logger):

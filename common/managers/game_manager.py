@@ -11,8 +11,8 @@ from common.managers.event_manager import Event
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
-from core.logging_manager import LoggingManager
-from core.utils import get_JSON_data
+from common.managers.logging_manager import LoggingManager
+from support.utils import get_JSON_data
 
 class GameManager:
     def __init__(self):
