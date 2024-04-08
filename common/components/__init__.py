@@ -17,3 +17,5 @@ from .uuid_component import UUIDComponent
 from .size_component import SizeComponent
 from .animation_component import AnimationComponent
 from .directionmoving_component import DirectionMovingComponent
+from .directionfacing_component import DirectionFacingComponent
+from .entitystatus_component import EntityStatusComponent

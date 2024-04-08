@@ -26,6 +26,7 @@ class RenderSystem(System):
             if not render_component:
                 continue
 
+            # Make sure the entity has images to render, and if not skip it
             if len(self.entity_manager.get_component(entity, ImagesComponent).images) == 0:
                 continue
             
@@ -36,6 +37,7 @@ class RenderSystem(System):
 
             position = self.entity_manager.get_component(entity, PositionComponent).position
 
+            #TODO Need to not draw that which is not on the screen
             entities_to_blit.append((image_to_blit, position))
 
         for image, position in entities_to_blit:

@@ -4,6 +4,8 @@
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.directionmoving_component import DirectionMovingComponent
+from common.components.directionfacing_component import DirectionFacingComponent
+from common.components.entitystatus_component import EntityStatusComponent
 from common.components.id_component import IDComponent
 from common.components.images_component import ImagesComponent
 from common.components.menubutton_component import MenuButtonComponent
@@ -23,6 +25,8 @@ class ComponentFactory:
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
+            'DirectionFacingComponent': DirectionFacingComponent,
+            'EntityStatusComponent': EntityStatusComponent,
             'IDComponent': IDComponent,
             'ImagesComponent': ImagesComponent,
             'MenuButtonComponent': MenuButtonComponent,

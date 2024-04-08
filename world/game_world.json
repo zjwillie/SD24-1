@@ -27,7 +27,8 @@
             "space": "return",
             "return": "return",
             "escape": "escape",
-            "tab": "tab"
+            "tab": "tab",
+            "left_shift": "run"
         }
     }
 }

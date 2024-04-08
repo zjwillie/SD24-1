@@ -16,11 +16,11 @@
         "alignment": [0, 0]
     },
     "PositionComponent": {
-        "x": 280,
-        "y": 250
+        "x": 380,
+        "y": 280
     },
     "DirectionMovingComponent": {},
-    "FacingComponent": {
+    "DirectionFacingComponent": {
         "direction": "down"
     },
     "ActionComponent": {
@@ -51,6 +51,7 @@
         "roll_cost": 70,
         "roll_cool_down": 1
     },
+    "EntityStatusComponent": {},
     "FatigueComponent": {
         "max_fatigue": 1000,
         "inactive_degen_rate": 0.5,
