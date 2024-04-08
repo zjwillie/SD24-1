@@ -5,6 +5,7 @@
     ],
     "systems":[
         "AnimationSystem",
+        "MovementSystem",
         "PlayerSystem",
         "RenderSystem",
         "TimeSystem"

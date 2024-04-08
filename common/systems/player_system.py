@@ -30,9 +30,12 @@ class PlayerSystem(System):
         self.event_manager.subscribe(self.event_manager.PLAYER_ANIMATION_FINISHED, self.handle_animation_finished)
 
     def handle_animation_finished(self, event):
+        direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
         self.logger.info(f"Player Animation Finished: {event.data}")
-        if event.data[0] == self.event_manager.PLAYER_ANIMATION_FINISHED and event.data[1] == 'light_attack':
-            self.get_component(self.player_ID, EntityStatusComponent).is_attacking = False
+        self.get_component(self.player_ID, EntityStatusComponent).reset()
+
+        self.get_component(self.player_ID, EntityStatusComponent).is_idle = True
+        self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["idle_" + direction_facing]
 
     #TODO Keep in mind that the player may be any entity, this way can control others if needed
     def set_player_ID(self, player_ID):
@@ -50,17 +53,17 @@ class PlayerSystem(System):
         self.post_event(self.event_manager.CHANGE_STATE, (self.event_manager.MAIN_MENU, True))
 
     def update_action_queue(self, event):
-        #self.logger.info(f"Key Event Received: {event.type, event.data}")
+        self.logger.info(f"Key Event Received: {event.type, event.data}")
         if event.data[0] == self.event_manager.KEY_DOWN:
             self.action_queue.append((event.type, event.data[1]))
             if len(self.action_queue) > self.ACTION_QUEUE_MAX_SIZE:
                 self.action_queue.pop(0)
 
     def update_direction_moving(self, event):
-        if not self.get_component(self.player_ID, EntityStatusComponent).is_attacking:
+        if self.get_component(self.player_ID, EntityStatusComponent).is_attacking == False:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
-            #self.logger.info(f"Keys Down: {event.data}")
+
             if self.event_manager.EVENT_UP in event.data:
                 direction_moving += Vector2(0, -1)
             if self.event_manager.EVENT_DOWN in event.data:
@@ -79,6 +82,7 @@ class PlayerSystem(System):
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = False
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = True
                 self.get_component(self.player_ID, EntityStatusComponent).has_moved = False
+                self.get_component(self.player_ID, EntityStatusComponent).is_running = False
             else:
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = True
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = False
@@ -112,7 +116,6 @@ class PlayerSystem(System):
 
 
     def update_animation(self, delta_time):
-        direction_moving = self.get_component(self.player_ID, DirectionMovingComponent).direction
         direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
 
         if self.get_component(self.player_ID, EntityStatusComponent).is_idle:
@@ -124,22 +127,21 @@ class PlayerSystem(System):
         elif self.get_component(self.player_ID, EntityStatusComponent).is_attacking:
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["light_attack_" + direction_facing]
 
+        self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_running, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
+
+                                    
     def handle_actions(self, delta_time):
-        if len(self.action_queue) > 0:
-            action = self.action_queue.pop(0)
-            if action[0] == self.event_manager.EVENT_LIGHT_ATTACK:
-                self.get_component(self.player_ID, EntityStatusComponent).is_attacking = True
-                self.get_component(self.player_ID, EntityStatusComponent).is_idle = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_moving = False
-                self.get_component(self.player_ID, EntityStatusComponent).has_moved = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_running = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_blocking = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_jumping = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_interacting = False
+            if not self.get_component(self.player_ID, EntityStatusComponent).is_acting:
+                action = self.action_queue.pop(0)
+                if action[0] == self.event_manager.EVENT_LIGHT_ATTACK:
+                    self.logger.info(f"Handle_Action: {self.event_manager.EVENT_LIGHT_ATTACK}")
+                    entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
+                    entity_status_component.reset()
+                    entity_status_component.is_attacking = True
+                    entity_status_component.is_acting = True
 
     def update(self, delta_time):
-        self.handle_actions(delta_time)
+        if len(self.action_queue) > 0:
+            self.handle_actions(delta_time)
+
         self.update_animation(delta_time)
-        #self.logger.info(f"Keys that are down: {self.keys_down}")
-        #self.logger.info(f"Action Queue: {self.action_queue}")
-        #print(self.get_component(self.player_ID, NameComponent).name)

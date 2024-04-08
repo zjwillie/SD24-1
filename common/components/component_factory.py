@@ -1,6 +1,6 @@
 # Component factory
 
-
+from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.directionmoving_component import DirectionMovingComponent
@@ -18,10 +18,12 @@ from common.components.render_component import RenderComponent
 from common.components.size_component import SizeComponent
 from common.components.type_component import TypeComponent
 from common.components.uuid_component import UUIDComponent
+from common.components.velocity_component import VelocityComponent
 
 class ComponentFactory:
     def __init__(self):
         self.component_classes = {
+            'AccelerationComponent': AccelerationComponent,
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
@@ -39,6 +41,7 @@ class ComponentFactory:
             'SizeComponent': SizeComponent,
             'TypeComponent': TypeComponent,
             'UUIDComponent': UUIDComponent,
+            'VelocityComponent': VelocityComponent
         }
 
     def create_component(self, component_name, component_data):

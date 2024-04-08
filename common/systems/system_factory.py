@@ -1,6 +1,7 @@
 from common.systems.animation_system import AnimationSystem
 from common.systems.player_system import PlayerSystem
 from common.systems.menu_system import MenuSystem
+from common.systems.movement_system import MovementSystem
 from common.systems.render_system import RenderSystem
 from common.systems.time_system import TimeSystem
 
@@ -10,6 +11,7 @@ class SystemFactory:
             'AnimationSystem': AnimationSystem,
             'PlayerSystem': PlayerSystem,
             'MenuSystem': MenuSystem,
+            'MovementSystem': MovementSystem,
             'RenderSystem': RenderSystem,
             'TimeSystem': TimeSystem
         }

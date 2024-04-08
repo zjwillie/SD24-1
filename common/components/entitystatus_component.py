@@ -16,4 +16,17 @@ class EntityStatusComponent(Component):
         self.is_interacting = False
 
         self.is_idle = False
+        self.is_acting = False
 
+    def reset(self):
+        self.is_moving = False
+        self.has_moved = False
+        self.is_running = False
+
+        self.is_attacking = False
+        self.is_dodging = False
+
+        self.is_interacting = False
+
+        self.is_idle = False
+        self.is_acting = False

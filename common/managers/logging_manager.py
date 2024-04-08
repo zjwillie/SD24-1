@@ -18,6 +18,7 @@ class LoggingManager:
             'animation_system': logging.getLogger('animation_system'),
             'player_system': logging.getLogger('player_system'),
             'menu_system': logging.getLogger('menu_system'),
+            'movement_system': logging.getLogger('movement_system'),
             'render_system': logging.getLogger('render_system'),
             'current': logging.getLogger('current'),
         }

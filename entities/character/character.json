@@ -78,7 +78,7 @@
         "max_velocity": 100
     },
     "AccelerationComponent": {
-        "acceleration": 1000
+        "max_acceleration": 1000
     },
     "AnimationComponent": {
         "animation_data": {

@@ -27,7 +27,7 @@ class AnimationSystem(System):
 
             current_animation.time_since_last_frame += delta_time
 
-            self.logger.info(f"Current frame: {current_animation.current_frame}, Time since last frame: {current_animation.time_since_last_frame}, Frame duration: {current_animation.frame_duration[current_animation.current_frame]}")
+            #self.logger.info(f"Current frame: {current_animation.current_frame}, Time since last frame: {current_animation.time_since_last_frame}, Frame duration: {current_animation.frame_duration[current_animation.current_frame]}")
 
             if current_animation.time_since_last_frame >= current_animation.frame_duration[current_animation.current_frame]:
                 current_animation.time_since_last_frame -= current_animation.frame_duration[current_animation.current_frame]
@@ -39,10 +39,9 @@ class AnimationSystem(System):
                     else:
                         current_animation.is_finished = True
                         self.reset_animation(entity)
-                        self.post_event(self.event_manager.PLAYER_ANIMATION_FINISHED, (entity, animation_component.current_animation))
+                        self.post_event(self.event_manager.PLAYER_ANIMATION_FINISHED, (entity, current_animation))
                         continue
 
-            self.logger.info(f"Current frame: {current_animation.current_frame}, Time since last frame: {current_animation.time_since_last_frame}, Frame duration: {current_animation.frame_duration[current_animation.current_frame]}")
             current_image = current_animation.sprites[current_animation.current_frame]
             self.entity_manager.get_component(entity, ImagesComponent).images = [current_image]
 

@@ -33,6 +33,7 @@ class AnimationComponent(Component):
         super().__init__()
         self.sprite_sheet_location = animation_data["sprite_sheet_location"]
         self.sprite_sheet = pygame.image.load(self.sprite_sheet_location).convert_alpha()
+        
         self.current_animation = None
 
         self.width = animation_data["frame_width"]

@@ -19,3 +19,5 @@ from .animation_component import AnimationComponent
 from .directionmoving_component import DirectionMovingComponent
 from .directionfacing_component import DirectionFacingComponent
 from .entitystatus_component import EntityStatusComponent
+from .acceleration_component import AccelerationComponent
+from .velocity_component import VelocityComponent
