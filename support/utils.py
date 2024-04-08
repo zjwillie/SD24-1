@@ -6,14 +6,20 @@ import sys
 
 from PIL import Image
 
-def get_JSON_data(JSON = None):
+import json
+import os
+
+def get_JSON_data(JSON=None):
     if JSON:
-        data = None
-        with open(JSON, 'r') as file:
-            data = json.load(file)
-        return data
+        try:
+            with open(JSON, 'r') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            raise Exception(f"Error decoding JSON from file: {JSON}")
+        except Exception as e:
+            raise Exception(f"Unexpected error reading file: {JSON}, error: {e}")
     else:
-        return None
+        raise Exception("No file specified for JSON data retrieval.")
 
 def scale_surface(surface, scale):
     new_size = (int(surface.get_width() * scale), int(surface.get_height() * scale))

@@ -1,7 +1,8 @@
 {
     "entities":[
         "entities/character/character.json",
-        "entities/levels/home/home.json"
+        "entities/levels/home/home.json",
+        "entities/static_objects/rock_01.json"
     ],
     "systems":[
         "AnimationSystem",

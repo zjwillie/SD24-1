@@ -8,7 +8,7 @@ class EntityStatusComponent(Component):
         # Component initialization
         self.is_moving = False
         self.has_moved = False
-        self.is_running = False
+        self.is_dashing = False
 
         self.is_attacking = False
         self.is_dodging = False
@@ -21,7 +21,7 @@ class EntityStatusComponent(Component):
     def reset(self):
         self.is_moving = False
         self.has_moved = False
-        self.is_running = False
+        self.is_dashing = False
 
         self.is_attacking = False
         self.is_dodging = False

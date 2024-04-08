@@ -3,8 +3,12 @@
         "name": "main_menu_background"
     },
     "UUIDComponent": {},
-    "ImagesComponent": {
-        "images_locations": ["images/menus/main_menu.png"]
+    "ImageComponent": {
+        "image_data":
+        {
+            "path": "images/menus/main_menu.png",
+            "locations": [[0, 0, 800, 600]]
+        }
     },
     "RenderComponent": {
         "layer": 1,

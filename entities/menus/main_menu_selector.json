@@ -11,8 +11,12 @@
         "layer": 2,
         "render": false
     },
-    "ImagesComponent": {
-        "images_locations": ["images/menus/menu_bar_yellow_165x45.png"]
+    "ImageComponent": {
+        "image_data":
+        {
+            "path":"images/menus/menu_bar_yellow_165x45.png",
+            "locations": [[0, 0, 165, 45]]
+        }        
     },
     "MenuComponent": {},
     "MenuSelectorComponent": {

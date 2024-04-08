@@ -8,7 +8,7 @@ from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
 from common.components.entitystatus_component import EntityStatusComponent
 from common.components.id_component import IDComponent
-from common.components.images_component import ImagesComponent
+from common.components.image_component import ImageComponent
 from common.components.menubutton_component import MenuButtonComponent
 from common.components.menu_component import MenuComponent
 from common.components.menuselector_component import MenuSelectorComponent
@@ -32,7 +32,7 @@ class ComponentFactory:
             'DirectionFacingComponent': DirectionFacingComponent,
             'EntityStatusComponent': EntityStatusComponent,
             'IDComponent': IDComponent,
-            'ImagesComponent': ImagesComponent,
+            'ImageComponent': ImageComponent,
             'MenuButtonComponent': MenuButtonComponent,
             'MenuComponent': MenuComponent,
             'MenuSelectorComponent': MenuSelectorComponent,

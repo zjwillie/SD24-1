@@ -6,6 +6,8 @@ from common.managers.event_manager import Event
 
 from common.components.acceleration_component import AccelerationComponent
 from common.components.directionmoving_component import DirectionMovingComponent
+from common.components.dashing_component import DashingComponent
+from common.components.entitystatus_component import EntityStatusComponent
 from common.components.position_component import PositionComponent
 from common.components.velocity_component import VelocityComponent
 
@@ -13,8 +15,8 @@ class MovementSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
-        self.DECCELERATION_ON_DIRECTION_CHANGE = 1200
-        self.DECCELERATION_ON_IDLE = 800
+        self.DECCELERATION_ON_DIRECTION_CHANGE = 2000
+        self.DECCELERATION_ON_IDLE = 1000
 
         self.logger = logger.loggers['movement_system']
 
@@ -35,6 +37,11 @@ class MovementSystem(System):
         current_acceleration = acceleration_component.current_acceleration
 
         new_velocity = current_velocity + current_acceleration * delta_time
+        max_velocity = velocity_component.max_velocity
+        if self.has_component(entity, DashingComponent):
+            is_dashing = self.get_component(entity, EntityStatusComponent).is_dashing
+            if is_dashing:
+                max_velocity *= self.get_component(entity, DashingComponent).multiplier
 
         # Apply deceleration for x-axis
         if current_acceleration.x == 0:
@@ -49,10 +56,22 @@ class MovementSystem(System):
                 new_velocity.y = max(new_velocity.y - self.DECCELERATION_ON_IDLE * delta_time, 0)
             elif new_velocity.y < 0:
                 new_velocity.y = min(new_velocity.y + self.DECCELERATION_ON_IDLE * delta_time, 0)
+        
+        # Deceleration when changing direction
+        if (new_velocity.x > 0 and current_velocity.x < 0) or (new_velocity.x < 0 and current_velocity.x > 0):
+            if current_velocity.x > 0:
+                new_velocity.x -=  self.DECCELERATION_ON_DIRECTION_CHANGE * delta_time
+            elif current_velocity.x < 0:
+                new_velocity.x +=  self.DECCELERATION_ON_DIRECTION_CHANGE * delta_time
+        if (new_velocity.y > 0 and current_velocity.y < 0) or (new_velocity.y < 0 and current_velocity.y > 0):
+            if current_velocity.y > 0:
+                new_velocity.y -=  self.DECCELERATION_ON_DIRECTION_CHANGE * delta_time
+            elif current_velocity.y < 0:
+                new_velocity.y +=  self.DECCELERATION_ON_DIRECTION_CHANGE * delta_time
 
         # Clamp new_velocity within max and min bounds
-        new_velocity.x = max(min(new_velocity.x, velocity_component.max_velocity), -velocity_component.max_velocity)
-        new_velocity.y = max(min(new_velocity.y, velocity_component.max_velocity), -velocity_component.max_velocity)
+        new_velocity.x = max(min(new_velocity.x, max_velocity), -max_velocity)
+        new_velocity.y = max(min(new_velocity.y, max_velocity), -max_velocity)
 
         velocity_component.current_velocity = new_velocity
 

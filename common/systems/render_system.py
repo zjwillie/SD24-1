@@ -2,7 +2,7 @@ import pygame
 
 from .base_system import System
 
-from common.components import ImagesComponent
+from common.components import ImageComponent
 from common.components import PositionComponent
 from common.components import RenderComponent
 
@@ -27,13 +27,11 @@ class RenderSystem(System):
                 continue
 
             # Make sure the entity has images to render, and if not skip it
-            if len(self.entity_manager.get_component(entity, ImagesComponent).images) == 0:
+            if self.entity_manager.get_component(entity, ImageComponent).current_image is None:
                 continue
             
-            image_component = self.entity_manager.get_component(entity, ImagesComponent)
-            images = image_component.images
-            current_image = image_component.current_image
-            image_to_blit = images[current_image]
+            current_image = self.entity_manager.get_component(entity, ImageComponent).current_image
+            image_to_blit = current_image
 
             position = self.entity_manager.get_component(entity, PositionComponent).position
 

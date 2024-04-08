@@ -4,7 +4,7 @@ from .component_factory import ComponentFactory
 
 from .cameraanchor_component import CameraAnchorComponent
 from .id_component import IDComponent
-from .images_component import ImagesComponent
+from .image_component import ImageComponent
 from .menubutton_component import MenuButtonComponent
 from .menu_component import MenuComponent
 from .menuselector_component import MenuSelectorComponent

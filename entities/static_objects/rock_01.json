@@ -1,0 +1,20 @@
+{
+    "IDComponent": {
+        "id":"rock_01"
+    },
+    "UUIDComponent": {},
+    "StaticObjectComponent": {},
+    "PositionComponent": {
+        "x": 200,
+        "y": 200
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "images/static_objects/block_01.png",
+            "locations": [[0, 0, 32, 32]]
+        }
+    }
+}

@@ -5,7 +5,7 @@ from .base_system import System
 from common.managers.event_manager import Event
 
 from common.components import AnimationComponent
-from common.components import ImagesComponent
+from common.components import ImageComponent
 from common.components import PlayerComponent
 
 class AnimationSystem(System):
@@ -43,7 +43,7 @@ class AnimationSystem(System):
                         continue
 
             current_image = current_animation.sprites[current_animation.current_frame]
-            self.entity_manager.get_component(entity, ImagesComponent).images = [current_image]
+            self.entity_manager.get_component(entity, ImageComponent).current_image = current_image
 
     def reset_animation(self, entity):
         animation_component = self.entity_manager.get_component(entity, AnimationComponent)

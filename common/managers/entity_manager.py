@@ -11,7 +11,7 @@ from common.components.component_factory import ComponentFactory
 
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
-from common.components.images_component import ImagesComponent
+from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
 from common.components.menu_component import MenuComponent
 from common.components.position_component import PositionComponent
@@ -49,7 +49,7 @@ class EntityManager:
 
         self.subscribe_to_component(AccelerationComponent, self.acceleration_component_callback)
         self.subscribe_to_component(AnimationComponent, self.animation_component_callback)
-        self.subscribe_to_component(ImagesComponent, self.images_component_callback)
+        self.subscribe_to_component(ImageComponent, self.image_component_callback)
         self.subscribe_to_component(MenuComponent, self.menu_component_callback)
         self.subscribe_to_component(PlayerComponent, self.player_component_callback)
         self.subscribe_to_component(PositionComponent, self.position_component_callback)
@@ -88,7 +88,7 @@ class EntityManager:
             self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with animation.")
             self.entities_with_animation.remove(entity_id)
 
-    def images_component_callback(self, entity_id: int, component: Component, action: str):
+    def image_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":
             self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with images.")
             self.entities_with_image.add(entity_id)

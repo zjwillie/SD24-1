@@ -50,7 +50,7 @@ class PlayerSystem(System):
 
     def open_main_menu(self, event):
         self.logger.info("Opening Main Menu")
-        self.post_event(self.event_manager.CHANGE_STATE, (self.event_manager.MAIN_MENU, True))
+        self.post_event(Event(self.event_manager.CHANGE_STATE, (self.event_manager.MAIN_MENU, True)))
 
     def update_action_queue(self, event):
         self.logger.info(f"Key Event Received: {event.type, event.data}")
@@ -74,15 +74,15 @@ class PlayerSystem(System):
                 direction_moving += Vector2(1, 0)
             
             if self.event_manager.EVENT_RUN in event.data:
-                self.get_component(self.player_ID, EntityStatusComponent).is_running = True
+                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = True
             else:
-                self.get_component(self.player_ID, EntityStatusComponent).is_running = False
+                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = False
             
             if direction_moving == Vector2(0,0):
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = False
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = True
                 self.get_component(self.player_ID, EntityStatusComponent).has_moved = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_running = False
+                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = False
             else:
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = True
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = False
@@ -120,14 +120,14 @@ class PlayerSystem(System):
 
         if self.get_component(self.player_ID, EntityStatusComponent).is_idle:
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["idle_" + direction_facing]
-        elif self.get_component(self.player_ID, EntityStatusComponent).is_moving and not self.get_component(self.player_ID, EntityStatusComponent).is_running:
+        elif self.get_component(self.player_ID, EntityStatusComponent).is_moving and not self.get_component(self.player_ID, EntityStatusComponent).is_dashing:
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["walk_" + direction_facing]
-        elif self.get_component(self.player_ID, EntityStatusComponent).is_running:
-            self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["run_" + direction_facing]
+        elif self.get_component(self.player_ID, EntityStatusComponent).is_dashing:
+            self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["dash_" + direction_facing]
         elif self.get_component(self.player_ID, EntityStatusComponent).is_attacking:
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["light_attack_" + direction_facing]
 
-        self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_running, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
+        self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_dashing, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
 
                                     
     def handle_actions(self, delta_time):
