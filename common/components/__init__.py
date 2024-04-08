@@ -21,3 +21,4 @@ from .directionfacing_component import DirectionFacingComponent
 from .entitystatus_component import EntityStatusComponent
 from .acceleration_component import AccelerationComponent
 from .velocity_component import VelocityComponent
+from .dashing_component import DashingComponent

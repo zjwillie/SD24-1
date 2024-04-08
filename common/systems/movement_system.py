@@ -13,6 +13,9 @@ class MovementSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
+        self.DECCELERATION_ON_DIRECTION_CHANGE = 1200
+        self.DECCELERATION_ON_IDLE = 800
+
         self.logger = logger.loggers['movement_system']
 
     def post_event(self, event_type, data):
@@ -24,15 +27,38 @@ class MovementSystem(System):
     def get_component(self, entity, component):
         return self.entity_manager.get_component(entity, component)
     
-    def apply_direction_to_acceleration(self, entity, direction_moving_component, acceleration_component):
-        self.get_component(entity, AccelerationComponent).current_acceleration = acceleration_component.max_acceleration * direction_moving_component
+    def update_acceleration(self, entity, direction_moving_component, acceleration_component):
+        acceleration_component.current_acceleration = acceleration_component.max_acceleration * direction_moving_component
 
-    def apply_acceleration_to_velocity(self, entity, acceleration_component, velocity_component, delta_time):
-        new_velocity = velocity_component.current_velocity + acceleration_component.current_acceleration * delta_time
-        if new_velocity.magnitude() > velocity_component.max_velocity:
-            new_velocity = new_velocity.normalize() * velocity_component.max_velocity
-        self.get_component(entity, VelocityComponent).current_velocity = new_velocity
+    def update_velocity(self, entity, acceleration_component, velocity_component, delta_time):
+        current_velocity = velocity_component.current_velocity
+        current_acceleration = acceleration_component.current_acceleration
 
+        new_velocity = current_velocity + current_acceleration * delta_time
+
+        # Apply deceleration for x-axis
+        if current_acceleration.x == 0:
+            if new_velocity.x > 0:
+                new_velocity.x = max(new_velocity.x - self.DECCELERATION_ON_IDLE * delta_time, 0)
+            elif new_velocity.x < 0:
+                new_velocity.x = min(new_velocity.x + self.DECCELERATION_ON_IDLE * delta_time, 0)
+
+        # Apply deceleration for y-axis
+        if current_acceleration.y == 0:
+            if new_velocity.y > 0:
+                new_velocity.y = max(new_velocity.y - self.DECCELERATION_ON_IDLE * delta_time, 0)
+            elif new_velocity.y < 0:
+                new_velocity.y = min(new_velocity.y + self.DECCELERATION_ON_IDLE * delta_time, 0)
+
+        # Clamp new_velocity within max and min bounds
+        new_velocity.x = max(min(new_velocity.x, velocity_component.max_velocity), -velocity_component.max_velocity)
+        new_velocity.y = max(min(new_velocity.y, velocity_component.max_velocity), -velocity_component.max_velocity)
+
+        velocity_component.current_velocity = new_velocity
+
+    def update_position(self, entity, velocity_component, position_component, delta_time):
+        position_component.position.x += velocity_component.current_velocity.x * delta_time
+        position_component.position.y += velocity_component.current_velocity.y * delta_time
 
     def update(self, delta_time):
         for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
@@ -41,8 +67,9 @@ class MovementSystem(System):
             position_component = self.get_component(entity, PositionComponent)
             direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
             
-            self.apply_direction_to_acceleration(entity, direction_moving_component, acceleration_component)
+            self.update_acceleration(entity, direction_moving_component, acceleration_component)
 
-            self.apply_acceleration_to_velocity(entity, acceleration_component, velocity_component, delta_time)
+            self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
             self.logger.info(f"Direction: {direction_moving_component}, Acceleration: {acceleration_component.current_acceleration}, Velocity: {velocity_component.current_velocity}, Position: {position_component.position}")
             
+            self.update_position(entity, velocity_component, position_component, delta_time)

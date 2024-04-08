@@ -3,6 +3,7 @@
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
+from common.components.dashing_component import DashingComponent
 from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
 from common.components.entitystatus_component import EntityStatusComponent
@@ -26,6 +27,7 @@ class ComponentFactory:
             'AccelerationComponent': AccelerationComponent,
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
+            'DashingComponent': DashingComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
             'DirectionFacingComponent': DirectionFacingComponent,
             'EntityStatusComponent': EntityStatusComponent,
@@ -55,3 +57,4 @@ class ComponentFactory:
         else:
             print(f"Error: Component class for {component_name} not found in component_classes.")
             return None
+

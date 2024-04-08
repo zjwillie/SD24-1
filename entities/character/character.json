@@ -41,7 +41,9 @@
         "width": 11,
         "height": 18
     },
-    "DashingComponent": {},
+    "DashingComponent": {
+        "dashing_multiplier": 2
+    },
     "StaminaComponent": {
         "max_stamina": 500,
         "recovery_threshold": 50,
