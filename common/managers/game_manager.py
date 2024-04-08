@@ -31,8 +31,8 @@ class GameManager:
             'system': 'OFF',
             'player_system': 'OFF',
             'menu_system': 'OFF',
-            'movement_system': 'OFF',
-            'render_system': 'ON',
+            'movement_system': 'ON',
+            'render_system': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
         #self.logger.set_output_to_console('game_manager')
