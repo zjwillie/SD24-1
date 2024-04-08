@@ -2,6 +2,7 @@ import pygame
 
 from .base_system import System
 
+from common.components import CollisionComponent
 from common.components import ImageComponent
 from common.components import PositionComponent
 from common.components import RenderComponent
@@ -41,5 +42,12 @@ class RenderSystem(System):
         for image, position in entities_to_blit:
             self.screen.blit(image, position)
 
-        pygame.display.flip()
+        for entity in self.entity_manager.entities_with_collision:
+            collision_component = self.entity_manager.get_component(entity, CollisionComponent).polygons
+            position_component = self.entity_manager.get_component(entity, PositionComponent).position
+            for polygon in collision_component:
+                offset_polygon = [(point[0] + position_component[0], point[1] + position_component[1]) for point in polygon]
+                pygame.draw.polygon(self.screen, (255, 0, 0), offset_polygon, 1)
+            
         
+        pygame.display.flip()

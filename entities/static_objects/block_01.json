@@ -2,6 +2,16 @@
     "IDComponent": {
         "id":"block_01"
     },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {"x": 16, "y": 37},
+                {"x": 33, "y": 28},
+                {"x": 48, "y": 38},
+                {"x": 31, "y": 47}
+            ]
+        ]
+    },
     "UUIDComponent": {},
     "StaticObjectComponent": {},
     "PositionComponent": {

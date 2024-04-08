@@ -14,6 +14,7 @@ from common.components.menu_component import MenuComponent
 from common.components.menuselector_component import MenuSelectorComponent
 from common.components.name_component import NameComponent
 from common.components.player_component import PlayerComponent
+from common.components.collision_component import CollisionComponent
 from common.components.position_component import PositionComponent
 from common.components.render_component import RenderComponent
 from common.components.size_component import SizeComponent
@@ -27,6 +28,7 @@ class ComponentFactory:
             'AccelerationComponent': AccelerationComponent,
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
+            'CollisionComponent': CollisionComponent,
             'DashingComponent': DashingComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
             'DirectionFacingComponent': DirectionFacingComponent,
@@ -57,4 +59,3 @@ class ComponentFactory:
         else:
             print(f"Error: Component class for {component_name} not found in component_classes.")
             return None
-

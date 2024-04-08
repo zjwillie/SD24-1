@@ -11,6 +11,7 @@ from common.components.component_factory import ComponentFactory
 
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
+from common.components.collision_component import CollisionComponent
 from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
 from common.components.menu_component import MenuComponent
@@ -38,6 +39,7 @@ class EntityManager:
         self.entities_with_animation = set()
         self.entities_with_image = set()
         self.entities_with_position = set()
+        self.entities_with_collision = set()
         self.entities_with_velocity = set()
         self.entities_with_acceleration = set()
 
@@ -49,12 +51,21 @@ class EntityManager:
 
         self.subscribe_to_component(AccelerationComponent, self.acceleration_component_callback)
         self.subscribe_to_component(AnimationComponent, self.animation_component_callback)
+        self.subscribe_to_component(CollisionComponent, self.collision_component_callback)
         self.subscribe_to_component(ImageComponent, self.image_component_callback)
         self.subscribe_to_component(MenuComponent, self.menu_component_callback)
         self.subscribe_to_component(PlayerComponent, self.player_component_callback)
         self.subscribe_to_component(PositionComponent, self.position_component_callback)
         self.subscribe_to_component(RenderComponent, self.render_component_callback)
         self.subscribe_to_component(VelocityComponent, self.velocity_component_callback)
+
+    def collision_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with collision.")
+            self.entities_with_collision.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with collision.")
+            self.entities_with_collision.remove(entity_id)
 
     def velocity_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":

@@ -5,6 +5,7 @@ from .base_system import System
 from common.managers.event_manager import Event
 
 from common.components.acceleration_component import AccelerationComponent
+from common.components.collision_component import CollisionComponent
 from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.dashing_component import DashingComponent
 from common.components.entitystatus_component import EntityStatusComponent
@@ -89,6 +90,8 @@ class MovementSystem(System):
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
 
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
-            self.logger.info(f"Direction: {direction_moving_component}, Acceleration: {acceleration_component.current_acceleration}, Velocity: {velocity_component.current_velocity}, Position: {position_component.position}")
+            #self.logger.info(f"Direction: {direction_moving_component}, Acceleration: {acceleration_component.current_acceleration}, Velocity: {velocity_component.current_velocity}, Position: {position_component.position}")
             
+            #self.check_collision(entity, position_component)
+
             self.update_position(entity, velocity_component, position_component, delta_time)
