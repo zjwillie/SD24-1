@@ -1,5 +1,7 @@
 # Movement system
 
+from pygame.math import Vector2
+
 from .base_system import System
 
 from common.managers.event_manager import Event
@@ -107,6 +109,26 @@ class MovementSystem(System):
 
         if len(collisions) > 0:
             self.post_event("collision", {"entity": entity, "collisions": collisions})
+            for other_entity in collisions:
+                self.handle_collision(entity, other_entity)
+
+    def handle_collision(self, entity, other_entity):
+        # Set velocity of entity to 0
+        velocity_component = self.get_component(entity, VelocityComponent)
+        velocity_component.current_velocity = Vector2(0, 0)
+
+        # Get the positions of the two entities
+        position_component = self.get_component(entity, PositionComponent)
+        other_position_component = self.get_component(other_entity, PositionComponent)
+
+        # Calculate the direction from the other entity to the current entity
+        direction = position_component.position - other_position_component.position
+
+        # Normalize the direction
+        direction.normalize_ip()
+
+        # Move the current entity out of collision
+        position_component.position += direction
 
 
     def subtract_vectors(self, v1, v2):
