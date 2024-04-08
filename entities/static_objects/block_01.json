@@ -1,6 +1,6 @@
 {
     "IDComponent": {
-        "id":"rock_01"
+        "id":"block_01"
     },
     "UUIDComponent": {},
     "StaticObjectComponent": {},
@@ -14,7 +14,7 @@
     "ImageComponent": {
         "image_data": {
             "path": "images/static_objects/block_01.png",
-            "locations": [[0, 0, 32, 32]]
+            "locations": [[0, 0, 64, 64]]
         }
     }
 }

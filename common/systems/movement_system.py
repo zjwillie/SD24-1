@@ -15,7 +15,7 @@ class MovementSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
-        self.DECCELERATION_ON_DIRECTION_CHANGE = 2000
+        self.DECCELERATION_ON_DIRECTION_CHANGE = 4000
         self.DECCELERATION_ON_IDLE = 1000
 
         self.logger = logger.loggers['movement_system']

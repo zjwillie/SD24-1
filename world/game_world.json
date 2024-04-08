@@ -2,7 +2,7 @@
     "entities":[
         "entities/character/character.json",
         "entities/levels/home/home.json",
-        "entities/static_objects/rock_01.json"
+        "entities/static_objects/block_01.json"
     ],
     "systems":[
         "AnimationSystem",
