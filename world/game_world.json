@@ -24,11 +24,14 @@
             "a": "left",
             "right": "right",
             "d": "right",
-            "space": "return",
+            "space": "dodge",
             "return": "return",
             "escape": "escape",
             "tab": "tab",
-            "left_shift": "run"
+            "left_shift": "run",
+            "e": "interact",
+            "r": "heavy_attack",
+            "f": "light_attack"
         }
     }
 }

@@ -22,7 +22,7 @@ class GameManager:
 
         self.logger = LoggingManager()
         log_levels = {
-            'animation_system': "OFF",
+            'animation_system': "ON",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
             'input_manager': 'OFF',

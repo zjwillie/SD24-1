@@ -18,11 +18,19 @@ class EventManager:
     EVENT_ESCAPE = "escape"
     EVENT_TAB = "tab"
     EVENT_RUN = "run"
+    EVENT_LIGHT_ATTACK = "light_attack"
+    EVENT_HEAVY_ATTACK = "heavy_attack"
+    EVENT_BLOCK = "block"
+    EVENT_JUMP = "jump"
+    EVENT_INTERACT = "interact"
+    EVENT_SPACE = "space"
 
     KEY_DOWN = "key_down"
     KEY_UP = "key_up"
 
     KEYS_DOWN_UPDATE = "keys_down_update"
+
+    PLAYER_ANIMATION_FINISHED = "player_animation_finished"
 
     KEYBOARD_EVENT = "keyboard_event"
     MOUSE_EVENT = "mouse_event"
