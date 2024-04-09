@@ -82,6 +82,8 @@ class MovementSystem(System):
         position_component.position.x += velocity_component.current_velocity.x * delta_time
         position_component.position.y += velocity_component.current_velocity.y * delta_time
 
+#?############################################################################## UPDATE FUNCTION ##############################################################################
+
     def update(self, delta_time):
         for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
             acceleration_component = self.get_component(entity, AccelerationComponent)
@@ -94,16 +96,21 @@ class MovementSystem(System):
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
             #self.logger.info(f"Direction: {direction_moving_component}, Acceleration: {acceleration_component.current_acceleration}, Velocity: {velocity_component.current_velocity}, Position: {position_component.position}")
             
-            self.check_collision(entity, position_component)
+            new_position = position_component.position + velocity_component.current_velocity * delta_time
 
-            self.update_position(entity, velocity_component, position_component, delta_time)
+            collision = self.check_collision(entity, new_position)
 
-    def check_collision(self, entity, position_component):
+            if not collision:
+                self.update_position(entity, velocity_component, position_component, delta_time)
+
+#?############################################################################## UPDATE FUNCTION ##############################################################################
+
+    def check_collision(self, entity, new_position):
         collisions = []
         for other_entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_collision:
             if entity == other_entity:
                 continue
-            if self.is_colliding(entity, other_entity):
+            if self.is_colliding(entity, other_entity, new_position):
                 collisions.append(other_entity)
                 self.logger.info(f"Collision detected between {entity} and {other_entity}")  # Debugging log
 
@@ -111,25 +118,13 @@ class MovementSystem(System):
             self.post_event("collision", {"entity": entity, "collisions": collisions})
             for other_entity in collisions:
                 self.handle_collision(entity, other_entity)
+            return True
+        return False
+
+#?############################################################################## UPDATE FUNCTION ##############################################################################
 
     def handle_collision(self, entity, other_entity):
-        # Set velocity of entity to 0
-        velocity_component = self.get_component(entity, VelocityComponent)
-        velocity_component.current_velocity = Vector2(0, 0)
-
-        # Get the positions of the two entities
-        position_component = self.get_component(entity, PositionComponent)
-        other_position_component = self.get_component(other_entity, PositionComponent)
-
-        # Calculate the direction from the other entity to the current entity
-        direction = position_component.position - other_position_component.position
-
-        # Normalize the direction
-        direction.normalize_ip()
-
-        # Move the current entity out of collision
-        position_component.position += direction
-
+        pass
 
     def subtract_vectors(self, v1, v2):
         """Subtract vector v2 from v1, where vectors are tuples."""
@@ -179,8 +174,8 @@ class MovementSystem(System):
         """Translate a polygon by the given position."""
         return [(point[0] + position.x, point[1] + position.y) for point in polygon]
 
-    def is_colliding(self, entity, other_entity):
-        entity_position = self.get_component(entity, PositionComponent).position
+    def is_colliding(self, entity, other_entity, new_position):
+        entity_position = new_position
         other_entity_position = self.get_component(other_entity, PositionComponent).position
 
         entity_polygons = self.get_component(entity, CollisionComponent).polygons
