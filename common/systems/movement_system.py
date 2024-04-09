@@ -100,16 +100,28 @@ class MovementSystem(System):
 
             collision = self.check_collision(entity, new_position)
 
+            # When collsion is detected, the handle_collision function will be called, if not, okay to move
             if not collision:
                 self.update_position(entity, velocity_component, position_component, delta_time)
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
 
+    def handle_collision(self, entity, other_entity):
+        self.logger.info(f"Handling collision between {entity} and {other_entity}")  # Debugging log
+
+#!++++++++++++++++++++++++++++++++
+
     def check_collision(self, entity, new_position):
+        # Create a list to store all the entities that the entity is colliding with
         collisions = []
+
+        # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
         for other_entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_collision:
+            # Skip the entity itself
             if entity == other_entity:
                 continue
+
+            # Check if the entity is colliding with the other entity
             if self.is_colliding(entity, other_entity, new_position):
                 collisions.append(other_entity)
                 self.logger.info(f"Collision detected between {entity} and {other_entity}")  # Debugging log
@@ -118,13 +130,8 @@ class MovementSystem(System):
             self.post_event("collision", {"entity": entity, "collisions": collisions})
             for other_entity in collisions:
                 self.handle_collision(entity, other_entity)
-            return True
-        return False
 
-#?############################################################################## UPDATE FUNCTION ##############################################################################
-
-    def handle_collision(self, entity, other_entity):
-        pass
+        return collisions
 
     def subtract_vectors(self, v1, v2):
         """Subtract vector v2 from v1, where vectors are tuples."""
