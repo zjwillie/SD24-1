@@ -39,6 +39,10 @@
         "width": 64,
         "height": 64
     },
+    "FocusPointComponent": {
+        "x": 31,
+        "y": 44
+    },
     "HitBoxComponent": {
         "x": 26,
         "y": 25,

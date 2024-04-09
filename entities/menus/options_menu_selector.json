@@ -17,6 +17,10 @@
             "locations": [[0, 0, 188, 45]]
         }
     },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
     "MenuComponent": {},
     "MenuSelectorComponent": {
         "options": [

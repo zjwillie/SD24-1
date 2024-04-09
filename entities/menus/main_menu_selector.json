@@ -7,6 +7,10 @@
         "x": 0,
         "y": 0
     },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
     "RenderComponent": {
         "layer": 2,
         "render": false

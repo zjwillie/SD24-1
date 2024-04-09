@@ -1,8 +1,10 @@
 import pygame
+from pygame.math import Vector2
 
 from .base_system import System
 
 from common.components import CollisionComponent
+from common.components import FocusPointComponent
 from common.components import ImageComponent
 from common.components import PositionComponent
 from common.components import RenderComponent
@@ -20,8 +22,21 @@ class RenderSystem(System):
 
         # Render all entities with images
         entities_to_blit = []
-        for entity in sorted(self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image), 
-                             key=lambda entity: self.entity_manager.get_component(entity, RenderComponent).layer):
+
+        
+        entities_to_render = self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image)
+
+        def sorting_key(entity):
+            render_layer = self.entity_manager.get_component(entity, RenderComponent).layer
+            position = self.entity_manager.get_component(entity, PositionComponent).position
+
+            *** SORTING NOT WORKING ***
+
+            return (render_layer, position.y)
+
+        sorted_entities = sorted(entities_to_render, key=sorting_key)
+
+        for entity in sorted_entities:
 
             render_component = self.entity_manager.get_component(entity, RenderComponent).render
             if not render_component:
@@ -35,6 +50,7 @@ class RenderSystem(System):
             image_to_blit = current_image
 
             position = self.entity_manager.get_component(entity, PositionComponent).position
+
 
             #TODO Need to not draw that which is not on the screen
             entities_to_blit.append((image_to_blit, position))

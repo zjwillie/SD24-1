@@ -10,6 +10,10 @@
             "locations": [[0, 0, 800, 600]]
         }
     },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
     "RenderComponent": {
         "layer": 1,
         "render": false

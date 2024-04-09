@@ -13,6 +13,10 @@
     "RenderComponent": {
         "layer": 1
     },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
     "ImageComponent": {
         "image_data":
         {

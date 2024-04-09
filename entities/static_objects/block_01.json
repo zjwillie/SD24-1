@@ -26,5 +26,9 @@
             "path": "images/static_objects/block_01.png",
             "locations": [[0, 0, 64, 64]]
         }
+    },
+    "FocusPointComponent": {
+        "x": 31,
+        "y": 32
     }
 }
