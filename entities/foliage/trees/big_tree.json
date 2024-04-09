@@ -1,0 +1,37 @@
+{
+    "IDComponent": {
+        "id": "big tree"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 200,
+        "y": 400
+    },
+    "FocusPointComponent": {
+        "x": 64,
+        "y": 122
+    },
+    "CollisionComponent": {
+        "polygons":[
+            [
+                {"x": 46, "y": 23},
+                {"x": 80, "y": 23},
+                {"x": 85, "y": 127},
+                {"x": 39, "y": 127}
+            ]
+        ]
+    },
+    "SizeComponent": {
+        "width": 128,
+        "height": 128
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "images/foliage/trees/big_tree.png",
+            "locations": [[0, 0, 128, 128]]
+        }
+    }
+}

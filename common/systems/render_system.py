@@ -29,10 +29,11 @@ class RenderSystem(System):
         def sorting_key(entity):
             render_layer = self.entity_manager.get_component(entity, RenderComponent).layer
             position = self.entity_manager.get_component(entity, PositionComponent).position
+            focus_point = self.entity_manager.get_component(entity, FocusPointComponent).focus_point
 
-            *** SORTING NOT WORKING ***
+            y_compoent = position.y + focus_point.y
 
-            return (render_layer, position.y)
+            return (render_layer, y_compoent)
 
         sorted_entities = sorted(entities_to_render, key=sorting_key)
 

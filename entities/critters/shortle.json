@@ -1,0 +1,136 @@
+{
+    "IDComponent": {
+        "id": "shortle"
+    },
+    "UUIDComponent": {},
+    "TypeComponent": {
+        "type": "creature"
+    },
+    "CreatureComponent": {
+        "type": "bird"
+    },
+    "NameComponent": {
+        "name": "Shortle"
+    },
+    "DescriptionComponent": {
+        "description": "A mysterious creature with various behaviors."
+    },
+    "TagsComponent": {
+        "tags": ["shortle", "bird", "creature", "mysterious"]
+    },
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "HitBoxComponent": {
+        "x": 9,
+        "y": 21,
+        "width": 14,
+        "height": 11
+    },
+    "DirectionComponent": {},
+    "FacingComponent": {
+        "direction": "right"
+    },
+    "CollisionBoxComponent": {
+        "x": 11,
+        "y": 29,
+        "width": 9,
+        "height": 3
+    },
+    "VelocityComponent": {
+        "max_velocity": 30
+    },
+    "AccelerationComponent": {
+        "acceleration": 10
+    },
+    "SizeComponent": {
+        "width": 32,
+        "height": 32
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "SpriteComponent": {},
+    "AnimationComponent":{
+        "animations": {
+            "sprite_sheets": {
+                "default": "images/sprites/shortle/shortle_spring.png",
+                "spring": "images/sprites/shortle/shortle_spring.png",
+                "summer": "images/sprites/shortle/shortle_spring.png",
+                "fall": "images/sprites/shortle/shortle_spring.png",
+                "winter": "images/sprites/shortle/shortle_winter.png"
+            },
+            "frame_width": 32,
+            "frame_height": 32,
+            "animations": {
+                "idle": {
+                    "row": 0,
+                    "num_frames": 1,
+                    "frame_duration": [0.01],
+                    "loop": false
+                },
+                "blink": {
+                    "row": 0,
+                    "num_frames": 2,
+                    "frame_duration": [0.25, 0.25],
+                    "loop": false
+                },
+                "hop": {
+                    "row": 1,
+                    "num_frames": 7,
+                    "frame_duration": [0.1, 0.1, 0.08, 0.08, 0.08, 0.1, 0.215],
+                    "loop": true
+                },
+                "eat": {
+                    "row": 2,
+                    "num_frames": 5,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1],
+                    "loop": false
+                },
+                "take_off": {
+                    "row": 3,
+                    "num_frames": 7,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+                    "loop": false
+                },
+                "fly": {
+                    "row": 4,
+                    "num_frames": 4,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1],
+                    "loop": true
+                },
+                "land": {
+                    "row": 5,
+                    "num_frames": 4,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1],
+                    "loop": false
+                },
+                "die": {
+                    "row": 6,
+                    "num_frames": 9,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+                    "loop": false
+                },
+                "sleep": {
+                    "row": 7,
+                    "num_frames": 6,
+                    "frame_duration": [0.15, 0.15, 0.15, 0.15, 0.15, 0.15],
+                    "loop": false
+                },
+                "wake": {
+                    "row": 8,
+                    "num_frames": 5,
+                    "frame_duration": [0.15, 0.15, 0.15, 0.15, 0.15],
+                    "loop": false
+                },
+                "sing": {
+                    "row": 9,
+                    "num_frames": 12,
+                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+                    "loop": false
+                }
+            }
+        }
+    }
+}

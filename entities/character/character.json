@@ -29,9 +29,9 @@
         "polygons": [
             [
                 {"x": 26, "y": 40},
-                {"x": 37, "y": 40},
+                {"x": 26, "y": 46},
                 {"x": 37, "y": 46},
-                {"x": 26, "y": 46}
+                {"x": 37, "y": 40}
             ]
         ]
     },
@@ -80,7 +80,7 @@
     },
     "ImageComponent": {},
     "RenderComponent": {
-        "layer": 3
+        "layer": 1
     },
     "VelocityComponent": {
         "max_velocity": 150
