@@ -3,8 +3,15 @@
         "name": "options_menu_background_no_sound"
     },
     "UUIDComponent": {},
-    "ImagesComponent": {
-        "images_locations": ["images/menus/options_menu_sound_off.png"]
+    "ImageComponent": {
+        "image_data": {
+            "path": "images/menus/options_menu_sound_off.png",
+            "locations": [[0, 0, 800, 600]]
+        }
+    },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
     },
     "RenderComponent": {
         "layer": 1,

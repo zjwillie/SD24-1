@@ -9,16 +9,20 @@ if __name__ == "__main__":
 from common.components.base_component import Component
 from common.components.component_factory import ComponentFactory
 
-from common.components.images_component import ImagesComponent
+from common.components.acceleration_component import AccelerationComponent
+from common.components.animation_component import AnimationComponent
+from common.components.collision_component import CollisionComponent
+from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
 from common.components.menu_component import MenuComponent
 from common.components.position_component import PositionComponent
 from common.components.player_component import PlayerComponent
 from common.components.render_component import RenderComponent
 from common.components.uuid_component import UUIDComponent
+from common.components.velocity_component import VelocityComponent
 
 
-from core.utils import get_JSON_data
+from support.utils import get_JSON_data
 
 class EntityManager:
     def __init__(self, logger):
@@ -32,7 +36,12 @@ class EntityManager:
         self.entities = {}
         
         self.entities_to_render = set()
+        self.entities_with_animation = set()
         self.entities_with_image = set()
+        self.entities_with_position = set()
+        self.entities_with_collision = set()
+        self.entities_with_velocity = set()
+        self.entities_with_acceleration = set()
 
         self.menu_entities = set()
 
@@ -40,12 +49,57 @@ class EntityManager:
 
         self.subscriptions = {}
 
-        self.subscribe_to_component(ImagesComponent, self.images_component_callback)
+        self.subscribe_to_component(AccelerationComponent, self.acceleration_component_callback)
+        self.subscribe_to_component(AnimationComponent, self.animation_component_callback)
+        self.subscribe_to_component(CollisionComponent, self.collision_component_callback)
+        self.subscribe_to_component(ImageComponent, self.image_component_callback)
         self.subscribe_to_component(MenuComponent, self.menu_component_callback)
         self.subscribe_to_component(PlayerComponent, self.player_component_callback)
+        self.subscribe_to_component(PositionComponent, self.position_component_callback)
         self.subscribe_to_component(RenderComponent, self.render_component_callback)
+        self.subscribe_to_component(VelocityComponent, self.velocity_component_callback)
 
-    def images_component_callback(self, entity_id: int, component: Component, action: str):
+    def collision_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with collision.")
+            self.entities_with_collision.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with collision.")
+            self.entities_with_collision.remove(entity_id)
+
+    def velocity_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with velocity.")
+            self.entities_with_velocity.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with velocity.")
+            self.entities_with_velocity.remove(entity_id)
+
+    def acceleration_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with acceleration.")
+            self.entities_with_acceleration.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with acceleration.")
+            self.entities_with_acceleration.remove(entity_id)
+
+    def position_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with position.")
+            self.entities_with_position.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with position.")
+            self.entities_with_position.remove(entity_id)
+
+    def animation_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with animation.")
+            self.entities_with_animation.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with animation.")
+            self.entities_with_animation.remove(entity_id)
+
+    def image_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":
             self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with images.")
             self.entities_with_image.add(entity_id)

@@ -1,3 +1,5 @@
+from pygame.math import Vector2
+
 from .base_system import System
 
 from common.managers.event_manager import Event
@@ -59,7 +61,7 @@ class MenuSystem(System):
             if self.entity_manager.has_component(entity, MenuSelectorComponent):
                 selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
                 position_component = self.entity_manager.get_component(entity, PositionComponent)
-                position_component.position = selector_component.options[selector_component.current_selection]['position']
+                position_component.position = Vector2(selector_component.options[selector_component.current_selection]['position'])
 
 
     def handle_menu_event(self, event):

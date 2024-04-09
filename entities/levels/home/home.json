@@ -13,8 +13,16 @@
     "RenderComponent": {
         "layer": 1
     },
-    "ImagesComponent": {
-        "images_locations": ["images/level_backgrounds/home_background.png"]
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "ImageComponent": {
+        "image_data":
+        {
+            "path":"images/level_backgrounds/home_background.png",
+            "locations": [[0, 0, 4000, 4000]]
+        }
     },
     "SizeComponent": {
         "width": 4000,

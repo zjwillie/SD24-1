@@ -1,0 +1,34 @@
+{
+    "IDComponent": {
+        "id":"block_01"
+    },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {"x": 16, "y": 37},
+                {"x": 33, "y": 28},
+                {"x": 48, "y": 38},
+                {"x": 31, "y": 47}
+            ]
+        ]
+    },
+    "UUIDComponent": {},
+    "StaticObjectComponent": {},
+    "PositionComponent": {
+        "x": 200,
+        "y": 200
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "images/static_objects/block_01.png",
+            "locations": [[0, 0, 64, 64]]
+        }
+    },
+    "FocusPointComponent": {
+        "x": 31,
+        "y": 32
+    }
+}

@@ -1,9 +1,12 @@
 {
     "entities":[
         "entities/character/character.json",
-        "entities/levels/home/home.json"
+        "entities/levels/home/home.json",
+        "entities/static_objects/block_01.json"
     ],
     "systems":[
+        "AnimationSystem",
+        "MovementSystem",
         "PlayerSystem",
         "RenderSystem",
         "TimeSystem"
@@ -23,10 +26,14 @@
             "a": "left",
             "right": "right",
             "d": "right",
-            "space": "return",
+            "space": "dodge",
             "return": "return",
             "escape": "escape",
-            "tab": "tab"
+            "tab": "tab",
+            "left_shift": "run",
+            "e": "interact",
+            "r": "heavy_attack",
+            "f": "light_attack"
         }
     }
 }

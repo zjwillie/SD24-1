@@ -11,8 +11,8 @@ from common.managers.event_manager import Event
 from common.ECS_world import ECSWorld
 from common.game_state import GameState
 
-from core.logging_manager import LoggingManager
-from core.utils import get_JSON_data
+from common.managers.logging_manager import LoggingManager
+from support.utils import get_JSON_data
 
 class GameManager:
     def __init__(self):
@@ -22,14 +22,16 @@ class GameManager:
 
         self.logger = LoggingManager()
         log_levels = {
+            'animation_system': "OFF",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'ON',
+            'input_manager': 'OFF',
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
             'player_system': 'OFF',
-            'menu_system': 'ON',
+            'menu_system': 'OFF',
+            'movement_system': 'ON',
             'render_system': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
