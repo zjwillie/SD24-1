@@ -98,6 +98,8 @@ class MovementSystem(System):
             
             new_position = position_component.position + velocity_component.current_velocity * delta_time
 
+            *** Need to do this but will components x and y and then only update the position in directions that are not colliding ***
+
             collision = self.check_collision(entity, new_position)
 
             # When collsion is detected, the handle_collision function will be called, if not, okay to move
