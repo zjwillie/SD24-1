@@ -2,6 +2,9 @@
     "IDComponent": {
         "id": "fir tree"
     },
+    "NameComponent": {
+        "name": "Fir Tree"
+    },
     "UUIDComponent": {},
     "PositionComponent": {
         "x": 600,

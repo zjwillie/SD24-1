@@ -201,22 +201,25 @@ class MovementSystem(System):
     def is_colliding(self, entity, other_entity, new_position):
         entity_position = new_position
         other_entity_position = self.get_component(other_entity, PositionComponent).position
-
+    
         entity_polygons = self.get_component(entity, CollisionComponent).polygons
         other_polygons = self.get_component(other_entity, CollisionComponent).polygons
-
+    
         for poly1 in entity_polygons:
             translated_poly1 = self.translate_polygon(poly1, entity_position)
             for poly2 in other_polygons:
                 translated_poly2 = self.translate_polygon(poly2, other_entity_position)
-
+    
                 axes1 = self.get_axes(translated_poly1)
                 axes2 = self.get_axes(translated_poly2)
                 for axis in axes1 + axes2:
                     minA, maxA = self.project_polygon(axis, translated_poly1)
                     minB, maxB = self.project_polygon(axis, translated_poly2)
+                    # If there's no overlap on this axis, polygons don't collide
                     if not self.is_overlapping(minA, maxA, minB, maxB):
-                        # If there's no overlap on this axis, polygons don't collide
-                        return False
-        # If all axes have overlaps, polygons collide
-        return True
+                        break
+                else:
+                    # If there's overlap on all axes, polygons collide
+                    return True
+        # If no pair of polygons have overlaps on all axes, polygons don't collide
+        return False

@@ -2,6 +2,9 @@
     "IDComponent": {
         "id":"block_01"
     },
+    "NameComponent": {
+        "name": "Block 01"
+    },
     "CollisionComponent": {
         "polygons": [
             [

@@ -2,6 +2,9 @@
     "IDComponent": {
         "id": "big tree"
     },
+    "NameComponent": {
+        "name": "Big Tree"
+    },
     "UUIDComponent": {},
     "PositionComponent": {
         "x": 200,

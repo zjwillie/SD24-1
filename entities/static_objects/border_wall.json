@@ -2,6 +2,9 @@
     "IDComponent": {
         "id":"border_wall_01"
     },
+    "NameComponent": {
+        "name": "Border Wall"
+    },
     "CollisionComponent": {
         "polygons": [
             [
