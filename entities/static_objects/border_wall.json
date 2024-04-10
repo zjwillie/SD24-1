@@ -1,0 +1,21 @@
+{
+    "IDComponent": {
+        "id":"border_wall_01"
+    },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {"x": 0, "y": -10},
+                {"x": 4000, "y": -10},
+                {"x": 4000, "y": 0},
+                {"x": 0, "y": 0}
+            ]
+        ]
+    },
+    "UUIDComponent": {},
+    "StaticObjectComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    }
+}
