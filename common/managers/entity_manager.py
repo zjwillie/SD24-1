@@ -11,6 +11,7 @@ from common.components.component_factory import ComponentFactory
 
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
+from common.components.camera_component import CameraComponent
 from common.components.collision_component import CollisionComponent
 from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
@@ -32,6 +33,7 @@ class EntityManager:
         self.factory = ComponentFactory()
 
         self.player_ID = None
+        self.entity_with_camera = None
 
         self.entities = {}
         
