@@ -77,7 +77,7 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
-        #TODO need to set up the world size, here we just know it
+        #TODO need to set up the world size in the JSON, here we just know it
         world_size = (4000, 4000)
         camera_size = (700, 500)
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
