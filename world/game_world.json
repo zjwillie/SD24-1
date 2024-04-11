@@ -5,7 +5,8 @@
         "entities/static_objects/block_01.json",
         "entities/foliage/trees/big_tree.json",
         "entities/static_objects/border_wall.json",
-        "entities/buildings/home.json"
+        "entities/buildings/home.json",
+        "entities/foliage/trees/fir_tree.json"
     ],
     "systems":[
         "AnimationSystem",

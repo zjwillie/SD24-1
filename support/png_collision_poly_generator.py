@@ -5,7 +5,7 @@ import json
 # Initialize Pygame
 pygame.init()
 
-JSON_to_load = "entities/buildings/home.json"
+JSON_to_load = "entities/foliage/trees/fir_tree.json"
 
 # Load the JSON file
 with open(JSON_to_load, 'r') as f:
