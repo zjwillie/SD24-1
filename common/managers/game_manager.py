@@ -77,7 +77,7 @@ class GameManager:
 
         #TODO need to set up the world size, here we just know it
         world_size = (4000, 4000)
-        camera_size = (700, 300)
+        camera_size = (700, 500)
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
                                                 CameraComponent(
                                                     (0,0), 
