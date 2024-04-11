@@ -1,6 +1,8 @@
 import os
 import sys
 
+from pygame.math import Vector2
+
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -84,6 +86,8 @@ class GameManager:
                                                     camera_size, 
                                                     world_size, 
                                                     (20, 20, 20, 20)))
+        
+        self.world.entity_manager.get_component(self.world.entity_manager.player_ID, PositionComponent).position = Vector2(self.game_state.resolution[0] // 2, self.game_state.resolution[1] // 2)
 
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
