@@ -75,6 +75,8 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
+        self.world.entity_manager.add_component(self.world.entity_manager.player_ID, CameraComponent())
+
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)

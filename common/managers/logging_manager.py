@@ -13,6 +13,7 @@ class LoggingManager:
             'event_manager': logging.getLogger('event_manager'),
             'input_manager': logging.getLogger('input_manager'),
             'game_manager': logging.getLogger('game_manager'),
+            'camera_system': logging.getLogger('camera_system'),
             'component': logging.getLogger('component'),
             'system': logging.getLogger('system'),
             'animation_system': logging.getLogger('animation_system'),

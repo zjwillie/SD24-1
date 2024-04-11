@@ -6,10 +6,12 @@
         "entities/foliage/trees/big_tree.json",
         "entities/static_objects/border_wall.json",
         "entities/buildings/home.json",
-        "entities/foliage/trees/fir_tree.json"
+        "entities/foliage/trees/fir_tree.json",
+        "entities/water/water_block.json"
     ],
     "systems":[
         "AnimationSystem",
+        "CameraSystem",
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",

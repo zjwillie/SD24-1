@@ -1,4 +1,5 @@
 from common.systems.animation_system import AnimationSystem
+from common.systems.camera_system import CameraSystem
 from common.systems.player_system import PlayerSystem
 from common.systems.menu_system import MenuSystem
 from common.systems.movement_system import MovementSystem
@@ -9,6 +10,7 @@ class SystemFactory:
     def __init__(self):
         self.system_classes = {
             'AnimationSystem': AnimationSystem,
+            'CameraSystem': CameraSystem,
             'PlayerSystem': PlayerSystem,
             'MenuSystem': MenuSystem,
             'MovementSystem': MovementSystem,

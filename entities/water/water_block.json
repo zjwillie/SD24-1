@@ -1,57 +1,54 @@
 {
     "IDComponent": {
-        "id": "fir tree"
-    },
-    "NameComponent": {
-        "name": "Fir Tree"
+        "id": "water_block"
     },
     "UUIDComponent": {},
     "PositionComponent": {
-        "x": 550,
-        "y": 230
+        "x": 10,
+        "y": 160
     },
     "FocusPointComponent": {
-        "x": 42,
-        "y": 138
+        "x": 0,
+        "y": 0
     },
     "CollisionComponent": {
         "polygons": [
             [
                 {
-                    "x": 32,
-                    "y": 136
+                    "x": 17,
+                    "y": 17
                 },
                 {
-                    "x": 28,
-                    "y": 141
+                    "x": 17,
+                    "y": 78
                 },
                 {
-                    "x": 53,
-                    "y": 142
+                    "x": 78,
+                    "y": 78
                 },
                 {
-                    "x": 51,
-                    "y": 137
+                    "x": 78,
+                    "y": 17
                 }
             ]
         ]
     },
     "SizeComponent": {
-        "width": 80,
-        "height": 144
+        "width": 96,
+        "height": 96
     },
     "RenderComponent": {
         "layer": 1
     },
     "ImageComponent": {
         "image_data": {
-            "path": "images/foliage/trees/fir_tree.png",
+            "path": "images/water/water_block.png",
             "locations": [
                 [
                     0,
                     0,
-                    80,
-                    144
+                    96,
+                    96
                 ]
             ]
         }

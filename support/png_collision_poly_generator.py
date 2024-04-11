@@ -5,7 +5,10 @@ import json
 # Initialize Pygame
 pygame.init()
 
-JSON_to_load = "entities/foliage/trees/fir_tree.json"
+JSON_to_load = "entities\water\water_block.json"
+
+# Set up the scale factor
+SCALE_FACTOR = 4
 
 # Load the JSON file
 with open(JSON_to_load, 'r') as f:
@@ -13,7 +16,7 @@ with open(JSON_to_load, 'r') as f:
 
 # Load and scale the background image
 background = pygame.image.load(data['ImageComponent']['image_data']['path'])
-background = pygame.transform.scale(background, (background.get_width() * 10, background.get_height() * 10))
+background = pygame.transform.scale(background, (background.get_width() * SCALE_FACTOR, background.get_height() * SCALE_FACTOR))
 
 # Set up some constants
 WIDTH, HEIGHT = background.get_size()  # Window size
@@ -26,10 +29,10 @@ points = []
 
 def draw_points():
     for point in points:
-        pygame.draw.circle(window, (255, 255, 255), (point["x"]*10 + 5, point["y"]*10 + 5), 3)
+        pygame.draw.circle(window, (255, 255, 255), (point["x"]*SCALE_FACTOR + 5, point["y"]*SCALE_FACTOR + 5), 3)
 
 def add_point(x, y):
-    points.append({"x": x//10, "y": y//10})
+    points.append({"x": x//SCALE_FACTOR, "y": y//SCALE_FACTOR})
 
 def orientation(p, q, r):
     val = (q['y'] - p['y']) * (r['x'] - q['x']) - (q['x'] - p['x']) * (r['y'] - q['y'])
@@ -67,7 +70,7 @@ def print_points():
 # Draw the existing polygons
 def draw_polygons():
     for polygon in data['CollisionComponent']['polygons']:
-        pygame.draw.polygon(window, (255, 0, 0), [(point["x"]*10 + 5, point["y"]*10 + 5) for point in polygon], 1)
+        pygame.draw.polygon(window, (255, 0, 0), [(point["x"]*SCALE_FACTOR + 5, point["y"]*SCALE_FACTOR + 5) for point in polygon], 1)
 
 # Main game loop
 while True:
