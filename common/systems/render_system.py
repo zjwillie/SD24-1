@@ -19,9 +19,11 @@ class RenderSystem(System):
 
     def update(self, delta_time):
         self.clear_screen()
+
         entities_to_blit = self.get_entities_to_render()
         self.blit_entities(entities_to_blit)
         self.draw_collisions()
+
         pygame.display.flip()
 
     def clear_screen(self):

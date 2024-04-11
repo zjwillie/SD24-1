@@ -59,4 +59,4 @@ class CameraSystem(System):
         camera_component.position.x = max(0, int(min(camera_component.world_size.x - camera_component.camera_size.x, camera_component.position.x)))
         camera_component.position.y = max(0, int(min(camera_component.world_size.y - camera_component.camera_size.y, camera_component.position.y)))
 
-        print(f"Camera Position: {camera_component.position}")
+        self.logger.info(f"Camera Position: {camera_component.position}")
