@@ -24,3 +24,4 @@ from .velocity_component import VelocityComponent
 from .dashing_component import DashingComponent
 from .collision_component import CollisionComponent
 from .focuspoint_component import FocusPointComponent
+from .camera_component import CameraComponent

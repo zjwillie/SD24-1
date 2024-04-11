@@ -75,6 +75,16 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
+        #TODO need to set up the world size, here we just know it
+        world_size = (4000, 4000)
+        camera_size = (700, 500)
+        self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
+                                                CameraComponent(
+                                                    (0,0), 
+                                                    camera_size, 
+                                                    world_size, 
+                                                    (20, 20, 20, 20)))
+
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
@@ -101,6 +111,9 @@ class GameManager:
         self.world.event_manager.post(Event(self.world.event_manager.CHANGE_STATE, (self.world.event_manager.OPTIONS, False)))
 
 #?###########################################################################################
+#? Update
+#?###########################################################################################
+
 
     def update(self, delta_time):
         self.world.input_manager.update()

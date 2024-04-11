@@ -83,33 +83,62 @@ class MovementSystem(System):
         position_component.position.y += velocity_component.current_velocity.y * delta_time
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
-
     def update(self, delta_time):
         for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
-            acceleration_component = self.get_component(entity, AccelerationComponent)
-            velocity_component = self.get_component(entity, VelocityComponent)
+            # Retrieve necessary components
             position_component = self.get_component(entity, PositionComponent)
+            velocity_component = self.get_component(entity, VelocityComponent)
+            acceleration_component = self.get_component(entity, AccelerationComponent)
             direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
             
+            # Update acceleration and velocity based on current direction
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
-
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
-            #self.logger.info(f"Direction: {direction_moving_component}, Acceleration: {acceleration_component.current_acceleration}, Velocity: {velocity_component.current_velocity}, Position: {position_component.position}")
             
-            new_position = position_component.position + velocity_component.current_velocity * delta_time
+            # Predict the new position
+            potential_new_position = position_component.position + velocity_component.current_velocity * delta_time
+            
+            # Initially assume no collision
+            collision_x = False
+            collision_y = False
 
-            collision = self.check_collision(entity, new_position)
+            # Check for collision in X and Y separately to determine the possibility of sliding
+            potential_position_x = Vector2(potential_new_position.x, position_component.position.y)
+            if self.check_collision(entity, potential_position_x):
+                collision_x = True
+                velocity_component.current_velocity.x = 0  # Stop horizontal movement upon collision
+            else:
+                position_component.position.x = potential_position_x.x
 
-            if not collision:
-                self.update_position(entity, velocity_component, position_component, delta_time)
+            potential_position_y = Vector2(position_component.position.x, potential_new_position.y)
+            if self.check_collision(entity, potential_position_y):
+                collision_y = True
+                velocity_component.current_velocity.y = 0  # Stop vertical movement upon collision
+            else:
+                position_component.position.y = potential_position_y.y
 
+            if collision_x and collision_y:
+                # Special handling for corner cases or stuck situations
+                # You might want to implement specific logic here depending on your game's needs
+                pass
 #?############################################################################## UPDATE FUNCTION ##############################################################################
 
+    def handle_collision(self, entity, other_entity):
+        self.logger.info(f"Handling collision between {entity} and {other_entity}")  # Debugging log
+
+#!++++++++++++++++++++++++++++++++
+
     def check_collision(self, entity, new_position):
+        # Create a list to store all the entities that the entity is colliding with
         collisions = []
+
+        # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
         for other_entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_collision:
+            # Skip the entity itself
             if entity == other_entity:
                 continue
+
+            # Check if the entity is colliding with the other entity
             if self.is_colliding(entity, other_entity, new_position):
                 collisions.append(other_entity)
                 self.logger.info(f"Collision detected between {entity} and {other_entity}")  # Debugging log
@@ -118,13 +147,8 @@ class MovementSystem(System):
             self.post_event("collision", {"entity": entity, "collisions": collisions})
             for other_entity in collisions:
                 self.handle_collision(entity, other_entity)
-            return True
-        return False
 
-#?############################################################################## UPDATE FUNCTION ##############################################################################
-
-    def handle_collision(self, entity, other_entity):
-        pass
+        return collisions
 
     def subtract_vectors(self, v1, v2):
         """Subtract vector v2 from v1, where vectors are tuples."""
@@ -177,22 +201,25 @@ class MovementSystem(System):
     def is_colliding(self, entity, other_entity, new_position):
         entity_position = new_position
         other_entity_position = self.get_component(other_entity, PositionComponent).position
-
+    
         entity_polygons = self.get_component(entity, CollisionComponent).polygons
         other_polygons = self.get_component(other_entity, CollisionComponent).polygons
-
+    
         for poly1 in entity_polygons:
             translated_poly1 = self.translate_polygon(poly1, entity_position)
             for poly2 in other_polygons:
                 translated_poly2 = self.translate_polygon(poly2, other_entity_position)
-
+    
                 axes1 = self.get_axes(translated_poly1)
                 axes2 = self.get_axes(translated_poly2)
                 for axis in axes1 + axes2:
                     minA, maxA = self.project_polygon(axis, translated_poly1)
                     minB, maxB = self.project_polygon(axis, translated_poly2)
+                    # If there's no overlap on this axis, polygons don't collide
                     if not self.is_overlapping(minA, maxA, minB, maxB):
-                        # If there's no overlap on this axis, polygons don't collide
-                        return False
-        # If all axes have overlaps, polygons collide
-        return True
+                        break
+                else:
+                    # If there's overlap on all axes, polygons collide
+                    return True
+        # If no pair of polygons have overlaps on all axes, polygons don't collide
+        return False

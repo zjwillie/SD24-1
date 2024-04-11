@@ -3,6 +3,7 @@
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
+from common.components.camera_component import CameraComponent
 from common.components.dashing_component import DashingComponent
 from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
@@ -29,6 +30,7 @@ class ComponentFactory:
             'AccelerationComponent': AccelerationComponent,
             'AnimationComponent': AnimationComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
+            'CameraComponent': CameraComponent,
             'CollisionComponent': CollisionComponent,
             'DashingComponent': DashingComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
@@ -56,8 +58,8 @@ class ComponentFactory:
             try:
                 return component_class(**component_data)
             except ValueError:
-                print(f"CRITICAL: Error: {component_name} constructor raised a ValueError. Check the keys in component_data.")
+                print(f"CRITICAL: 'component_factory.py' Error: {component_name} constructor raised a ValueError. Check the keys in component_data.")
                 return None
         else:
-            print(f"Error: Component class for {component_name} not found in component_classes.")
+            print(f"EXCEPTION: 'component_factory.py' Component class for {component_name} not found in component_classes.")
             return None

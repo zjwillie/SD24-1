@@ -16,8 +16,8 @@
         "alignment": [0, 0]
     },
     "PositionComponent": {
-        "x": 380,
-        "y": 280
+        "x": 0,
+        "y": 0
     },
     "DirectionMovingComponent": {},
     "DirectionFacingComponent": {

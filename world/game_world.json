@@ -1,12 +1,17 @@
 {
     "entities":[
         "entities/character/character.json",
-        "entities/levels/home/home.json",
+        "entities/levels/home/homestead.json",
         "entities/static_objects/block_01.json",
-        "entities/foliage/trees/big_tree.json"
+        "entities/foliage/trees/big_tree.json",
+        "entities/static_objects/border_wall.json",
+        "entities/buildings/home.json",
+        "entities/foliage/trees/fir_tree.json",
+        "entities/water/water_block.json"
     ],
     "systems":[
         "AnimationSystem",
+        "CameraSystem",
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",

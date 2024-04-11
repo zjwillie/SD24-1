@@ -12,5 +12,3 @@ class CollisionComponent(Component):
             for polygon in polygons:
                 # Convert each dictionary to a tuple and append to self.polygons
                 self.polygons.append([(point['x'], point['y']) for point in polygon])
-
-        print(f"Collision Component Initialized: {self.polygons}")
