@@ -85,7 +85,10 @@ class GameManager:
                                                     (0,0), 
                                                     camera_size, 
                                                     world_size, 
-                                                    (20, 20, 20, 20)))
+                                                    (20, 20, 20, 20),
+                                                    (40, 40)                                                    
+                                                    )
+                                                )
         
         self.world.entity_manager.get_component(self.world.entity_manager.player_ID, PositionComponent).position = Vector2(self.game_state.resolution[0] // 2, self.game_state.resolution[1] // 2)
 
