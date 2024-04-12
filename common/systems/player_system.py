@@ -67,9 +67,34 @@ class PlayerSystem(System):
             # Handle joystick events
             if event.data['joystick_axis'] and ('x' in event.data['joystick_axis'] or 'y' in event.data['joystick_axis']):
                 if 'x' in event.data['joystick_axis']:
-                    direction_moving.x = 1 if event.data['joystick_axis']['x'] > 0 else -1 if event.data['joystick_axis']['x'] < 0 else 0
+                    direction_moving.x = event.data['joystick_axis']['x']
                 if 'y' in event.data['joystick_axis']:
-                    direction_moving.y = 1 if event.data['joystick_axis']['y'] > 0 else -1 if event.data['joystick_axis']['y'] < 0 else 0
+                    direction_moving.y = event.data['joystick_axis']['y']
+
+                # Normalize direction_moving for full 360 degree movement
+                if direction_moving.length() > 0:
+                    direction_moving = direction_moving.normalize()
+
+                # Determine the direction facing based on the relative values of x and y
+                if direction_moving.x > 0:
+                    if direction_moving.y > 0:
+                        direction_facing = "right_down"
+                    elif direction_moving.y < 0:
+                        direction_facing = "right_up"
+                    else:
+                        direction_facing = "right"
+                elif direction_moving.x < 0:
+                    if direction_moving.y > 0:
+                        direction_facing = "left_down"
+                    elif direction_moving.y < 0:
+                        direction_facing = "left_up"
+                    else:
+                        direction_facing = "left"
+                else:
+                    if direction_moving.y > 0:
+                        direction_facing = "down"
+                    elif direction_moving.y < 0:
+                        direction_facing = "up"
 
             # If no joystick events, handle keyboard events
             if self.event_manager.EVENT_UP in event.data['keys_down_time'] or self.event_manager.EVENT_DOWN in event.data['keys_down_time'] or self.event_manager.EVENT_LEFT in event.data['keys_down_time'] or self.event_manager.EVENT_RIGHT in event.data['keys_down_time']:
@@ -81,6 +106,24 @@ class PlayerSystem(System):
                     direction_moving.x = -1
                 if self.event_manager.EVENT_RIGHT in event.data['keys_down_time']:
                     direction_moving.x = 1
+
+                # Set direction facing
+                if direction_moving == Vector2(0, -1):
+                    direction_facing = "up"
+                elif direction_moving == Vector2(0, 1):
+                    direction_facing = "down"
+                elif direction_moving == Vector2(-1, 0):
+                    direction_facing = "left"
+                elif direction_moving == Vector2(1, 0):
+                    direction_facing = "right"
+                elif direction_moving == Vector2(1, 1):
+                    direction_facing = "right_down"
+                elif direction_moving == Vector2(-1, 1):
+                    direction_facing = "left_down"
+                elif direction_moving == Vector2(1, -1):
+                    direction_facing = "right_up"
+                elif direction_moving == Vector2(-1, -1):
+                    direction_facing = "left_up"
     
             # Handle running event
             if self.event_manager.EVENT_RUN in event.data:
@@ -98,24 +141,6 @@ class PlayerSystem(System):
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = True
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = False
                 self.get_component(self.player_ID, EntityStatusComponent).has_moved = True
-    
-            # Set direction facing
-            if direction_moving == Vector2(0, -1):
-                direction_facing = "up"
-            elif direction_moving == Vector2(0, 1):
-                direction_facing = "down"
-            elif direction_moving == Vector2(-1, 0):
-                direction_facing = "left"
-            elif direction_moving == Vector2(1, 0):
-                direction_facing = "right"
-            elif direction_moving == Vector2(1, 1):
-                direction_facing = "right_down"
-            elif direction_moving == Vector2(-1, 1):
-                direction_facing = "left_down"
-            elif direction_moving == Vector2(1, -1):
-                direction_facing = "right_up"
-            elif direction_moving == Vector2(-1, -1):
-                direction_facing = "left_up"
     
             self.get_component(self.player_ID, DirectionFacingComponent).direction = direction_facing.split("_")[0]
             self.get_component(self.player_ID, DirectionMovingComponent).direction = direction_moving

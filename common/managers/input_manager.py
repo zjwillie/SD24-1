@@ -141,6 +141,17 @@ class InputManager:
             10: "joystick_10"
         }
 
+        self.joystick_hat_event_map = {
+            (0, (0, 1)): 'joystick_hat_up',
+            (0, (0, -1)): 'joystick_hat_down',
+            (0, (-1, 0)): 'joystick_hat_left',
+            (0, (1, 0)): 'joystick_hat_right',
+            (0, (-1, 1)): 'joystick_hat_up_left',
+            (0, (1, 1)): 'joystick_hat_up_right',
+            (0, (-1, -1)): 'joystick_hat_down_left',
+            (0, (1, -1)): 'joystick_hat_down_right',
+        }
+
         # Current input map
         self.current_input_map = {}
 
@@ -296,11 +307,29 @@ class InputManager:
                         if action in self.keys_down:
                             del self.keys_down[action]
 
+            elif event.type == pygame.JOYHATMOTION:
+                hat_data = (event.hat, event.value)
+                self.logger.info(f"Joystick Hat: {hat_data}")
+                if hat_data in self.joystick_hat_event_map:
+                    action = self.current_input_map.get(self.joystick_hat_event_map[hat_data])
+                    if action:
+                        self.keys_down[action] = True
+                        self.keys_down_time[action] = time.time()
+            
+                        # Post the action, that it is a down event, the time, and the hat value
+                        key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), event.value, self.event_manager.JOYSTICK_EVENT))
+                        self.logger.info(f"Joystick Hat to post: {key_event}")
+                        self.event_manager.post(key_event)
+
+
             elif event.type == pygame.JOYAXISMOTION:
                 axis_data = (event.axis, event.value)
-                self.logger.info(f"Joystick Axis: {axis_data}")
-            
+
                 TESTING_THRESHOLD = 0.1
+
+                if abs(event.value) > TESTING_THRESHOLD:
+                    self.logger.info(f"Joystick Axis: {axis_data}")
+            
             
                 if event.axis == 0:
                     if abs(event.value) > TESTING_THRESHOLD:
