@@ -28,7 +28,7 @@ class GameManager:
             'camera_system': "OFF",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'ON',
+            'input_manager': 'OFF',
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
@@ -81,6 +81,15 @@ class GameManager:
         #TODO need to set up the world size in the JSON, here we just know it
         world_size = (4000, 4000)
         camera_size = (700, 500)
+
+        # Print all entities with their names:
+        for entity in self.world.entity_manager.entities:
+            self.logger.loggers['game_manager'].info(f"Entity: {entity}", end=" ")
+            if self.world.entity_manager.has_component(entity, NameComponent):
+                  self.logger.loggers['game_manager'].info(f"Name: {self.world.entity_manager.get_component(entity, NameComponent).name}")
+        self.logger.loggers['game_manager'].info("END OF ENTITIES")
+                      
+                
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
                                                 CameraComponent(
                                                     (0,0), 

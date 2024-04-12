@@ -8,7 +8,6 @@
         "name": "Hiro Nakamura"
     },
     "AgeComponent": {},
-    "CameraAnchorComponent": {},
     "DescriptionComponent": {
         "description": "The main character of the game"
     },

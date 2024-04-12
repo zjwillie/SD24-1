@@ -138,7 +138,6 @@ class PlayerSystem(System):
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = False
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = True
                 self.get_component(self.player_ID, EntityStatusComponent).has_moved = False
-                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = False
             else:
                 self.get_component(self.player_ID, EntityStatusComponent).is_moving = True
                 self.get_component(self.player_ID, EntityStatusComponent).is_idle = False

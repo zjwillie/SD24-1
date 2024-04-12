@@ -6,6 +6,7 @@ from .base_system import System
 from common.managers.event_manager import Event
 
 from common.components.camera_component import CameraComponent
+from common.components.focuspoint_component import FocusPointComponent
 from common.components.position_component import PositionComponent
 
 class CameraSystem(System):
@@ -37,6 +38,8 @@ class CameraSystem(System):
     def update(self, delta_time):
         if self.entity_manager.entity_with_camera is not None:
             camera_component = self.get_component(self.entity_manager.entity_with_camera, CameraComponent)
+
+            # TODO might shoudld be offset to the focuspoint, but maybe only sometimes
             target_position = self.get_component(self.entity_manager.entity_with_camera, PositionComponent).position
 
             camera_center = camera_component.position + camera_component.camera_size / 2
