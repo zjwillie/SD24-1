@@ -29,6 +29,14 @@ class PlayerSystem(System):
 
         self.event_manager.subscribe(self.event_manager.PLAYER_ANIMATION_FINISHED, self.handle_animation_finished)
 
+        self.event_manager.subscribe(self.event_manager.EVENT_RUN, self.update_dashing_flag)
+
+    def update_dashing_flag(self, event):
+        if event.data[0] == self.event_manager.KEY_DOWN:
+            self.get_component(self.player_ID, EntityStatusComponent).is_dashing = True
+        else:
+            self.get_component(self.player_ID, EntityStatusComponent).is_dashing = False
+
     def handle_animation_finished(self, event):
         direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
         self.logger.info(f"Player Animation Finished: {event.data}")
@@ -124,12 +132,6 @@ class PlayerSystem(System):
                     direction_facing = "right_up"
                 elif direction_moving == Vector2(-1, -1):
                     direction_facing = "left_up"
-    
-            # Handle running event
-            if self.event_manager.EVENT_RUN in event.data:
-                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = True
-            else:
-                self.get_component(self.player_ID, EntityStatusComponent).is_dashing = False
     
             # Set entity status based on direction_moving
             if direction_moving == Vector2(0,0):
