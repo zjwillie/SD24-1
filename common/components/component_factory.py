@@ -10,6 +10,7 @@ from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
 from common.components.entitystatus_component import EntityStatusComponent
 from common.components.focuspoint_component import FocusPointComponent
+from common.components.font_component import FontComponent
 from common.components.id_component import IDComponent
 from common.components.image_component import ImageComponent
 from common.components.menubutton_component import MenuButtonComponent
@@ -39,6 +40,7 @@ class ComponentFactory:
             'DirectionFacingComponent': DirectionFacingComponent,
             'EntityStatusComponent': EntityStatusComponent,
             'FocusPointComponent': FocusPointComponent,
+            'FontComponent': FontComponent,
             'IDComponent': IDComponent,
             'ImageComponent': ImageComponent,
             'MenuButtonComponent': MenuButtonComponent,

@@ -1,0 +1,9 @@
+{
+    "width": 32,
+    "height": 48,
+    "character_map": [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ.!",
+        "abcdefghijklmnopqrstuvwxyz"
+    ],
+    "font_sheet_location":"images/text/font/font_testing.png"
+}
