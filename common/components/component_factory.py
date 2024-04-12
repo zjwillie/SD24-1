@@ -5,6 +5,7 @@ from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.camera_component import CameraComponent
 from common.components.dashing_component import DashingComponent
+from common.components.description_component import DescriptionComponent
 from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
 from common.components.entitystatus_component import EntityStatusComponent
@@ -33,6 +34,7 @@ class ComponentFactory:
             'CameraComponent': CameraComponent,
             'CollisionComponent': CollisionComponent,
             'DashingComponent': DashingComponent,
+            'DescriptionComponent': DescriptionComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
             'DirectionFacingComponent': DirectionFacingComponent,
             'EntityStatusComponent': EntityStatusComponent,

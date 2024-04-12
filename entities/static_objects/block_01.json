@@ -30,6 +30,10 @@
             "locations": [[0, 0, 64, 64]]
         }
     },
+    "SizeComponent": {
+        "width": 64,
+        "height": 64
+    },
     "FocusPointComponent": {
         "x": 31,
         "y": 38

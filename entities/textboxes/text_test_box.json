@@ -1,0 +1,33 @@
+{
+    "IDComponent": {
+        "id": "text_box_01"
+    },
+    "UUIDComponent": {},
+    "NameComponent": {
+        "name": "Text Test Box"
+    },
+    "AgeComponent": {},
+    "DescriptionComponent": {
+        "description": "The text texting box."
+    },
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "SizeComponent": {
+        "width": 0,
+        "height": 0
+    },
+    "BorderComponent": {
+        "border": "text_border"
+    },
+    "FontComponent": {
+        "font": "test_font"
+    },
+    "TextComponent": {
+        "text": "Hello World!"
+    },
+    "RenderComponent": {
+        "layer": 0
+    }
+}

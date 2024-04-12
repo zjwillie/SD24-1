@@ -9,6 +9,7 @@ from common.components import (
     ImageComponent,
     PositionComponent,
     RenderComponent,
+    SizeComponent
 )
 
 class RenderSystem(System):
@@ -61,7 +62,8 @@ class RenderSystem(System):
 
     def get_camera_adjusted_blit_info(self, entity, current_image, position):
         camera_component = self.entity_manager.get_component(self.entity_manager.entity_with_camera, CameraComponent)
-        entity_rect = pygame.Rect(position.x, position.y, *current_image.get_size())
+        size_component = self.entity_manager.get_component(entity, SizeComponent)
+        entity_rect = pygame.Rect(position.x, position.y, size_component.width, size_component.height)
         camera_view = self.get_camera_view_rect(camera_component)
 
         if camera_view.colliderect(entity_rect):
