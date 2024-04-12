@@ -127,6 +127,31 @@ class InputManager:
             7: "mouse_back"
         }
 
+        self.joystick_event_map = {
+            0: "joystick_0",
+            1: "joystick_1",
+            2: "joystick_2",
+            3: "joystick_3",
+            4: "joystick_4",
+            5: "joystick_5",
+            6: "joystick_6",
+            7: "joystick_7",
+            8: "joystick_8",
+            9: "joystick_9",
+            10: "joystick_10"
+        }
+
+        self.joystick_hat_event_map = {
+            (0, (0, 1)): 'joystick_hat_up',
+            (0, (0, -1)): 'joystick_hat_down',
+            (0, (-1, 0)): 'joystick_hat_left',
+            (0, (1, 0)): 'joystick_hat_right',
+            (0, (-1, 1)): 'joystick_hat_up_left',
+            (0, (1, 1)): 'joystick_hat_up_right',
+            (0, (-1, -1)): 'joystick_hat_down_left',
+            (0, (1, -1)): 'joystick_hat_down_right',
+        }
+
         # Current input map
         self.current_input_map = {}
 
@@ -138,6 +163,9 @@ class InputManager:
         # Keys currently being pressed down
         self.keys_down = {}
         self.keys_down_time = {}
+
+        # Joystick axis
+        self.joystick_axis = {}
 
     # Load world data
     def load_input_data(self, world_data_input):
@@ -223,11 +251,97 @@ class InputManager:
                         self.logger.info(f"Mouse Down: {key_event}")
                         self.event_manager.post(key_event)
 
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button in self.mouse_event_map:
+                    action = self.current_input_map.get(self.mouse_event_map[event.button])
+                    if action:
+                        if action in self.keys_down_time:
+                            # Calculate the duration the key was held down for
+                            duration = time.time() - self.keys_down_time[action]
+                            del self.keys_down_time[action]
+
+                            mouse_pos = event.pos
+
+                            # Post the action, that it is an up event, the time, and the duration
+                            key_event = Event(action, (self.event_manager.KEY_UP, time.time(), duration, self.event_manager.MOUSE_EVENT, mouse_pos))
+                            self.logger.info(f"Mouse Up: {key_event}, Duration: {duration}")
+                            self.event_manager.post(key_event)
+
+                        if action in self.keys_down:
+                            del self.keys_down[action]
+
             elif event.type == pygame.MOUSEMOTION:
                 mouse_pos = event.pos
                 # Could send if a mouse button is held down or not as well, would need to keep a list of mouse being down but dont' think this is needed right now
                 self.logger.info(f"Mouse Motion: {mouse_pos}")
                 self.event_manager.post(Event(self.event_manager.MOUSE_POSITION, mouse_pos))
+
+            #^ JOYSTICK #########################################################################################
+            elif event.type == pygame.JOYBUTTONDOWN:
+                if event.button in self.joystick_event_map:
+                    action = self.current_input_map.get(self.joystick_event_map[event.button])
+                    
+                    if action:
+                        self.keys_down[action] = True
+                        self.keys_down_time[action] = time.time()
+
+                        # Post the action, that it is a down event, and the time
+                        key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), self.event_manager.JOYSTICK_EVENT))
+                        self.logger.info(f"Joystick Down: {key_event}")
+                        self.event_manager.post(key_event)
+
+            elif event.type == pygame.JOYBUTTONUP:
+                if event.button in self.joystick_event_map:
+                    action = self.current_input_map.get(self.joystick_event_map[event.button])
+                    if action:
+                        if action in self.keys_down_time:
+                            # Calculate the duration the key was held down for
+                            duration = time.time() - self.keys_down_time[action]
+                            del self.keys_down_time[action]
+
+                            # Post the action, that it is an up event, the time, and the duration
+                            key_event = Event(action, (self.event_manager.KEY_UP, time.time(), duration, self.event_manager.JOYSTICK_EVENT))
+                            self.logger.info(f"Joystick Up: {key_event}, Duration: {duration}")
+                            self.event_manager.post(key_event)
+
+                        if action in self.keys_down:
+                            del self.keys_down[action]
+
+            elif event.type == pygame.JOYHATMOTION:
+                hat_data = (event.hat, event.value)
+                self.logger.info(f"Joystick Hat: {hat_data}")
+                if hat_data in self.joystick_hat_event_map:
+                    action = self.current_input_map.get(self.joystick_hat_event_map[hat_data])
+                    if action:
+                        self.keys_down[action] = True
+                        self.keys_down_time[action] = time.time()
+            
+                        # Post the action, that it is a down event, the time, and the hat value
+                        key_event = Event(action, (self.event_manager.KEY_DOWN, time.time(), event.value, self.event_manager.JOYSTICK_EVENT))
+                        self.logger.info(f"Joystick Hat to post: {key_event}")
+                        self.event_manager.post(key_event)
+
+
+            elif event.type == pygame.JOYAXISMOTION:
+                axis_data = (event.axis, event.value)
+
+                TESTING_THRESHOLD = 0.1
+
+                if abs(event.value) > TESTING_THRESHOLD:
+                    self.logger.info(f"Joystick Axis: {axis_data}")
+            
+            
+                if event.axis == 0:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["x"] = event.value
+                    else:
+                        self.joystick_axis["x"] = 0
+                elif event.axis == 1:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["y"] = event.value
+                    else:
+                        self.joystick_axis["y"] = 0
+
 
             # Append any unhandled events to the event manager
             else:
@@ -253,5 +367,5 @@ class InputManager:
                         self.event_manager.post(repeat_event)
                         self.key_repeat_timer[action] = time.time()
 
-        # If the keys down or keys down time has changed, post a KEYS_DOWN_UPDATE event
-        self.event_manager.post(Event(self.event_manager.KEYS_DOWN_UPDATE, (self.keys_down_time)))
+        # If the keys down or keys down time has changed, post a movementment key event
+        self.event_manager.post(Event(self.event_manager.MOVEMENT_KEY_EVENT, {'keys_down_time': self.keys_down_time, 'joystick_axis': self.joystick_axis}))

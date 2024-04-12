@@ -28,7 +28,8 @@ class EventManager:
     KEY_DOWN = "key_down"
     KEY_UP = "key_up"
 
-    KEYS_DOWN_UPDATE = "keys_down_update"
+    MOVEMENT_KEY_EVENT = "movement_key_event"
+    JOYSTICK_AXIS_UPDATE = "joystick_axis_update"
 
     PLAYER_ANIMATION_FINISHED = "player_animation_finished"
 

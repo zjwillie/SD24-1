@@ -39,7 +39,8 @@
             "left_shift": "run",
             "e": "interact",
             "r": "heavy_attack",
-            "f": "light_attack"
+            "f": "light_attack",
+            "joystick_5": "light_attack"
         }
     }
 }

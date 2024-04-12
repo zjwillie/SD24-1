@@ -54,8 +54,6 @@ class MenuSystem(System):
         if event.data[2]:
             self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
 
-        #TODO enter, joystick...., and mouse pressed for menu selector
-
     def update(self, delta_time):
         for entity in self.entity_manager.menu_entities:
             if self.entity_manager.has_component(entity, MenuSelectorComponent):
@@ -80,7 +78,7 @@ class MenuSystem(System):
         elif event.type == self.event_manager.EVENT_RETURN and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.info(f"Return event received in menu system: {event.data}")
             if self.current_selector:
-                if event.data[2] == self.event_manager.KEYBOARD_EVENT:
+                if event.data[2] == self.event_manager.KEYBOARD_EVENT or event.data[2] == self.event_manager.JOYSTICK_EVENT:
                     selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
                     self.logger.info(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}")
                     self.event_manager.post(Event("change_state", (selector_component.options[selector_component.current_selection]["name"], True)))
@@ -104,25 +102,6 @@ class MenuSystem(System):
                     size = option['size']
                     if (position[0] < event.data[0] < position[0] + size[0]) and (position[1] < event.data[1] < position[1] + size[1]):
                         selector_component.current_selection = i
-
-        """                    
-        #TODO Not updated from SD
-        if event.type == "mouse":
-            print(f"Mouse event received in menu system: ({event.data})") if troubleshooting else None
-            if event.data.action == "down":
-                for entity, (position, menu_selector, image_component) in self.entity_manager.get_entities_with_components(PositionComponent, MenuSelectorComponent, ImageComponent):
-                    menu_width = image_component.images[0].get_width()
-                    menu_height = image_component.images[0].get_height()
-                    print(menu_selector.menu_options) if troubleshooting else None
-                    for i in range(len(menu_selector.menu_options)):
-                        menu_option, position = menu_selector.menu_options[i]
-                        print(f"Checking position: {position}") if troubleshooting else None
-                        print(image_component.images[0], image_component.images[0]) if troubleshooting else None
-                        if (position[0] < event.data.position[0] < position[0] + menu_width) and (position[1] < event.data.position[1] < position[1] + menu_height):
-                            print(f"Mouse clicked on {menu_option}") if troubleshooting else None
-                            self.event_manager.post(Event("change_state", menu_selector.menu_options[menu_selector.current_selection][0]))
-        
-        """
 
     def update_selection(self, increment):
         if self.current_selector:

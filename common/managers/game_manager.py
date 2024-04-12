@@ -1,6 +1,8 @@
 import os
 import sys
 
+from pygame.math import Vector2
+
 if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -23,15 +25,16 @@ class GameManager:
         self.logger = LoggingManager()
         log_levels = {
             'animation_system': "OFF",
+            'camera_system': "OFF",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'OFF',
+            'input_manager': 'ON',
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
             'player_system': 'OFF',
             'menu_system': 'OFF',
-            'movement_system': 'ON',
+            'movement_system': 'OFF',
             'render_system': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
@@ -75,7 +78,7 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
-        #TODO need to set up the world size, here we just know it
+        #TODO need to set up the world size in the JSON, here we just know it
         world_size = (4000, 4000)
         camera_size = (700, 500)
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
@@ -83,7 +86,12 @@ class GameManager:
                                                     (0,0), 
                                                     camera_size, 
                                                     world_size, 
-                                                    (20, 20, 20, 20)))
+                                                    (20, 20, 20, 20),
+                                                    (40, 40)                                                    
+                                                    )
+                                                )
+        
+        self.world.entity_manager.get_component(self.world.entity_manager.player_ID, PositionComponent).position = Vector2(self.game_state.resolution[0] // 2, self.game_state.resolution[1] // 2)
 
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
