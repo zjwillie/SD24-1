@@ -26,13 +26,14 @@ class GameManager:
         log_levels = {
             'animation_system': "OFF",
             'camera_system': "OFF",
+            'dialogue_system': "ON",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
             'input_manager': 'OFF',
             'game_manager': 'OFF',
             'component': 'OFF',
             'system': 'OFF',
-            'player_system': 'OFF',
+            'player_system': 'ON',
             'menu_system': 'OFF',
             'movement_system': 'OFF',
             'render_system': 'OFF',
@@ -87,9 +88,9 @@ class GameManager:
             self.logger.loggers['game_manager'].info(f"Entity: {entity}", end=" ")
             if self.world.entity_manager.has_component(entity, NameComponent):
                   self.logger.loggers['game_manager'].info(f"Name: {self.world.entity_manager.get_component(entity, NameComponent).name}")
-        self.logger.loggers['game_manager'].info("END OF ENTITIES")
-                      
-                
+        self.logger.loggers['game_manager'].info("END OF ENTITIES")        
+
+        # Attach the camera to the player
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
                                                 CameraComponent(
                                                     (0,0), 

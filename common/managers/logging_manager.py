@@ -11,6 +11,7 @@ class LoggingManager:
         self.loggers = {
             'entity_manager': logging.getLogger('entity'),
             'event_manager': logging.getLogger('event_manager'),
+            'dialogue_system': logging.getLogger('dialogue_system'),
             'input_manager': logging.getLogger('input_manager'),
             'game_manager': logging.getLogger('game_manager'),
             'camera_system': logging.getLogger('camera_system'),

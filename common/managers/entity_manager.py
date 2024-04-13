@@ -13,6 +13,8 @@ from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
 from common.components.camera_component import CameraComponent
 from common.components.collision_component import CollisionComponent
+from common.components.control_component import ControlComponent
+from common.components.font_component import FontComponent
 from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
 from common.components.menu_component import MenuComponent
@@ -44,6 +46,8 @@ class EntityManager:
         self.entities_with_collision = set()
         self.entities_with_velocity = set()
         self.entities_with_acceleration = set()
+        self.entities_with_control = set()
+        self.entities_with_font = set()
 
         self.menu_entities = set()
 
@@ -60,6 +64,24 @@ class EntityManager:
         self.subscribe_to_component(PositionComponent, self.position_component_callback)
         self.subscribe_to_component(RenderComponent, self.render_component_callback)
         self.subscribe_to_component(VelocityComponent, self.velocity_component_callback)
+        self.subscribe_to_component(ControlComponent, self.control_component_callback)
+        self.subscribe_to_component(FontComponent, self.font_component_callback)
+
+    def font_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with font.")
+            self.entities_with_font.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with font.")
+            self.entities_with_font.remove(entity_id)   
+
+    def control_component_callback(self, entity_id: int, component: Component, action: str):
+        if action == "add":
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with control.")
+            self.entities_with_control.add(entity_id)
+        elif action == "remove":
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with control.")
+            self.entities_with_control.remove(entity_id)
 
     def collision_component_callback(self, entity_id: int, component: Component, action: str):
         if action == "add":

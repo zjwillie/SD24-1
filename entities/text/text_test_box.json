@@ -7,6 +7,9 @@
         "name": "Text Test Box"
     },
     "AgeComponent": {},
+    "ControlComponent": {
+        "enabled": false
+    },
     "DescriptionComponent": {
         "description": "The text texting box."
     },
@@ -19,15 +22,16 @@
         "height": 0
     },
     "BorderComponent": {
-        "border": "text_border"
+        "border": null
     },
     "FontComponent": {
-        "font": "test_font"
+        "font_json_path": "entities/text/test_font.json"
     },
     "TextComponent": {
         "text": "Hello World!"
     },
     "RenderComponent": {
-        "layer": 0
+        "layer": 0,
+        "render": false
     }
 }

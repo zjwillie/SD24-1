@@ -8,3 +8,4 @@ from .animation_system import AnimationSystem
 from .movement_system import MovementSystem
 from .menu_system import MenuSystem
 from .camera_system import CameraSystem
+from .dialogue_system import DialogueSystem

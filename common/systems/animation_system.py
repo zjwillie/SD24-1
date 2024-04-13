@@ -39,6 +39,7 @@ class AnimationSystem(System):
                     else:
                         current_animation.is_finished = True
                         self.reset_animation(entity)
+                        print("Fniished")
                         self.post_event(self.event_manager.PLAYER_ANIMATION_FINISHED, (entity, current_animation))
                         continue
 

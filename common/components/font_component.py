@@ -1,4 +1,5 @@
 # FontComponent.py
+import json
 import pygame
 
 from .base_component import Component
@@ -7,14 +8,19 @@ class Letter:
     def __init__(self, sprite, width):
         self.sprite = sprite
         self.width = width
+
 class FontComponent(Component):
-    def __init__(self, font_dict):
+    def __init__(self, font_json_path):
         super().__init__()
         # Component initialization
         self.characters = {}
         self.width = 0
         self.height = 0
 
+        # Load dict from json
+        with open(font_json_path, "r") as font_file:
+            font_dict = json.load(font_file)
+        
         self.load_font(font_dict)
 
     def load_font(self, font_dict):

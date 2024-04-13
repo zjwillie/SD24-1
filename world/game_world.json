@@ -7,11 +7,13 @@
         "entities/static_objects/border_wall.json",
         "entities/buildings/home.json",
         "entities/foliage/trees/fir_tree.json",
-        "entities/water/water_block.json"
+        "entities/water/water_block.json",
+        "entities/text/text_test_box.json"
     ],
     "systems":[
         "AnimationSystem",
         "CameraSystem",
+        "DialogueSystem",
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",
@@ -40,6 +42,7 @@
             "e": "interact",
             "r": "heavy_attack",
             "f": "light_attack",
+            "joystick_0": "dodge",
             "joystick_5": "light_attack"
         }
     }

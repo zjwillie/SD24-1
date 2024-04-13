@@ -1,26 +1,15 @@
-#! /usr/bin/env python3
-# -*- coding: utf-8 -*-
-# vim:fenc=utf-8
-# File name: ***_system.py
-# First Edit: 2020-06-30
-# Last Change: 30-Jun-2020.
-"""
-This content is property of SomebodysDream.
-Author: Zac Shepherd (SomebodysDream)
-"""
-# Generic system set up, need to update the system factory: include and the map
-# also need to update the logger manager and game manager
-
-# *** System
+# Dialogue System
 from .base_system import System
 
 from common.managers.event_manager import Event
 
-class ***System(System):
+from common.components.font_component import FontComponent
+
+class DialogueSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
-        
-        self.logger = logger.loggers['***_system']
+
+        self.logger = logger.loggers['dialogue_system']
 
     def post_event(self, event_type, data):
         self.event_manager.post(Event(event_type, data))
@@ -30,7 +19,8 @@ class ***System(System):
 
     def has_component(self, entity, component):
         return self.entity_manager.has_component(entity, component)
-    
 
     def update(self, delta_time):
-        pass
+        #TODO Working here
+        for entity in self.entity_manager.entities_with_control & self.entity_manager.entities_with_font:
+            print (f"Entity: {entity}")

@@ -198,25 +198,25 @@
                     "frame_duration": [0.02, 0.02, 0.1, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.1, 0.02],
                     "loop": false
                 },
-                "roll_down": {
+                "dodge_down": {
                     "row": 12,
                     "num_frames": 5,
                     "frame_duration": [0.05, 0.05, 0.05, 0.05, 0.05],
                     "loop": false
                 },
-                "roll_up": {
+                "dodge_up": {
                     "row": 13,
                     "num_frames": 5,
                     "frame_duration": [0.05, 0.05, 0.05, 0.05, 0.05],
                     "loop": false
                 },
-                "roll_right": {
+                "dodge_right": {
                     "row": 14,
                     "num_frames": 5,
                     "frame_duration": [0.05, 0.05, 0.05, 0.05, 0.05],
                     "loop": false
                 },
-                "roll_left": {
+                "dodge_left": {
                     "row": 15,
                     "num_frames": 5,
                     "frame_duration": [0.05, 0.05, 0.05, 0.05, 0.05],
