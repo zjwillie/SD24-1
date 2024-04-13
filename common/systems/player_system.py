@@ -4,6 +4,7 @@ from .base_system import System
 from common.managers.event_manager import Event
 
 from common.components import AnimationComponent
+from common.components import ControlComponent
 from common.components import DirectionMovingComponent
 from common.components import DirectionFacingComponent
 from common.components import EntityStatusComponent
@@ -173,7 +174,9 @@ class PlayerSystem(System):
                     entity_status_component.is_acting = True
 
     def update(self, delta_time):
-        if len(self.action_queue) > 0:
-            self.handle_actions(delta_time)
+        control_component = self.get_component(self.player_ID, ControlComponent)
+        if control_component.enabled == True:
+            if len(self.action_queue) > 0:
+                self.handle_actions(delta_time)
 
-        self.update_animation(delta_time)
+            self.update_animation(delta_time)

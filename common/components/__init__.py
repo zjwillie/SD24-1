@@ -27,3 +27,4 @@ from .focuspoint_component import FocusPointComponent
 from .camera_component import CameraComponent
 from .description_component import DescriptionComponent
 from .font_component import FontComponent
+from .control_component import ControlComponent

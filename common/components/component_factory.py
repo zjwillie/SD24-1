@@ -4,6 +4,8 @@ from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.camera_component import CameraComponent
+from common.components.collision_component import CollisionComponent
+from common.components.control_component import ControlComponent
 from common.components.dashing_component import DashingComponent
 from common.components.description_component import DescriptionComponent
 from common.components.directionmoving_component import DirectionMovingComponent
@@ -18,7 +20,6 @@ from common.components.menu_component import MenuComponent
 from common.components.menuselector_component import MenuSelectorComponent
 from common.components.name_component import NameComponent
 from common.components.player_component import PlayerComponent
-from common.components.collision_component import CollisionComponent
 from common.components.position_component import PositionComponent
 from common.components.render_component import RenderComponent
 from common.components.size_component import SizeComponent
@@ -34,6 +35,7 @@ class ComponentFactory:
             'CameraAnchorComponent': CameraAnchorComponent,
             'CameraComponent': CameraComponent,
             'CollisionComponent': CollisionComponent,
+            'ControlComponent': ControlComponent,
             'DashingComponent': DashingComponent,
             'DescriptionComponent': DescriptionComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
