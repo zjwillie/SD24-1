@@ -71,6 +71,7 @@ class MovementSystem(System):
         position_component.position.y += velocity_component.current_velocity.y * delta_time
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
+
     def update(self, delta_time):
         for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
             # Retrieve necessary components
@@ -78,41 +79,68 @@ class MovementSystem(System):
             velocity_component = self.get_component(entity, VelocityComponent)
             acceleration_component = self.get_component(entity, AccelerationComponent)
             direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
-            
+        
             # Update acceleration and velocity based on current direction
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
-            
+        
             # Predict the new position
             potential_new_position = position_component.position + velocity_component.current_velocity * delta_time
+        
+            # Check for collisions
+            collision_data = self.check_collisions(entity, potential_new_position)
+            print(f'Collision data: {collision_data}')
+
+            # If there was a collision, handle it
+            if collision_data['collided_entities']:
+                self.handle_collision(entity, collision_data)
             
-            # Initially assume no collision
-            collision_x = False
-            collision_y = False
+            # update the position
+            position_component.position += velocity_component.current_velocity * delta_time
 
-            # Check for collision in X and Y separately to determine the possibility of sliding
-            potential_position_x = Vector2(potential_new_position.x, position_component.position.y)
-            if self.check_collision(entity, potential_position_x):
-                collision_x = True
-                velocity_component.current_velocity.x = 0  # Stop horizontal movement upon collision
-            else:
-                position_component.position.x = potential_position_x.x
-
-            potential_position_y = Vector2(position_component.position.x, potential_new_position.y)
-            if self.check_collision(entity, potential_position_y):
-                collision_y = True
-                velocity_component.current_velocity.y = 0  # Stop vertical movement upon collision
-            else:
-                position_component.position.y = potential_position_y.y
-
-            if collision_x and collision_y:
-                # Special handling for corner cases or stuck situations
-                # You might want to implement specific logic here depending on your game's needs
-                pass
 #?############################################################################## UPDATE FUNCTION ##############################################################################
 
-    def handle_collision(self, entity, other_entity):
-        self.logger.info(f"Handling collision between {entity} and {other_entity}")  # Debugging log
+    def handle_collision(self, entity, collision_data):
+        self.logger.info(f"Handling collision between {entity} and {collision_data['collided_entities']}")  # Debugging log
+    
+        # Retrieve necessary components
+        velocity_component = self.get_component(entity, VelocityComponent)
+    
+        # If there was a collision in the x direction, stop horizontal movement
+        if collision_data['collision_x']:
+            velocity_component.current_velocity.x = 0
+    
+        # If there was a collision in the y direction, stop vertical movement
+        if collision_data['collision_y']:
+            velocity_component.current_velocity.y = 0
+    
+        # If there was a collision in both directions, stop all movement
+        if collision_data['collision_x'] and collision_data['collision_y']:
+            velocity_component.current_velocity = Vector2(0, 0)
+    
+        # Implement specific logic here depending on your game's needs
+
+    def check_collisions(self, entity, potential_position):
+        collision_data = {
+            'collision_x': False,
+            'collision_y': False,
+            'collided_entities': []
+        }
+
+        # Check for collision in X and Y separately to determine the possibility of sliding
+        potential_position_x = Vector2(potential_position.x, self.get_component(entity, PositionComponent).position.y)
+        collided_entities_x = self.check_collision(entity, potential_position_x)
+        if collided_entities_x:
+            collision_data['collision_x'] = True
+            collision_data['collided_entities'].extend(collided_entities_x)
+
+        potential_position_y = Vector2(self.get_component(entity, PositionComponent).position.x, potential_position.y)
+        collided_entities_y = self.check_collision(entity, potential_position_y)
+        if collided_entities_y:
+            collision_data['collision_y'] = True
+            collision_data['collided_entities'].extend(collided_entities_y)
+            
+        return collision_data
 
 #!++++++++++++++++++++++++++++++++
 
@@ -130,11 +158,6 @@ class MovementSystem(System):
             if self.is_colliding(entity, other_entity, new_position):
                 collisions.append(other_entity)
                 self.logger.info(f"Collision detected between {entity} and {other_entity}")  # Debugging log
-
-        if len(collisions) > 0:
-            self.post_event("collision", {"entity": entity, "collisions": collisions})
-            for other_entity in collisions:
-                self.handle_collision(entity, other_entity)
 
         return collisions
 

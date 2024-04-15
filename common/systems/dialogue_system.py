@@ -28,7 +28,6 @@ class DialogueSystem(System):
             if self.get_component(entity, ControlComponent).enabled:
                 self.draw_text(entity)
 
-
     def draw_text(self, entity):
         text_component = self.get_component(entity, TextComponent)
         print (text_component.text)

@@ -86,8 +86,8 @@ class MenuSystem(System):
                     # check if the mouse is over the selector
                     mouse_position = event.data[3]
                     selector_position = self.entity_manager.get_component(self.current_selector, PositionComponent).position
-                    selector_size = self.entity_manager.get_component(self.current_selector, SizeComponent).size
-                    if (selector_position[0] < mouse_position[0] < selector_position[0] + selector_size[0]) and (selector_position[1] < mouse_position[1] < selector_position[1] + selector_size[1]):
+                    selector_size = self.entity_manager.get_component(self.current_selector, SizeComponent)
+                    if (selector_position[0] < mouse_position[0] < selector_position[0] + selector_size.width) and (selector_position[1] < mouse_position[1] < selector_position[1] + selector_size.height):
                         selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
                         self.logger.info(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}")
                         self.event_manager.post(Event("change_state", (selector_component.options[selector_component.current_selection]["name"], True)))
