@@ -23,6 +23,7 @@ from common.components.player_component import PlayerComponent
 from common.components.position_component import PositionComponent
 from common.components.render_component import RenderComponent
 from common.components.size_component import SizeComponent
+from common.components.text_component import TextComponent
 from common.components.type_component import TypeComponent
 from common.components.uuid_component import UUIDComponent
 from common.components.velocity_component import VelocityComponent
@@ -53,6 +54,7 @@ class ComponentFactory:
             'PositionComponent': PositionComponent,
             'RenderComponent': RenderComponent,
             'SizeComponent': SizeComponent,
+            'TextComponent': TextComponent,
             'TypeComponent': TypeComponent,
             'UUIDComponent': UUIDComponent,
             'VelocityComponent': VelocityComponent
