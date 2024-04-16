@@ -5,6 +5,9 @@
     "NameComponent": {
         "name": "Block 01"
     },
+    "DescriptionComponent": {
+        "description": "A simple block"
+    },
     "CollisionComponent": {
         "polygons": [
             [
