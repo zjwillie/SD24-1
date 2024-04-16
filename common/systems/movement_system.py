@@ -73,6 +73,8 @@ class MovementSystem(System):
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
     def update(self, delta_time):
+        # Select components that need to be updated to move
+        #TODO Would create a set that adds any components that have moved, and then only update those components
         for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
             # Retrieve necessary components
             velocity_component = self.get_component(entity, VelocityComponent)
@@ -84,8 +86,6 @@ class MovementSystem(System):
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
             
             collision_data = self.get_collision_data(entity, delta_time)
-
-            print(collision_data)
 
             self.handle_collision(entity, collision_data)
 
@@ -99,7 +99,7 @@ class MovementSystem(System):
             collision_data = {
                 "collision_x": False,
                 "collision_y": False,
-                "collisions": []
+                "collisions": {}
             }
 
             # Check for collision in X and Y separately to determine the possibility of sliding
@@ -107,7 +107,7 @@ class MovementSystem(System):
             collision_x = self.check_collision(entity, potential_position_x)
             if collision_x:
                 collision_data["collision_x"] = True
-                collision_data["collisions"].extend(collision_x)
+                collision_data["collisions"].update(collision_x)
                 current_velocity.x = 0  # Stop horizontal movement upon collision
             else:
                 current_position.x = potential_position_x.x
@@ -116,7 +116,7 @@ class MovementSystem(System):
             collision_y = self.check_collision(entity, potential_position_y)
             if collision_y:
                 collision_data["collision_y"] = True
-                collision_data["collisions"].extend(collision_y)
+                collision_data["collisions"].update(collision_y)
                 current_velocity.y = 0  # Stop vertical movement upon collision
             else:
                 current_position.y = potential_position_y.y
@@ -126,12 +126,13 @@ class MovementSystem(System):
 
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
+        print(collision_data)
 
 #!++++++++++++++++++++++++++++++++
 
     def check_collision(self, entity, new_position):
         # Create a list to store all the entities that the entity is colliding with
-        collisions = []
+        collisions = {}
 
         # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
         for other_entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_collision:
@@ -141,10 +142,12 @@ class MovementSystem(System):
 
             # Check if the entity is colliding with the other entity
             if self.is_colliding(entity, other_entity, new_position):
-                collisions.append(other_entity)
+                collisions[other_entity] = self.get_component(other_entity, CollisionComponent).collision_type
                 self.logger.info(f"Collision detected between {entity} and {other_entity}")  # Debugging log
 
         return collisions
+
+#? MATHS BELOW BEWARD ******************************************************************************
 
     def subtract_vectors(self, v1, v2):
         """Subtract vector v2 from v1, where vectors are tuples."""
