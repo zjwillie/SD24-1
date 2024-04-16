@@ -11,8 +11,11 @@
         "x": 0,
         "y": 0
     },
+    "CollisionEventComponent": {
+        "event": "portal_01_collision"
+    },
     "CollisionComponent": {
-        "collision_type": 0,
+        "collision_type": 10,
         "polygons": [
             [
                 {
