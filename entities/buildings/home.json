@@ -11,6 +11,7 @@
         "y": 20
     },
     "CollisionComponent": {
+        "collision_type": 1,
         "polygons": [
             [
                 {

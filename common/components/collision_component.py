@@ -3,9 +3,10 @@
 from .base_component import Component
 
 class CollisionComponent(Component):
-    def __init__(self, polygons=None):
+    def __init__(self, collision_type=1, polygons=None):
         super().__init__()
         # Component initialization
+        self.collision_type = collision_type
         self.polygons = []
 
         if polygons is not None:

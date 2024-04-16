@@ -18,7 +18,7 @@
     "UUIDComponent": {},
     "StaticObjectComponent": {},
     "PositionComponent": {
-        "x": 200,
+        "x": 400,
         "y": 200
     },
     "RenderComponent": {

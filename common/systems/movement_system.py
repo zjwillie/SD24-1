@@ -89,7 +89,6 @@ class MovementSystem(System):
         
             # Check for collisions
             collision_data = self.check_collisions(entity, potential_new_position)
-            print(f'Collision data: {collision_data}')
 
             # If there was a collision, handle it
             if collision_data['collided_entities']:
@@ -102,24 +101,41 @@ class MovementSystem(System):
 
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision between {entity} and {collision_data['collided_entities']}")  # Debugging log
-    
+
         # Retrieve necessary components
         velocity_component = self.get_component(entity, VelocityComponent)
-    
-        # If there was a collision in the x direction, stop horizontal movement
-        if collision_data['collision_x']:
-            velocity_component.current_velocity.x = 0
-    
-        # If there was a collision in the y direction, stop vertical movement
-        if collision_data['collision_y']:
-            velocity_component.current_velocity.y = 0
-    
-        # If there was a collision in both directions, stop all movement
-        if collision_data['collision_x'] and collision_data['collision_y']:
-            velocity_component.current_velocity = Vector2(0, 0)
-    
-        # Implement specific logic here depending on your game's needs
 
+        # Initialize a set to store the collision types
+        collision_types = set()
+
+        # Loop through each collided entity
+        for collided_entity in collision_data['collided_entities']:
+            # Retrieve the collision component of the collided entity
+            collision_component = self.get_component(collided_entity, CollisionComponent)
+
+            # Add the collision type to the set
+            collision_types.add(collision_component.collision_type)
+
+        # Find the highest priority collision type
+        highest_priority_collision_type = min(collision_types)
+
+        # If the highest priority collision type is 1, implement stop and slide behavior
+        if highest_priority_collision_type == 1:
+            # If there was a collision in the x direction, stop horizontal movement
+            if collision_data['collision_x']:
+                velocity_component.current_velocity.x = 0
+
+            # If there was a collision in the y direction, stop vertical movement
+            if collision_data['collision_y']:
+                velocity_component.current_velocity.y = 0
+
+            # If there was a collision in both directions, stop all movement
+            if collision_data['collision_x'] and collision_data['collision_y']:
+                velocity_component.current_velocity = Vector2(0, 0)
+
+#!++++++++++++++++++++++++++++++++ COLLISION LOGIC +++++++++++++++++++++++++++++++++++++
+
+    # Check for collisions, x and y separately
     def check_collisions(self, entity, potential_position):
         collision_data = {
             'collision_x': False,
@@ -141,8 +157,6 @@ class MovementSystem(System):
             collision_data['collided_entities'].extend(collided_entities_y)
             
         return collision_data
-
-#!++++++++++++++++++++++++++++++++
 
     def check_collision(self, entity, new_position):
         # Create a list to store all the entities that the entity is colliding with
