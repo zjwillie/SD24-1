@@ -1,10 +1,10 @@
 {
     "IDComponent": {
-        "id": "portal_01"
+        "id": "portal_02"
     },
     "UUIDComponent": {},
     "PositionComponent": {
-        "x": 200,
+        "x": 800,
         "y": 160
     },
     "FocusPointComponent": {
@@ -14,8 +14,8 @@
     "CollisionEventComponent": {
         "event_name": "portal",
         "event_data": {
-            "portal_id": "portal_01",
-            "portal_destination": "portal_02"
+            "portal_id": "portal_02",
+            "portal_destination": "portal_01"
         }
     },
     "CollisionComponent": {

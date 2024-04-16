@@ -9,7 +9,8 @@
         "entities/foliage/trees/fir_tree.json",
         "entities/water/water_block.json",
         "entities/text/text_test_box.json",
-        "entities/objects/portal_01.json"
+        "entities/objects/portal_01.json",
+        "entities/objects/portal_02.json"
     ],
     "systems":[
         "AnimationSystem",

@@ -29,3 +29,4 @@ from .description_component import DescriptionComponent
 from .font_component import FontComponent
 from .control_component import ControlComponent
 from .text_component import TextComponent
+from .collisionevent_component import CollisionEventComponent

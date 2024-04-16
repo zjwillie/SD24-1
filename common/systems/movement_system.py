@@ -121,7 +121,6 @@ class MovementSystem(System):
 
         # If the highest priority collision type is 1, implement stop and slide behavior
         if highest_priority_collision_type == 1:
-            # STOP AND SLIDE
             # If there was a collision in the x direction, stop horizontal movement
             if collision_data['collision_x']:
                 velocity_component.current_velocity.x = 0
@@ -134,9 +133,6 @@ class MovementSystem(System):
             if collision_data['collision_x'] and collision_data['collision_y']:
                 velocity_component.current_velocity = Vector2(0, 0)
         elif highest_priority_collision_type == 10:
-            # EVENT TRIGGER
-            # Get the collision events from the collided entity's collision event
-            *** need to only happen one time, so has_triggered may be needed in collision_event_component
             self.post_event('collision', {'entity': entity, 'collided_entities': collision_data['collided_entities']})
         else:
             self.logger.error(f"Unhandled collision type: {highest_priority_collision_type}")

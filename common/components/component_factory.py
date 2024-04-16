@@ -5,6 +5,7 @@ from common.components.animation_component import AnimationComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.camera_component import CameraComponent
 from common.components.collision_component import CollisionComponent
+from common.components.collisionevent_component import CollisionEventComponent
 from common.components.control_component import ControlComponent
 from common.components.dashing_component import DashingComponent
 from common.components.description_component import DescriptionComponent
@@ -36,6 +37,7 @@ class ComponentFactory:
             'CameraAnchorComponent': CameraAnchorComponent,
             'CameraComponent': CameraComponent,
             'CollisionComponent': CollisionComponent,
+            'CollisionEventComponent': CollisionEventComponent,
             'ControlComponent': ControlComponent,
             'DashingComponent': DashingComponent,
             'DescriptionComponent': DescriptionComponent,
@@ -71,3 +73,4 @@ class ComponentFactory:
         else:
             print(f"EXCEPTION: 'component_factory.py' Component class for {component_name} not found in component_classes.")
             return None
+
