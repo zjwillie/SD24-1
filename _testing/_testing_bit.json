@@ -1,0 +1,71 @@
+{
+    "IDComponent": {
+        "id": "testing bit"
+    },
+    "NameComponent": {
+        "name": "Testing Bit"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 200,
+        "y": 400
+    },
+    "FocusPointComponent": {
+        "x": 8,
+        "y": 8
+    },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {
+                    "x": 6,
+                    "y": 5
+                },
+                {
+                    "x": 3,
+                    "y": 8
+                },
+                {
+                    "x": 5,
+                    "y": 11
+                },
+                {
+                    "x": 9,
+                    "y": 11
+                },
+                {
+                    "x": 11,
+                    "y": 9
+                },
+                {
+                    "x": 10,
+                    "y": 7
+                },
+                {
+                    "x": 8,
+                    "y": 5
+                }
+            ]
+        ]
+    },
+    "SizeComponent": {
+        "width": 16,
+        "height": 16
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "_testing/_testing_bit.png",
+            "locations": [
+                [
+                    0,
+                    0,
+                    16,
+                    16
+                ]
+            ]
+        }
+    }
+}

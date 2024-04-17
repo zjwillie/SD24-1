@@ -4,7 +4,10 @@
             "_testing/border_top.json",
             "_testing/border_bottom.json",
             "_testing/border_left.json",
-            "_testing/border_right.json"
+            "_testing/border_right.json",
+            "_testing/_testing_bit.json",
+            "_testing/_testing_bit_32x32.json",
+            "_testing/_testing_bit_64x64.json"
     ],
     "systems": [
         "AnimationSystem",
