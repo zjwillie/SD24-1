@@ -21,6 +21,8 @@
         "RenderSystem",
         "TimeSystem"
     ],
+    "camera":
+        "cameras/game_world_800x600_no_offset.json",
     "input":
     {       
         "KEY_REPEAT_INITAL_DELAY":0.4,

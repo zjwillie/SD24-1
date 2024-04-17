@@ -18,7 +18,8 @@ class AnimationSystem(System):
         self.event_manager.post(Event(event_type, data))
 
     def update(self, delta_time):
-        for entity in self.entity_manager.entities_with_animation:
+        #TODO need a "is animating flag" to prevent multiple animations from playing at once
+        for entity in self.entity_manager.component_sets[AnimationComponent]:
             animation_component = self.entity_manager.get_component(entity, AnimationComponent)
             current_animation = animation_component.current_animation
 

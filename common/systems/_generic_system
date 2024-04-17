@@ -20,7 +20,7 @@ class ***System(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
         
-        self.logger = logger.loggers['***_system']
+        self.logger = logger.loggers[***_system']
 
     def post_event(self, event_type, data):
         self.event_manager.post(Event(event_type, data))

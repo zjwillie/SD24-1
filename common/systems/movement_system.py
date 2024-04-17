@@ -75,7 +75,9 @@ class MovementSystem(System):
     def update(self, delta_time):
         # Select components that need to be updated to move
         #TODO Would create a set that adds any components that have moved, and then only update those components
-        for entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_velocity & self.entity_manager.entities_with_acceleration:
+        for entity in (self.entity_manager.component_sets[PositionComponent] &
+                    self.entity_manager.component_sets[VelocityComponent] &
+                    self.entity_manager.component_sets[AccelerationComponent]):
             # Retrieve necessary components
             velocity_component = self.get_component(entity, VelocityComponent)
             acceleration_component = self.get_component(entity, AccelerationComponent)
@@ -126,10 +128,10 @@ class MovementSystem(System):
 
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
-        print(collision_data)
+        self.logger.info(collision_data)
 
         for collision_type in collision_data["collisions"].items():
-            print("Collision type: ", collision_type)
+            self.logger.info("Collision type: ", collision_type)
 
         # Handle collision types in order of priority
         
@@ -142,8 +144,8 @@ class MovementSystem(System):
         collisions = {}
 
         # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
-        for other_entity in self.entity_manager.entities_with_position & self.entity_manager.entities_with_collision:
-            # Skip the entity itself
+        for other_entity in self.entity_manager.component_sets[PositionComponent] & self.entity_manager.component_sets[CollisionComponent]:
+           # Skip the entity itself
             if entity == other_entity:
                 continue
 

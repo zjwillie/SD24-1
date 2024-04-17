@@ -24,7 +24,7 @@ class DialogueSystem(System):
 
     def update(self, delta_time):
         #TODO Working here
-        for entity in self.entity_manager.entities_with_font:
+        for entity in self.entity_manager.component_sets[FontComponent]:
             if self.get_component(entity, ControlComponent).enabled:
                 self.draw_text(entity)
 

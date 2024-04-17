@@ -39,119 +39,28 @@ class EntityManager:
 
         self.entities = {}
         
-        self.entities_to_render = set()
-        self.entities_with_animation = set()
-        self.entities_with_image = set()
-        self.entities_with_position = set()
-        self.entities_with_collision = set()
-        self.entities_with_velocity = set()
-        self.entities_with_acceleration = set()
-        self.entities_with_control = set()
-        self.entities_with_font = set()
-
-        self.menu_entities = set()
-
+        self.component_sets = {component_type: set() for component_type in Component.__subclasses__()}
         self.component_maps = {}
 
         self.subscriptions = {}
+        self.component_callbacks = {component_type: self.component_callback for component_type in Component.__subclasses__()}
 
-        self.subscribe_to_component(AccelerationComponent, self.acceleration_component_callback)
-        self.subscribe_to_component(AnimationComponent, self.animation_component_callback)
-        self.subscribe_to_component(CollisionComponent, self.collision_component_callback)
-        self.subscribe_to_component(ImageComponent, self.image_component_callback)
-        self.subscribe_to_component(MenuComponent, self.menu_component_callback)
-        self.subscribe_to_component(PlayerComponent, self.player_component_callback)
-        self.subscribe_to_component(PositionComponent, self.position_component_callback)
-        self.subscribe_to_component(RenderComponent, self.render_component_callback)
-        self.subscribe_to_component(VelocityComponent, self.velocity_component_callback)
-        self.subscribe_to_component(ControlComponent, self.control_component_callback)
-        self.subscribe_to_component(FontComponent, self.font_component_callback)
+        # Subscribe each component type to its callback
+        for component_type, callback in self.component_callbacks.items():
+            self.subscribe_to_component(component_type, callback)
 
-    def font_component_callback(self, entity_id: int, component: Component, action: str):
+    def component_callback(self, entity_id: int, component: Component, action: str):
+        component_type = type(component)
+        if component_type not in self.component_sets:
+            self.logger.loggers["entity_manager"].error(f"Unknown component type: {component_type.__name__}")
+            return
+
         if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with font.")
-            self.entities_with_font.add(entity_id)
+            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to {component_type.__name__} entities.")
+            self.component_sets[component_type].add(entity_id)
         elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with font.")
-            self.entities_with_font.remove(entity_id)   
-
-    def control_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with control.")
-            self.entities_with_control.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with control.")
-            self.entities_with_control.remove(entity_id)
-
-    def collision_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with collision.")
-            self.entities_with_collision.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with collision.")
-            self.entities_with_collision.remove(entity_id)
-
-    def velocity_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with velocity.")
-            self.entities_with_velocity.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with velocity.")
-            self.entities_with_velocity.remove(entity_id)
-
-    def acceleration_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with acceleration.")
-            self.entities_with_acceleration.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with acceleration.")
-            self.entities_with_acceleration.remove(entity_id)
-
-    def position_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with position.")
-            self.entities_with_position.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with position.")
-            self.entities_with_position.remove(entity_id)
-
-    def animation_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with animation.")
-            self.entities_with_animation.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from entities with animation.")
-            self.entities_with_animation.remove(entity_id)
-
-    def image_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to entities with images.")
-            self.entities_with_image.add(entity_id)
-        elif action == "remove":
-            self.entities_with_image.remove(entity_id)
-
-    def menu_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to menu entities.")
-            self.menu_entities.add(entity_id)
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from menu entities.")
-            self.menu_entities.remove(entity_id)
-
-    def player_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} as player.")
-            self.player_ID = entity_id
-        elif action == "remove":
-            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} as player and setting player_ID to None.")
-            self.player_ID = None
-
-    def render_component_callback(self, entity_id: int, component: Component, action: str):
-        if action == "add":
-            self.logger.loggers["entity_manager"].info(f"Adding entity {entity_id} to render list.")
-            self.entities_to_render.add(entity_id)
-        elif action == "remove":
-            self.entities_to_render.remove(entity_id)
+            self.logger.loggers["entity_manager"].info(f"Removing entity {entity_id} from {component_type.__name__} entities.")
+            self.component_sets[component_type].remove(entity_id)
 
     def create_entity(self, components: typing.List[typing.Any] = []):
         entity_id = self.next_enity_id

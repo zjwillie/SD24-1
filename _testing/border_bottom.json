@@ -1,0 +1,28 @@
+{
+    "IDComponent": {
+        "id":"border_wall_bottom"
+    },
+    "NameComponent": {
+        "name": "Border Wall Bottom"
+    },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {"x": 0, "y": 590},
+                {"x": 800, "y": 590},
+                {"x": 800, "y": 600},
+                {"x": 0, "y": 600}
+            ]
+        ]
+    },
+    "SizeComponent": {
+        "width": 800,
+        "height": 10
+    },
+    "UUIDComponent": {},
+    "StaticObjectComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 590
+    }
+}

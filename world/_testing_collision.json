@@ -1,0 +1,43 @@
+{
+    "entities": [
+            "entities/character/character.json",
+            "_testing/border_top.json",
+            "_testing/border_bottom.json",
+            "_testing/border_left.json",
+            "_testing/border_right.json"
+    ],
+    "systems": [
+        "AnimationSystem",
+        "CameraSystem",
+        "DialogueSystem",
+        "MovementSystem",
+        "PlayerSystem",
+        "RenderSystem",
+        "TimeSystem"
+    ],
+    "input": {
+        "KEY_REPEAT_INITAL_DELAY": 0.4,
+        "KEY_REPEAT_INITAL_SPEED": 0.4,
+        "KEY_REPEAT_MAX_SPEED": 0.4,
+        "keybindings": {
+            "up": "up",
+            "w": "up",
+            "down": "down",
+            "s": "down",
+            "left": "left",
+            "a": "left",
+            "right": "right",
+            "d": "right",
+            "space": "dodge",
+            "return": "return",
+            "escape": "escape",
+            "tab": "tab",
+            "left_shift": "run",
+            "e": "interact",
+            "r": "heavy_attack",
+            "f": "light_attack",
+            "joystick_0": "dodge",
+            "joystick_5": "light_attack"
+        }
+    }
+}
