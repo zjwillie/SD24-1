@@ -127,9 +127,12 @@ class MovementSystem(System):
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
         print(collision_data)
-        collision_types = set()
+
         for collision_type in collision_data["collisions"].items():
             print("Collision type: ", collision_type)
+
+        # Handle collision types in order of priority
+        
             
 
 #!++++++++++++++++++++++++++++++++
