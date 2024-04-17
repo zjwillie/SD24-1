@@ -158,35 +158,9 @@ class MovementSystem(System):
 
 #? MATHS BELOW BEWARD ******************************************************************************
 
-    def subtract_vectors(self, v1, v2):
-        """Subtract vector v2 from v1, where vectors are tuples."""
-        return (v1[0] - v2[0], v1[1] - v2[1])
-
-    def perpendicular_vector(self, v):
-        """Get a vector (tuple) that is perpendicular to the given vector v."""
-        return (-v[1], v[0])
-
-    def normalize_vector(self, v):
-        """Normalize the given vector v, which is a tuple."""
-        length = (v[0] ** 2 + v[1] ** 2) ** 0.5
-        if length == 0:
-            return (0, 0)  # To avoid division by zero
-        return (v[0] / length, v[1] / length)
-
     def dot_product(self, v1, v2):
         """Calculate the dot product of two vectors (tuples)."""
         return v1[0] * v2[0] + v1[1] * v2[1]
-
-    def get_axes(self, vertices):
-        """Get all the axes to test for SAT by finding normals to the polygon's edges."""
-        axes = []
-        for i in range(len(vertices)):
-            p1 = vertices[i]
-            p2 = vertices[(i + 1) % len(vertices)]  # Wrap around to the first vertex
-            edge = self.subtract_vectors(p2, p1)
-            normal = self.perpendicular_vector(edge)
-            axes.append(self.normalize_vector(normal))
-        return axes
 
     def project_polygon(self, axis, vertices):
         """Project all vertices of the polygon (list of tuples) onto the given axis."""
@@ -209,17 +183,21 @@ class MovementSystem(System):
     def is_colliding(self, entity, other_entity, new_position):
         entity_position = new_position
         other_entity_position = self.get_component(other_entity, PositionComponent).position
-    
-        entity_polygons = self.get_component(entity, CollisionComponent).polygons
-        other_polygons = self.get_component(other_entity, CollisionComponent).polygons
-    
-        for poly1 in entity_polygons:
+
+        entity_collision_component = self.get_component(entity, CollisionComponent)
+        other_collision_component = self.get_component(other_entity, CollisionComponent)
+
+        entity_polygons = entity_collision_component.polygons
+        other_polygons = other_collision_component.polygons
+
+        entity_axes = entity_collision_component.axes
+        other_axes = other_collision_component.axes
+
+        for poly1, axes1 in zip(entity_polygons, entity_axes):
             translated_poly1 = self.translate_polygon(poly1, entity_position)
-            for poly2 in other_polygons:
+            for poly2, axes2 in zip(other_polygons, other_axes):
                 translated_poly2 = self.translate_polygon(poly2, other_entity_position)
-    
-                axes1 = self.get_axes(translated_poly1)
-                axes2 = self.get_axes(translated_poly2)
+
                 for axis in axes1 + axes2:
                     minA, maxA = self.project_polygon(axis, translated_poly1)
                     minB, maxB = self.project_polygon(axis, translated_poly2)

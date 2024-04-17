@@ -4,21 +4,7 @@
             "_testing/border_top.json",
             "_testing/border_bottom.json",
             "_testing/border_left.json",
-            "_testing/border_right.json",
-            "_testing/_testing_bit.json",
-            "_testing/_testing_bit_32x32.json",
-            "_testing/_testing_bit_64x64.json",
-            "_testing/_testing_bit_32x32_1.json",
-            "_testing/_testing_bit_32x32_2.json",
-            "_testing/_testing_bit_32x32_3.json",
-            "_testing/_testing_bit_32x32_4.json",
-            "_testing/_testing_bit_32x32_5.json",
-            "_testing/_testing_bit_32x32_6.json",
-            "_testing/_testing_bit_32x32_7.json",
-            "_testing/_testing_bit_32x32_8.json",
-            "_testing/_testing_bit_32x32_9.json",
-            "_testing/_testing_bit_32x32_10.json",
-            "_testing/_testing_bit_32x32_11.json"
+            "_testing/border_right.json"
     ],
     "systems": [
         "AnimationSystem",

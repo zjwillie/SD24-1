@@ -11,7 +11,7 @@ def main():
 
 
     # Flag to run the profiler
-    run_profiler = False
+    run_profiler = True
 
     if run_profiler:
         profiler = cProfile.Profile()
