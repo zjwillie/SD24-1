@@ -23,6 +23,7 @@ class LoggingManager:
             'movement_system': logging.getLogger('movement_system'),
             'render_system': logging.getLogger('render_system'),
             'current': logging.getLogger('current'),
+            'testing_system': logging.getLogger('testing_system'),
         }
         for logger_name in self.loggers:
             logger = self.loggers[logger_name]

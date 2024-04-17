@@ -72,17 +72,19 @@ class MovementSystem(System):
         position_component.position.y += velocity_component.current_velocity.y * delta_time
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
+
     def update(self, delta_time):
         # Select components that need to be updated to move
         #TODO Would create a set that adds any components that have moved, and then only update those components
         for entity in (self.entity_manager.component_sets[PositionComponent] &
                     self.entity_manager.component_sets[VelocityComponent] &
                     self.entity_manager.component_sets[AccelerationComponent]):
+
             # Retrieve necessary components
             velocity_component = self.get_component(entity, VelocityComponent)
             acceleration_component = self.get_component(entity, AccelerationComponent)
             direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
-            
+
             # Update acceleration and velocity based on current direction
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
@@ -124,7 +126,8 @@ class MovementSystem(System):
                 current_position.y = potential_position_y.y
 
             return collision_data
-#?############################################################################## UPDATE FUNCTION ##############################################################################
+    
+#?#####################################################################################################################################################################
 
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
@@ -135,9 +138,6 @@ class MovementSystem(System):
 
         # Handle collision types in order of priority
         
-            
-
-#!++++++++++++++++++++++++++++++++
 
     def check_collision(self, entity, new_position):
         # Create a list to store all the entities that the entity is colliding with
@@ -145,7 +145,7 @@ class MovementSystem(System):
 
         # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
         for other_entity in self.entity_manager.component_sets[PositionComponent] & self.entity_manager.component_sets[CollisionComponent]:
-           # Skip the entity itself
+            # Skip the entity itself
             if entity == other_entity:
                 continue
 

@@ -1,0 +1,78 @@
+{
+    "IDComponent": {
+        "id": "testing bit 64"
+    },
+    "NameComponent": {
+        "name": "Testing Bit 64"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 400,
+        "y": 400
+    },
+    "TestingCollisionComponent":{},
+    "FocusPointComponent": {
+        "x": 32,
+        "y": 32
+    },
+    "DirectionMovingComponent": {},
+    "DirectionFacingComponent": {
+        "direction": "down"
+    },
+    "VelocityComponent": {
+        "max_velocity": 150
+    },
+    "AccelerationComponent": {
+        "max_acceleration": 2000
+    },
+    "CollisionComponent": {
+        "polygons": [
+            [
+                {
+                    "x": 23,
+                    "y": 5
+                },
+                {
+                    "x": 5,
+                    "y": 25
+                },
+                {
+                    "x": 25,
+                    "y": 55
+                },
+                {
+                    "x": 54,
+                    "y": 30
+                },
+                {
+                    "x": 56,
+                    "y": 19
+                },
+                {
+                    "x": 48,
+                    "y": 7
+                }
+            ]
+        ]
+    },
+    "SizeComponent": {
+        "width": 64,
+        "height": 64
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "_testing/_testing_bit_64x64.png",
+            "locations": [
+                [
+                    0,
+                    0,
+                    64,
+                    64
+                ]
+            ]
+        }
+    }
+}

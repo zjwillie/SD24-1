@@ -16,7 +16,8 @@
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",
-        "TimeSystem"
+        "TimeSystem",
+        "TestingSystem"
     ],
     "camera":
         "cameras/game_world_800x600_no_offset.json",

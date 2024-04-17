@@ -30,3 +30,4 @@ from .font_component import FontComponent
 from .control_component import ControlComponent
 from .text_component import TextComponent
 from .collisionevent_component import CollisionEventComponent
+from .testingcollision_component import TestingCollisionComponent

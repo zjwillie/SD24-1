@@ -5,7 +5,7 @@ import json
 # Initialize Pygame
 pygame.init()
 
-JSON_to_load = "_testing/_testing_bit.json"
+JSON_to_load = "_testing/_testing_bit_64x64.json"
 
 # Set up the scale factor
 SCALE_FACTOR = 10
