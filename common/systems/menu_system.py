@@ -4,6 +4,7 @@ from .base_system import System
 
 from common.managers.event_manager import Event
 
+from common.components.menu_component import MenuComponent
 from common.components.menuselector_component import MenuSelectorComponent
 from common.components.render_component import RenderComponent
 from common.components.position_component import PositionComponent
@@ -15,7 +16,6 @@ class MenuSystem(System):
         
         self.logger = logger.loggers['menu_system']
 
-        self.menu_entities = []
         self.current_menu = None
         self.current_selector = None
 
@@ -31,31 +31,31 @@ class MenuSystem(System):
 
     def set_menu(self, event):
         self.logger.info(f'Set menu: {event.type} {event.data}!')
-
-        self.entity_manager.menu_entities.clear()
-
+    
+        self.entity_manager.component_sets[MenuComponent].clear()
+    
         # Hide the current menu and selector
         if self.current_menu:
             self.entity_manager.get_component(self.current_menu, RenderComponent).render = False
         if self.current_selector:
             self.entity_manager.get_component(self.current_selector, RenderComponent).render = False
-
+    
         # Change to the new menu and selector
         self.current_menu = self.entity_manager.get_entity_by_name(event.data[0])
         self.current_selector = self.entity_manager.get_entity_by_name(event.data[1])
-
+    
         # Add the current menu items to the menu_entities
-        self.entity_manager.menu_entities.add(self.current_menu)
-        self.entity_manager.menu_entities.add(self.current_selector)
-
+        self.entity_manager.component_sets[MenuComponent].add(self.current_menu)
+        self.entity_manager.component_sets[MenuComponent].add(self.current_selector)
+    
         self.entity_manager.get_component(self.current_menu, RenderComponent).render = True
         self.entity_manager.get_component(self.current_selector, RenderComponent).render = True
-
+    
         if event.data[2]:
             self.entity_manager.get_component(self.current_selector, MenuSelectorComponent).current_selection = 0
 
     def update(self, delta_time):
-        for entity in self.entity_manager.menu_entities:
+        for entity in self.entity_manager.component_sets[MenuComponent]:
             if self.entity_manager.has_component(entity, MenuSelectorComponent):
                 selector_component = self.entity_manager.get_component(entity, MenuSelectorComponent)
                 position_component = self.entity_manager.get_component(entity, PositionComponent)
@@ -86,8 +86,8 @@ class MenuSystem(System):
                     # check if the mouse is over the selector
                     mouse_position = event.data[3]
                     selector_position = self.entity_manager.get_component(self.current_selector, PositionComponent).position
-                    selector_size = self.entity_manager.get_component(self.current_selector, SizeComponent).size
-                    if (selector_position[0] < mouse_position[0] < selector_position[0] + selector_size[0]) and (selector_position[1] < mouse_position[1] < selector_position[1] + selector_size[1]):
+                    selector_size = self.entity_manager.get_component(self.current_selector, SizeComponent)
+                    if (selector_position[0] < mouse_position[0] < selector_position[0] + selector_size.width) and (selector_position[1] < mouse_position[1] < selector_position[1] + selector_size.height):
                         selector_component = self.entity_manager.get_component(self.current_selector, MenuSelectorComponent)
                         self.logger.info(f"Posting option: 'change_state', {selector_component.options[selector_component.current_selection]['name']}")
                         self.event_manager.post(Event("change_state", (selector_component.options[selector_component.current_selection]["name"], True)))

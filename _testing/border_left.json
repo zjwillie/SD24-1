@@ -1,23 +1,23 @@
 {
     "IDComponent": {
-        "id":"border_wall_01"
+        "id":"border_wall_left"
     },
     "NameComponent": {
-        "name": "Border Wall"
+        "name": "Border Wall Left"
     },
     "CollisionComponent": {
         "polygons": [
             [
-                {"x": 0, "y": -10},
-                {"x": 4000, "y": -10},
-                {"x": 4000, "y": 0},
-                {"x": 0, "y": 0}
+                {"x": 0, "y": 0},
+                {"x": 10, "y": 0},
+                {"x": 10, "y": 600},
+                {"x": 0, "y": 600}
             ]
         ]
     },
     "SizeComponent": {
-        "width": 4000,
-        "height": 10
+        "width": 10,
+        "height": 600
     },
     "UUIDComponent": {},
     "StaticObjectComponent": {},

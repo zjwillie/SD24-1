@@ -5,6 +5,9 @@
     "NameComponent": {
         "name": "Block 01"
     },
+    "DescriptionComponent": {
+        "description": "A simple block"
+    },
     "CollisionComponent": {
         "polygons": [
             [
@@ -18,7 +21,7 @@
     "UUIDComponent": {},
     "StaticObjectComponent": {},
     "PositionComponent": {
-        "x": 200,
+        "x": 400,
         "y": 200
     },
     "RenderComponent": {
@@ -29,6 +32,10 @@
             "path": "images/static_objects/block_01.png",
             "locations": [[0, 0, 64, 64]]
         }
+    },
+    "SizeComponent": {
+        "width": 64,
+        "height": 64
     },
     "FocusPointComponent": {
         "x": 31,

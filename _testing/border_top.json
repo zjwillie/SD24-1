@@ -1,22 +1,22 @@
 {
     "IDComponent": {
-        "id":"border_wall_01"
+        "id":"border_wall_top"
     },
     "NameComponent": {
-        "name": "Border Wall"
+        "name": "Border Wall Top"
     },
     "CollisionComponent": {
         "polygons": [
             [
-                {"x": 0, "y": -10},
-                {"x": 4000, "y": -10},
-                {"x": 4000, "y": 0},
-                {"x": 0, "y": 0}
+                {"x": 0, "y": 0},
+                {"x": 800, "y": 0},
+                {"x": 800, "y": 10},
+                {"x": 0, "y": 10}
             ]
         ]
     },
     "SizeComponent": {
-        "width": 4000,
+        "width": 800,
         "height": 10
     },
     "UUIDComponent": {},

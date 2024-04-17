@@ -1,0 +1,64 @@
+{
+    "IDComponent": {
+        "id": "portal_02"
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 800,
+        "y": 160
+    },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "CollisionEventComponent": {
+        "event_name": "portal",
+        "event_data": {
+            "portal_id": "portal_02",
+            "portal_destination": "portal_01"
+        }
+    },
+    "CollisionComponent": {
+        "collision_type": 10,
+        "polygons": [
+            [
+                {
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "x": 64,
+                    "y": 0
+                },
+                {
+                    "x": 64,
+                    "y": 64
+                },
+                {
+                    "x": 0,
+                    "y": 64
+                }
+            ]
+        ]
+    },
+    "SizeComponent": {
+        "width": 64,
+        "height": 64
+    },
+    "RenderComponent": {
+        "layer": 1
+    },
+    "ImageComponent": {
+        "image_data": {
+            "path": "images/objects/portal_01.png",
+            "locations": [
+                [
+                    0,
+                    0,
+                    64,
+                    64
+                ]
+            ]
+        }
+    }
+}

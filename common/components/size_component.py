@@ -6,5 +6,6 @@ class SizeComponent(Component):
     def __init__(self, width, height):
         super().__init__()
         # Component initialization
-        self.size = (width, height)
+        self.width = width
+        self.height = height
 

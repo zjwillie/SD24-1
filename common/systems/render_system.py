@@ -6,9 +6,11 @@ from common.components import (
     CameraComponent,
     CollisionComponent,
     FocusPointComponent,
+    IDComponent,
     ImageComponent,
     PositionComponent,
     RenderComponent,
+    SizeComponent
 )
 
 class RenderSystem(System):
@@ -17,6 +19,10 @@ class RenderSystem(System):
         self.logger = logger.loggers['render_system']
         self.screen = game_state.screen
 
+        self.font = pygame.font.Font(None, 16)
+
+#!##############################################################################
+
     def update(self, delta_time):
         self.clear_screen()
 
@@ -24,14 +30,18 @@ class RenderSystem(System):
         self.blit_entities(entities_to_blit)
         self.draw_collisions()
 
+        self.draw_entity_info()
+
         pygame.display.flip()
+
+#!##############################################################################
 
     def clear_screen(self):
         self.screen.fill((0, 0, 0))
 
     def get_entities_to_render(self):
         entities_to_blit = []
-        entities_to_render = self.entity_manager.entities_to_render.intersection(self.entity_manager.entities_with_image)
+        entities_to_render = self.entity_manager.component_sets[RenderComponent].intersection(self.entity_manager.component_sets[ImageComponent])
         sorted_entities = self.sort_entities_by_layer_and_focus_point(entities_to_render)
         for entity in sorted_entities:
             blit_info = self.get_entity_blit_info(entity)
@@ -61,7 +71,8 @@ class RenderSystem(System):
 
     def get_camera_adjusted_blit_info(self, entity, current_image, position):
         camera_component = self.entity_manager.get_component(self.entity_manager.entity_with_camera, CameraComponent)
-        entity_rect = pygame.Rect(position.x, position.y, *current_image.get_size())
+        size_component = self.entity_manager.get_component(entity, SizeComponent)
+        entity_rect = pygame.Rect(position.x, position.y, size_component.width, size_component.height)
         camera_view = self.get_camera_view_rect(camera_component)
 
         if camera_view.colliderect(entity_rect):
@@ -89,7 +100,7 @@ class RenderSystem(System):
 
     def draw_collisions(self):
         camera_component = self.entity_manager.get_component(self.entity_manager.entity_with_camera, CameraComponent)
-        for entity in self.entity_manager.entities_with_collision:
+        for entity in self.entity_manager.component_sets[CollisionComponent]:
             collision_component = self.entity_manager.get_component(entity, CollisionComponent).polygons
             position_component = self.entity_manager.get_component(entity, PositionComponent).position
             for polygon in collision_component:
@@ -98,3 +109,18 @@ class RenderSystem(System):
                     (Vector2(point) + position_component - camera_component.position + camera_component.offset).xy for point in polygon
                 ]
                 pygame.draw.polygon(self.screen, (255, 0, 0), offset_polygon, 1)
+
+    def draw_entity_info(self):
+        camera_component = self.entity_manager.get_component(self.entity_manager.entity_with_camera, CameraComponent)
+        for entity in self.entity_manager.entities:
+            id_component = self.entity_manager.get_component(entity, IDComponent)
+            position_component = self.entity_manager.get_component(entity, PositionComponent)
+            if id_component and position_component:
+                id_text = self.font.render(f'ID: {id_component.id}', True, (255, 255, 255))
+                position_text = self.font.render(f'Position: {position_component.position}', True, (255, 255, 255))
+    
+                # Adjust the text position for the camera's position and offset
+                text_position = position_component.position - camera_component.position + camera_component.offset
+                text_position += pygame.Vector2(0, -id_text.get_height() - position_text.get_height())
+                self.screen.blit(id_text, text_position)
+                self.screen.blit(position_text, text_position + pygame.Vector2(0, id_text.get_height()))

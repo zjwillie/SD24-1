@@ -20,6 +20,7 @@ class EventManager:
     EVENT_RUN = "run"
     EVENT_LIGHT_ATTACK = "light_attack"
     EVENT_HEAVY_ATTACK = "heavy_attack"
+    EVENT_DODGE = "dodge"
     EVENT_BLOCK = "block"
     EVENT_JUMP = "jump"
     EVENT_INTERACT = "interact"

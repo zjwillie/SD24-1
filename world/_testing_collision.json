@@ -1,18 +1,12 @@
 {
-    "entities":[
-        "entities/character/character.json",
-        "entities/levels/home/homestead.json",
-        "entities/static_objects/block_01.json",
-        "entities/foliage/trees/big_tree.json",
-        "entities/static_objects/border_wall.json",
-        "entities/buildings/home.json",
-        "entities/foliage/trees/fir_tree.json",
-        "entities/water/water_block.json",
-        "entities/text/text_test_box.json",
-        "entities/objects/portal_01.json",
-        "entities/objects/portal_02.json"
+    "entities": [
+            "entities/character/character.json",
+            "_testing/border_top.json",
+            "_testing/border_bottom.json",
+            "_testing/border_left.json",
+            "_testing/border_right.json"
     ],
-    "systems":[
+    "systems": [
         "AnimationSystem",
         "CameraSystem",
         "DialogueSystem",
@@ -23,13 +17,11 @@
     ],
     "camera":
         "cameras/game_world_800x600_no_offset.json",
-    "input":
-    {       
-        "KEY_REPEAT_INITAL_DELAY":0.4,
-        "KEY_REPEAT_INITAL_SPEED":0.4,
-        "KEY_REPEAT_MAX_SPEED":0.4,
-        "keybindings":
-        {
+    "input": {
+        "KEY_REPEAT_INITAL_DELAY": 0.4,
+        "KEY_REPEAT_INITAL_SPEED": 0.4,
+        "KEY_REPEAT_MAX_SPEED": 0.4,
+        "keybindings": {
             "up": "up",
             "w": "up",
             "down": "down",

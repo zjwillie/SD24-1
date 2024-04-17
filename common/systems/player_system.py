@@ -4,6 +4,7 @@ from .base_system import System
 from common.managers.event_manager import Event
 
 from common.components import AnimationComponent
+from common.components import ControlComponent
 from common.components import DirectionMovingComponent
 from common.components import DirectionFacingComponent
 from common.components import EntityStatusComponent
@@ -26,6 +27,7 @@ class PlayerSystem(System):
         self.event_manager.subscribe(self.event_manager.MOVEMENT_KEY_EVENT, self.update_direction)
 
         self.event_manager.subscribe(self.event_manager.EVENT_LIGHT_ATTACK, self.update_action_queue)
+        self.event_manager.subscribe(self.event_manager.EVENT_DODGE, self.update_action_queue)
 
         self.event_manager.subscribe(self.event_manager.PLAYER_ANIMATION_FINISHED, self.handle_animation_finished)
 
@@ -68,7 +70,7 @@ class PlayerSystem(System):
                 self.action_queue.pop(0)
 
     def update_direction(self, event):
-        if self.get_component(self.player_ID, EntityStatusComponent).is_attacking == False:
+        if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
 
@@ -146,7 +148,6 @@ class PlayerSystem(System):
             self.get_component(self.player_ID, DirectionFacingComponent).direction = direction_facing.split("_")[0]
             self.get_component(self.player_ID, DirectionMovingComponent).direction = direction_moving
 
-
     def update_animation(self, delta_time):
         direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
 
@@ -158,8 +159,10 @@ class PlayerSystem(System):
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["dash_" + direction_facing]
         elif self.get_component(self.player_ID, EntityStatusComponent).is_attacking:
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["light_attack_" + direction_facing]
+        elif self.get_component(self.player_ID, EntityStatusComponent).is_dodging:
+            self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["dodge_" + direction_facing]
 
-        self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_dashing, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
+        #self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_dashing, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
 
                                     
     def handle_actions(self, delta_time):
@@ -171,9 +174,17 @@ class PlayerSystem(System):
                     entity_status_component.reset()
                     entity_status_component.is_attacking = True
                     entity_status_component.is_acting = True
+                elif action[0] == self.event_manager.EVENT_DODGE:
+                    self.logger.info(f"Handle_Action: {self.event_manager.EVENT_DODGE}")
+                    entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
+                    entity_status_component.reset()
+                    entity_status_component.is_dodging = True
+                    entity_status_component.is_acting = True
 
     def update(self, delta_time):
-        if len(self.action_queue) > 0:
-            self.handle_actions(delta_time)
+        control_component = self.get_component(self.player_ID, ControlComponent)
+        if control_component.enabled == True:
+            if len(self.action_queue) > 0:
+                self.handle_actions(delta_time)
 
-        self.update_animation(delta_time)
+            self.update_animation(delta_time)

@@ -43,4 +43,4 @@ class {class_name}(Component):
     print(f"Component {class_name} created and added to the factory.")
 
 # Example usage
-create_component('Camera')
+create_component('CollisionEvent')

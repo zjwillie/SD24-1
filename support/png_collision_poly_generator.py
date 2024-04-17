@@ -5,7 +5,7 @@ import json
 # Initialize Pygame
 pygame.init()
 
-JSON_to_load = "entities\water\water_block.json"
+JSON_to_load = "entities/buildings/home.json"
 
 # Set up the scale factor
 SCALE_FACTOR = 4
@@ -29,10 +29,12 @@ points = []
 
 def draw_points():
     for point in points:
-        pygame.draw.circle(window, (255, 255, 255), (point["x"]*SCALE_FACTOR + 5, point["y"]*SCALE_FACTOR + 5), 3)
+        pygame.draw.circle(window, (255, 255, 255), (point["x"]*SCALE_FACTOR + SCALE_FACTOR//2, point["y"]*SCALE_FACTOR + SCALE_FACTOR//2), 3)
 
 def add_point(x, y):
-    points.append({"x": x//SCALE_FACTOR, "y": y//SCALE_FACTOR})
+    grid_x = x // SCALE_FACTOR
+    grid_y = y // SCALE_FACTOR
+    points.append({"x": grid_x, "y": grid_y})
 
 def orientation(p, q, r):
     val = (q['y'] - p['y']) * (r['x'] - q['x']) - (q['x'] - p['x']) * (r['y'] - q['y'])
@@ -70,7 +72,14 @@ def print_points():
 # Draw the existing polygons
 def draw_polygons():
     for polygon in data['CollisionComponent']['polygons']:
-        pygame.draw.polygon(window, (255, 0, 0), [(point["x"]*SCALE_FACTOR + 5, point["y"]*SCALE_FACTOR + 5) for point in polygon], 1)
+        pygame.draw.polygon(window, (255, 0, 0), [(point["x"]*SCALE_FACTOR + SCALE_FACTOR//2, point["y"]*SCALE_FACTOR + SCALE_FACTOR//2) for point in polygon], 1)
+
+# Draw a grid
+def draw_grid():
+    for x in range(0, WIDTH, SCALE_FACTOR):
+        pygame.draw.line(window, (211, 211, 211), (x, 0), (x, HEIGHT))  # Light gray color
+    for y in range(0, HEIGHT, SCALE_FACTOR):
+        pygame.draw.line(window, (211, 211, 211), (0, y), (WIDTH, y))  # Light gray color
 
 # Main game loop
 while True:
@@ -84,8 +93,11 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 print_points()
+            elif event.key == pygame.K_ESCAPE:  # Clear points when escape key is pressed
+                points.clear()
 
     window.blit(background, (0, 0))
+    draw_grid()  # Draw the grid
     draw_points()
     draw_polygons()
     pygame.display.flip()
