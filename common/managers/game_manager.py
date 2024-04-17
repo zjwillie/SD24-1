@@ -76,8 +76,8 @@ class GameManager:
 
 
     def start_game(self):
-        #start_game_dict = get_JSON_data("world/_testing_collision.json")
-        start_game_dict = get_JSON_data("world/game_world.json")
+        start_game_dict = get_JSON_data("world/_testing_collision.json")
+        #start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
         #TODO need to set up the world size in the JSON, here we just know it
