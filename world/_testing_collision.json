@@ -1,6 +1,6 @@
 {
     "entities": [
-            "entities/character/character.json",
+            "entities/character/character_0.2.json",
             "_testing/border_top.json",
             "_testing/border_bottom.json",
             "_testing/border_left.json",
