@@ -177,25 +177,25 @@
                 "light_attack_down": {
                     "row": 8,
                     "num_frames": 5,
-                    "frame_duration": [0.02, 0.02, 0.1, 0.1, 0.02],
+                    "frame_duration": [0.1, 0.05, 0.05, 0.05, 0.2],
                     "loop": false
                 },
                 "light_attack_up": {
                     "row": 9,
                     "num_frames": 5,
-                    "frame_duration": [0.02, 0.02, 0.1, 0.1, 0.02],
+                    "frame_duration": [0.1, 0.05, 0.05, 0.05, 0.2],
                     "loop": false
                 },
                 "light_attack_right": {
                     "row": 10,
                     "num_frames": 5,
-                    "frame_duration": [0.02, 0.02, 0.1, 0.1, 0.02],
+                    "frame_duration": [0.1, 0.05, 0.05, 0.05, 0.2],
                     "loop": false
                 },
                 "light_attack_left": {
                     "row": 11,
                     "num_frames": 5,
-                    "frame_duration": [0.02, 0.02, 0.1, 0.1, 0.02],
+                    "frame_duration": [0.1, 0.05, 0.05, 0.05, 0.2],
                     "loop": false
                 },
                 "dodge_down": {
@@ -220,30 +220,6 @@
                     "row": 15,
                     "num_frames": 5,
                     "frame_duration": [0.05, 0.05, 0.05, 0.05, 0.05],
-                    "loop": false
-                },
-                "heavy_attack_down": {
-                    "row": 16,
-                    "num_frames": 13,
-                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-                    "loop": false
-                },
-                "heavy_attack_up": {
-                    "row": 17,
-                    "num_frames": 13,
-                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-                    "loop": false
-                },
-                "heavy_attack_right": {
-                    "row": 18,
-                    "num_frames": 13,
-                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-                    "loop": false
-                },
-                "heavy_attack_left": {
-                    "row": 19,
-                    "num_frames": 13,
-                    "frame_duration": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
                     "loop": false
                 }
             }

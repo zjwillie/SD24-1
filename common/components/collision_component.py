@@ -32,17 +32,17 @@ class CollisionComponent(Component):
             axes.append(self.normalize_vector(normal))
         return axes
     
-    def subtract_vectors(self, v1, v2):
+    def subtract_vectors(self, vector1, vector2):
         """Subtract vector v2 from v1, where vectors are tuples."""
-        return (v1[0] - v2[0], v1[1] - v2[1])
+        return (vector1[0] - vector2[0], vector1[1] - vector2[1])
     
-    def perpendicular_vector(self, v):
+    def perpendicular_vector(self, vector):
         """Get a vector (tuple) that is perpendicular to the given vector v."""
-        return (-v[1], v[0])
+        return (-vector[1], vector[0])
     
-    def normalize_vector(self, v):
+    def normalize_vector(self, vector):
         """Normalize the given vector v, which is a tuple."""
-        length = (v[0] ** 2 + v[1] ** 2) ** 0.5
+        length = (vector[0] ** 2 + vector[1] ** 2) ** 0.5
         if length == 0:
             return (0, 0)  # To avoid division by zero
-        return (v[0] / length, v[1] / length)
+        return (vector[0] / length, vector[1] / length)

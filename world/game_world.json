@@ -1,6 +1,6 @@
 {
     "entities":[
-        "entities/character/character.json",
+        "entities/character/character_0.2.json",
         "entities/levels/home/homestead.json",
         "entities/static_objects/block_01.json",
         "entities/foliage/trees/big_tree.json",
