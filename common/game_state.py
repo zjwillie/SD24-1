@@ -12,19 +12,24 @@ class GameState:
         self.sound_on = False
         self.volume = 1.0
 
-        self.caption = "ECS SD Build 0.0.4.2"
+        self.caption = "ECS SD Build 0.0.4.3"
         self.icon_path = "images/icons/main_icon.png"
 
         self.loggers = None
 
-        self.initialize_pygame()
+        self.world_data = None
 
-    def initialize_pygame(self):
+        self.initialize_game()
+
+    def initialize_game(self):
         #ctypes.windll.user32.SetProcessDPIAware()
 
         pygame.init()
 
+        self.world_data = None
+
         self.screen = pygame.display.set_mode(self.resolution)
+        self.world_size = None
 
         self.set_caption(self.caption)
         self.set_icon(self.icon_path)
@@ -47,6 +52,11 @@ class GameState:
 
     def set_icon(self, icon):
         pygame.display.set_icon(pygame.image.load(icon))
+
+    def set_world_data(self, world_data):
+        self.world_data = world_data
+        if "world" in self.world_data:
+            self.world_size = tuple((self.world_data["world"]["width"], self.world_data["world"]["height"]))
 
 def main():
     game_state = GameState()

@@ -26,19 +26,20 @@ class GameManager:
         log_levels = {
             'animation_system': "OFF",
             'camera_system': "OFF",
+            'component': 'OFF',
+            'current': 'OFF',
             'dialogue_system': "OFF",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'OFF',
             'game_manager': 'OFF',
-            'component': 'OFF',
-            'system': 'OFF',
-            'player_system': 'OFF',
+            'grid_system': 'ON',
+            'input_manager': 'OFF',
             'menu_system': 'OFF',
             'movement_system': 'OFF',
+            'player_system': 'OFF',
             'render_system': 'OFF',
+            'system': 'OFF',
             'testing_system': 'OFF',
-            'current': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
         #self.logger.set_output_to_console('game_manager')
@@ -82,9 +83,7 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
-        #TODO need to set up the world size in the JSON, here we just know it
-        world_size = (4000, 4000)
-        camera_size = (800, 600)
+        world_size = self.game_state.world_size
 
         # Print all entities with their names:
         for entity in self.world.entity_manager.entities:
@@ -94,12 +93,13 @@ class GameManager:
         self.logger.loggers['game_manager'].info("END OF ENTITIES")        
 
         # Attach the camera to the player
+        # TODO can automate this better, perhaps initialize with the camera component? dunno, later
         camera_data = get_JSON_data(start_game_dict["camera"])
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
                                                 CameraComponent(
                                                     tuple(camera_data["position"]), 
                                                     tuple(camera_data["camera_size"]), 
-                                                    tuple(camera_data["world_size"]), 
+                                                    tuple(world_size), 
                                                     tuple(camera_data["dead_zone"]),
                                                     tuple(camera_data["offset"])                                                    
                                                     )

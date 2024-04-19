@@ -1,3 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# main.py
+
+# vim:fenc=utf-8
+# File name: main.py
+# First Edit: 2024-03-18
+# Last Change: 2024-06-30
+"""
+This content is property of SomebodysDream.
+Author: Zac Shepherd (SomebodysDream)
+"""
+
+
 import os
 import pygame
 

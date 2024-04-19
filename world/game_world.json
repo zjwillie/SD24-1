@@ -1,4 +1,9 @@
 {
+    "name": "game_world",
+    "world":{
+        "width": 4000,
+        "height": 4000
+    },
     "entities":[
         "entities/character/character_0.2.json",
         "entities/levels/home/homestead.json",
@@ -16,6 +21,7 @@
         "AnimationSystem",
         "CameraSystem",
         "DialogueSystem",
+        "GridSystem",
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",
@@ -23,6 +29,10 @@
     ],
     "camera":
         "cameras/game_world_800x600_no_offset.json",
+    "grid":{
+        "width": 32,
+        "height": 32
+    },
     "input":
     {       
         "KEY_REPEAT_INITAL_DELAY":0.4,

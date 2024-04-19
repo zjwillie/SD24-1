@@ -1,5 +1,7 @@
+
 from common.systems.animation_system import AnimationSystem
 from common.systems.camera_system import CameraSystem
+from common.systems.grid_system import GridSystem
 from common.systems.dialogue_system import DialogueSystem
 from common.systems.player_system import PlayerSystem
 from common.systems.menu_system import MenuSystem
@@ -14,6 +16,7 @@ class SystemFactory:
             'AnimationSystem': AnimationSystem,
             'CameraSystem': CameraSystem,
             'DialogueSystem': DialogueSystem,
+            'GridSystem': GridSystem,
             'PlayerSystem': PlayerSystem,
             'MenuSystem': MenuSystem,
             'MovementSystem': MovementSystem,

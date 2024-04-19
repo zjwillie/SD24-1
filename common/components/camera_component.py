@@ -25,4 +25,4 @@ class CameraComponent(Component):
         self.dead_zone = dead_zone
         self.offset = offset  # Use the passed offset or default to (0, 0)
 
-        print("CameraComponent initialized")
+        #print("CameraComponent initialized")

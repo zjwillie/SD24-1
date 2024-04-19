@@ -1,4 +1,5 @@
 {
+    "name":"Main Menu",
     "entities":[
         "entities/menus/main_menu.json",
         "entities/menus/main_menu_selector.json",

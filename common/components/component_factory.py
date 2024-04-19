@@ -70,8 +70,8 @@ class ComponentFactory:
             try:
                 return component_class(**component_data)
             except ValueError:
-                print(f"CRITICAL: 'component_factory.py' Error: {component_name} constructor raised a ValueError. Check the keys in component_data.")
+                #print(f"CRITICAL: 'component_factory.py' Error: {component_name} constructor raised a ValueError. Check the keys in component_data.")
                 return None
         else:
-            print(f"EXCEPTION: 'component_factory.py' Component class for {component_name} not found in component_classes.")
+            #print(f"EXCEPTION: 'component_factory.py' Component class for {component_name} not found in component_classes.")
             return None

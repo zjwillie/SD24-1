@@ -9,20 +9,21 @@ class LoggingManager:
 
     def initialize_logging(self):
         self.loggers = {
-            'entity_manager': logging.getLogger('entity'),
-            'event_manager': logging.getLogger('event_manager'),
-            'dialogue_system': logging.getLogger('dialogue_system'),
-            'input_manager': logging.getLogger('input_manager'),
-            'game_manager': logging.getLogger('game_manager'),
+            'animation_system': logging.getLogger('animation_system'),
             'camera_system': logging.getLogger('camera_system'),
             'component': logging.getLogger('component'),
-            'system': logging.getLogger('system'),
-            'animation_system': logging.getLogger('animation_system'),
-            'player_system': logging.getLogger('player_system'),
+            'current': logging.getLogger('current'),
+            'dialogue_system': logging.getLogger('dialogue_system'),
+            'entity_manager': logging.getLogger('entity'),
+            'event_manager': logging.getLogger('event_manager'),
+            'game_manager': logging.getLogger('game_manager'),
+            'grid_system': logging.getLogger('grid_system'),
+            'input_manager': logging.getLogger('input_manager'),
             'menu_system': logging.getLogger('menu_system'),
             'movement_system': logging.getLogger('movement_system'),
+            'player_system': logging.getLogger('player_system'),
             'render_system': logging.getLogger('render_system'),
-            'current': logging.getLogger('current'),
+            'system': logging.getLogger('system'),
             'testing_system': logging.getLogger('testing_system'),
         }
         for logger_name in self.loggers:

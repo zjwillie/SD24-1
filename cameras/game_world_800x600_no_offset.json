@@ -1,7 +1,6 @@
 {
     "position": [0, 0],
     "camera_size": [800, 600],
-    "world_size": [4000, 4000],
     "dead_zone": [20, 20, 20, 20],
     "offset": [0, 0]
 }
