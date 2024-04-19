@@ -16,6 +16,7 @@
         "AnimationSystem",
         "CameraSystem",
         "DialogueSystem",
+        "GridSystem",
         "MovementSystem",
         "PlayerSystem",
         "RenderSystem",

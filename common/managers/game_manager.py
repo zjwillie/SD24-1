@@ -26,19 +26,20 @@ class GameManager:
         log_levels = {
             'animation_system': "OFF",
             'camera_system': "OFF",
+            'component': 'OFF',
+            'current': 'OFF',
             'dialogue_system': "OFF",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
-            'input_manager': 'OFF',
             'game_manager': 'OFF',
-            'component': 'OFF',
-            'system': 'OFF',
-            'player_system': 'OFF',
+            'grid_system': 'ON',
+            'input_manager': 'OFF',
             'menu_system': 'OFF',
             'movement_system': 'OFF',
+            'player_system': 'OFF',
             'render_system': 'OFF',
+            'system': 'OFF',
             'testing_system': 'OFF',
-            'current': 'OFF',
         }
         self.logger.set_log_levels(log_levels)
         #self.logger.set_output_to_console('game_manager')
