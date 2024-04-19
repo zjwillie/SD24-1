@@ -64,7 +64,7 @@ class TestingSystem(System):
             self.entity_manager.add_component(entity, TestingCollisionComponent())
 
             # Spread the entities evenly across the 800x600 area
-            position = Vector2((i % num_columns) * cell_width + cell_width / 2, (i // num_columns) * cell_height + cell_height / 2)
+            position = Vector2((i % num_columns) * cell_width + cell_width / 2, (i // num_columns) * cell_height + cell_height / 2 - 10)
             self.entity_manager.add_component(entity, PositionComponent(position))
 
             self.entity_manager.add_component(entity, VelocityComponent(random.randint(100, 550)))

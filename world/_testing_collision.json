@@ -1,4 +1,9 @@
 {
+    "name": "testing collision",
+    "world":{
+        "width": 4000,
+        "height": 4000
+    },
     "entities": [
             "entities/character/character_0.2.json",
             "_testing/border_top.json",
@@ -18,29 +23,32 @@
     ],
     "camera":
         "cameras/game_world_800x600_no_offset.json",
-    "input": {
-        "KEY_REPEAT_INITAL_DELAY": 0.4,
-        "KEY_REPEAT_INITAL_SPEED": 0.4,
-        "KEY_REPEAT_MAX_SPEED": 0.4,
-        "keybindings": {
-            "up": "up",
-            "w": "up",
-            "down": "down",
-            "s": "down",
-            "left": "left",
-            "a": "left",
-            "right": "right",
-            "d": "right",
-            "space": "dodge",
-            "return": "return",
-            "escape": "escape",
-            "tab": "tab",
-            "left_shift": "run",
-            "e": "interact",
-            "r": "heavy_attack",
-            "f": "light_attack",
-            "joystick_0": "dodge",
-            "joystick_5": "light_attack"
+        "input":
+        {       
+            "KEY_REPEAT_INITAL_DELAY":0.4,
+            "KEY_REPEAT_INITAL_SPEED":0.4,
+            "KEY_REPEAT_MAX_SPEED":0.4,
+            "keybindings":
+            {
+                "up": "move_up",
+                "w": "face_up",
+                "down": "move_down",
+                "s": "face_down",
+                "left": "move_left",
+                "a": "face_left",
+                "right": "move_right",
+                "d": "face_right",
+                "space": "dodge",
+                "return": "return",
+                "escape": "escape",
+                "tab": "tab",
+                "left_shift": "run",
+                "e": "interact",
+                "r": "heavy_attack",
+                "f": "light_attack",
+                "joystick_0": "dodge",
+                "joystick_5": "light_attack"
+            }
         }
     }
-}
+        

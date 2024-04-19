@@ -97,34 +97,41 @@ class MovementSystem(System):
             self.update_position(entity, delta_time)
 
     def get_collision_data(self, entity, delta_time):
-            current_position = self.get_component(entity, PositionComponent).position
-            current_velocity = self.get_component(entity, VelocityComponent).current_velocity
-            
-            potential_new_position = current_position + current_velocity * delta_time
-
-            # Initially assume no collision
-            collision_data = {
-                "collision_x": False,
-                "collision_y": False,
-                "collisions": {},
-                "new_position": potential_new_position
-            }
-
-            # Check for collision in X and Y separately to determine the possibility of sliding
-            potential_position_x = Vector2(potential_new_position.x, current_position.y)
-            collision_x = self.check_collision(entity, potential_position_x)
-            if collision_x:
+        current_position = self.get_component(entity, PositionComponent).position
+        current_velocity = self.get_component(entity, VelocityComponent).current_velocity
+    
+        potential_new_position = current_position + current_velocity * delta_time
+    
+        # Initially assume no collision
+        collision_data = {
+            "collision_x": False,
+            "collision_y": False,
+            "collisions": {},
+            "new_position": potential_new_position
+        }
+    
+        # Check for collision in X and Y separately
+        potential_position_x = Vector2(potential_new_position.x, current_position.y)
+        collision_x = self.check_collision(entity, potential_position_x)
+        if collision_x:
+            collision_data["collision_x"] = True
+            collision_data["collisions"].update(collision_x)
+    
+        potential_position_y = Vector2(current_position.x, potential_new_position.y)
+        collision_y = self.check_collision(entity, potential_position_y)
+        if collision_y:
+            collision_data["collision_y"] = True
+            collision_data["collisions"].update(collision_y)
+    
+        # If no collision was detected on either axis, check for a corner collision
+        if not collision_x and not collision_y:
+            collision = self.check_collision(entity, potential_new_position)
+            if collision:
                 collision_data["collision_x"] = True
-                collision_data["collisions"].update(collision_x)
-
-
-            potential_position_y = Vector2(current_position.x, potential_new_position.y)
-            collision_y = self.check_collision(entity, potential_position_y)
-            if collision_y:
                 collision_data["collision_y"] = True
-                collision_data["collisions"].update(collision_y)
-
-            return collision_data
+                collision_data["collisions"].update(collision)
+    
+        return collision_data
     
 #?#####################################################################################################################################################################
 
@@ -144,15 +151,14 @@ class MovementSystem(System):
 
         if final_collision_type == 1 or final_collision_type == 100:
             if collision_data["collision_x"] == True:
-                current_velocity.x = 0  # Stop horizontal movement upon collision
+                current_velocity.x = 0
 
             if collision_data["collision_y"] == True:
                 current_velocity.y = 0
 
-            # Check if entity has a collision event component
-            if self.has_component(final_collision_entity, CollisionEventComponent):
-                collision_event_component = self.get_component(final_collision_entity, CollisionEventComponent)
-                print(f"Collision event triggered: {collision_event_component.event_name}")
+        if self.has_component(final_collision_entity, CollisionEventComponent):
+            collision_event_component = self.get_component(final_collision_entity, CollisionEventComponent)
+            print(f"Collision event triggered: {collision_event_component.event_name}")
 
 #!#####################################################################################################################################################################
 
