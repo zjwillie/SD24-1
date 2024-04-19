@@ -16,7 +16,7 @@ class ECSWorld:
         self.entity_manager = EntityManager(self.logger)
         self.event_manager = EventManager(self.logger)
 
-        self.input_manager = InputManager(self.event_manager, self.logger)
+        self.input_manager = InputManager(self.game_state, self.event_manager, self.logger)
         self.system_manager = SystemManager(self.game_state, self.entity_manager, self.event_manager, self.logger)
 
         if world_data:
