@@ -93,6 +93,7 @@ class GameManager:
         self.logger.loggers['game_manager'].info("END OF ENTITIES")        
 
         # Attach the camera to the player
+        # TODO can automate this better, perhaps initialize with the camera component? dunno, later
         camera_data = get_JSON_data(start_game_dict["camera"])
         self.world.entity_manager.add_component(self.world.entity_manager.player_ID, 
                                                 CameraComponent(
