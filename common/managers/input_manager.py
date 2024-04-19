@@ -15,7 +15,7 @@ class InputManager:
     REPEAT_DIVISION_FACTOR = 1.6
 
     # Initialize the InputManager with an event manager, logger, and time between key repeats
-    def __init__(self, event_manager, logger):
+    def __init__(self, game_state, event_manager, logger):
 
         self.logger = logger.loggers['input_manager']
 
@@ -24,7 +24,8 @@ class InputManager:
         self.KEY_REPEAT_INITAL_SPEED = None
         self.KEY_REPEAT_MAX_SPEED = None
 
-        # Event manager instance
+        # Reference to the game state and event manager
+        self.game_state = game_state
         self.event_manager = event_manager
 
         # Mapping of pygame key events to string representations
@@ -165,7 +166,7 @@ class InputManager:
         self.keys_down_time = {}
 
         # Joystick axis
-        self.joystick_axis = {}
+        self.joystick_axis = {'x': 0, 'y': 0, 'facing_x': 0, 'facing_y': 0}
 
     # Load world data
     def load_input_data(self, world_data_input):
@@ -277,6 +278,12 @@ class InputManager:
                 self.event_manager.post(Event(self.event_manager.MOUSE_POSITION, mouse_pos))
 
             #^ JOYSTICK #########################################################################################
+            elif event.type == pygame.JOYDEVICEADDED:
+                self.game_state.activate_joysticks()
+
+            elif event.type == pygame.JOYDEVICEREMOVED:
+                self.game_state.deactivate_joysticks()
+
             elif event.type == pygame.JOYBUTTONDOWN:
                 if event.button in self.joystick_event_map:
                     action = self.current_input_map.get(self.joystick_event_map[event.button])
@@ -341,6 +348,16 @@ class InputManager:
                         self.joystick_axis["y"] = event.value
                     else:
                         self.joystick_axis["y"] = 0
+                elif event.axis == 2:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["facing_x"] = event.value
+                    else:
+                        self.joystick_axis["facing_x"] = 0
+                elif event.axis == 3:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["facing_y"] = event.value
+                    else:
+                        self.joystick_axis["facing_y"] = 0
 
 
             # Append any unhandled events to the event manager
@@ -369,4 +386,5 @@ class InputManager:
                         self.key_repeat_timer[action] = time.time()
 
         # If the keys down or keys down time has changed, post a movementment key event
+        self.logger.info(f"Keys Down: {self.keys_down}, Keys Down Time: {self.keys_down_time}, Joystick Axis: {self.joystick_axis}")
         self.event_manager.post(Event(self.event_manager.MOVEMENT_KEY_EVENT, {'keys_down_time': self.keys_down_time, 'joystick_axis': self.joystick_axis}))

@@ -67,9 +67,8 @@ class MovementSystem(System):
     
         velocity_component.current_velocity = new_velocity
 
-    def update_position(self, entity, velocity_component, position_component, delta_time):
-        position_component.position.x += velocity_component.current_velocity.x * delta_time
-        position_component.position.y += velocity_component.current_velocity.y * delta_time
+    def update_position(self, entity, delta_time):
+        self.entity_manager.get_component(entity, PositionComponent).position += self.entity_manager.get_component(entity, VelocityComponent).current_velocity * delta_time
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
 
@@ -89,9 +88,13 @@ class MovementSystem(System):
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
             
+            # check for collisions
             collision_data = self.get_collision_data(entity, delta_time)
 
-            self.handle_collision(entity, collision_data)
+            if collision_data["collision_x"] or collision_data["collision_y"]:
+                self.handle_collision(entity, collision_data)
+
+            self.update_position(entity, delta_time)
 
     def get_collision_data(self, entity, delta_time):
             current_position = self.get_component(entity, PositionComponent).position
@@ -139,20 +142,12 @@ class MovementSystem(System):
                 final_collision_type = collision_type
                 final_collision_entity = collision_entity
 
-
         if final_collision_type == 1 or final_collision_type == 100:
             if collision_data["collision_x"] == True:
                 current_velocity.x = 0  # Stop horizontal movement upon collision
-            else:
-                current_position.x = collision_data["new_position"].x
 
             if collision_data["collision_y"] == True:
                 current_velocity.y = 0
-            else:
-                current_position.y = collision_data["new_position"].y
-        elif final_collision_type == 10:
-            current_position.x = collision_data["new_position"].x
-            current_position.y = collision_data["new_position"].y
 
             # Check if entity has a collision event component
             if self.has_component(final_collision_entity, CollisionEventComponent):

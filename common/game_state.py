@@ -15,6 +15,8 @@ class GameState:
         self.caption = "ECS SD Build 0.0.4.3"
         self.icon_path = "images/icons/main_icon.png"
 
+        self.joystick_active = False
+
         self.loggers = None
 
         self.world_data = None
@@ -37,14 +39,21 @@ class GameState:
         self.clock = pygame.time.Clock()
         self.start_time = pygame.time.get_ticks()
 
-        self.check_for_joysticks()
+        self.activate_joysticks()
 
-    def check_for_joysticks(self):
+    def activate_joysticks(self):
         # check for joysticks
         if pygame.joystick.get_count() > 0:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
+            self.joystick_active = True
         else:
+            self.joystick = None
+
+    def deactivate_joysticks(self):
+        if self.joystick:
+            self.joystick.quit()
+            self.joystick_active = False
             self.joystick = None
 
     def set_caption(self, caption):

@@ -32,8 +32,8 @@ class GameManager:
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
             'game_manager': 'OFF',
-            'grid_system': 'ON',
-            'input_manager': 'OFF',
+            'grid_system': 'OFF',
+            'input_manager': 'ON',
             'menu_system': 'OFF',
             'movement_system': 'OFF',
             'player_system': 'OFF',
@@ -120,8 +120,6 @@ class GameManager:
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
 
         self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
-
-
 
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")
