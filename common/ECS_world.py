@@ -23,6 +23,7 @@ class ECSWorld:
             self.load_world_data(world_data)
 
     def load_world_data(self, world_data):
+        self.game_state.set_world_data(world_data)
         self.entity_manager.create_world_entities(world_data["entities"])
         self.system_manager.add_systems(world_data["systems"])
         self.input_manager.load_input_data(world_data["input"])

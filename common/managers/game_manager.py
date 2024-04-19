@@ -83,9 +83,7 @@ class GameManager:
         start_game_dict = get_JSON_data("world/game_world.json")
         self.world = ECSWorld(self.game_state, self.logger, start_game_dict)
 
-        #TODO need to set up the world size in the JSON, here we just know it
-        world_size = (4000, 4000)
-        camera_size = (800, 600)
+        world_size = self.game_state.world_size
 
         # Print all entities with their names:
         for entity in self.world.entity_manager.entities:
@@ -100,7 +98,7 @@ class GameManager:
                                                 CameraComponent(
                                                     tuple(camera_data["position"]), 
                                                     tuple(camera_data["camera_size"]), 
-                                                    tuple(camera_data["world_size"]), 
+                                                    tuple(world_size), 
                                                     tuple(camera_data["dead_zone"]),
                                                     tuple(camera_data["offset"])                                                    
                                                     )

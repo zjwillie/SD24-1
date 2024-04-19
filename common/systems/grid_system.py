@@ -20,6 +20,8 @@ class GridSystem(System):
         
         self.logger = logger.loggers['grid_system']
 
+        self.grid = None
+
     def post_event(self, event_type, data):
         self.event_manager.post(Event(event_type, data))
 
@@ -28,7 +30,6 @@ class GridSystem(System):
 
     def has_component(self, entity, component):
         return self.entity_manager.has_component(entity, component)
-    
 
     def update(self, delta_time):
-        print("grid_system update called")
+        pass
