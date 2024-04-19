@@ -72,17 +72,19 @@ class MovementSystem(System):
         position_component.position.y += velocity_component.current_velocity.y * delta_time
 
 #?############################################################################## UPDATE FUNCTION ##############################################################################
+
     def update(self, delta_time):
         # Select components that need to be updated to move
         #TODO Would create a set that adds any components that have moved, and then only update those components
         for entity in (self.entity_manager.component_sets[PositionComponent] &
                     self.entity_manager.component_sets[VelocityComponent] &
                     self.entity_manager.component_sets[AccelerationComponent]):
+
             # Retrieve necessary components
             velocity_component = self.get_component(entity, VelocityComponent)
             acceleration_component = self.get_component(entity, AccelerationComponent)
             direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
-            
+
             # Update acceleration and velocity based on current direction
             self.update_acceleration(entity, direction_moving_component, acceleration_component)
             self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
@@ -101,7 +103,8 @@ class MovementSystem(System):
             collision_data = {
                 "collision_x": False,
                 "collision_y": False,
-                "collisions": {}
+                "collisions": {},
+                "new_position": potential_new_position
             }
 
             # Check for collision in X and Y separately to determine the possibility of sliding
@@ -110,34 +113,53 @@ class MovementSystem(System):
             if collision_x:
                 collision_data["collision_x"] = True
                 collision_data["collisions"].update(collision_x)
-                current_velocity.x = 0  # Stop horizontal movement upon collision
-            else:
-                current_position.x = potential_position_x.x
+
 
             potential_position_y = Vector2(current_position.x, potential_new_position.y)
             collision_y = self.check_collision(entity, potential_position_y)
             if collision_y:
                 collision_data["collision_y"] = True
                 collision_data["collisions"].update(collision_y)
-                current_velocity.y = 0  # Stop vertical movement upon collision
-            else:
-                current_position.y = potential_position_y.y
 
             return collision_data
-#?############################################################################## UPDATE FUNCTION ##############################################################################
+    
+#?#####################################################################################################################################################################
 
     def handle_collision(self, entity, collision_data):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
         self.logger.info(collision_data)
 
-        for collision_type in collision_data["collisions"].items():
-            self.logger.info("Collision type: ", collision_type)
+        current_position = self.get_component(entity, PositionComponent).position
+        current_velocity = self.get_component(entity, VelocityComponent).current_velocity
 
-        # Handle collision types in order of priority
-        
-            
+        final_collision_type = 100
+        final_collision_entity = None
+        for collision_entity, collision_type in collision_data["collisions"].items():
+            if collision_type < final_collision_type:
+                final_collision_type = collision_type
+                final_collision_entity = collision_entity
 
-#!++++++++++++++++++++++++++++++++
+
+        if final_collision_type == 1 or final_collision_type == 100:
+            if collision_data["collision_x"] == True:
+                current_velocity.x = 0  # Stop horizontal movement upon collision
+            else:
+                current_position.x = collision_data["new_position"].x
+
+            if collision_data["collision_y"] == True:
+                current_velocity.y = 0
+            else:
+                current_position.y = collision_data["new_position"].y
+        elif final_collision_type == 10:
+            current_position.x = collision_data["new_position"].x
+            current_position.y = collision_data["new_position"].y
+
+            # Check if entity has a collision event component
+            if self.has_component(final_collision_entity, CollisionEventComponent):
+                collision_event_component = self.get_component(final_collision_entity, CollisionEventComponent)
+                print(f"Collision event triggered: {collision_event_component.event_name}")
+
+#!#####################################################################################################################################################################
 
     def check_collision(self, entity, new_position):
         # Create a list to store all the entities that the entity is colliding with
@@ -145,7 +167,7 @@ class MovementSystem(System):
 
         # for now only check components with position and collision, likely will need to have grid system to optimize this as well as on "active status" of the entity
         for other_entity in self.entity_manager.component_sets[PositionComponent] & self.entity_manager.component_sets[CollisionComponent]:
-           # Skip the entity itself
+            # Skip the entity itself
             if entity == other_entity:
                 continue
 
@@ -158,35 +180,9 @@ class MovementSystem(System):
 
 #? MATHS BELOW BEWARD ******************************************************************************
 
-    def subtract_vectors(self, v1, v2):
-        """Subtract vector v2 from v1, where vectors are tuples."""
-        return (v1[0] - v2[0], v1[1] - v2[1])
-
-    def perpendicular_vector(self, v):
-        """Get a vector (tuple) that is perpendicular to the given vector v."""
-        return (-v[1], v[0])
-
-    def normalize_vector(self, v):
-        """Normalize the given vector v, which is a tuple."""
-        length = (v[0] ** 2 + v[1] ** 2) ** 0.5
-        if length == 0:
-            return (0, 0)  # To avoid division by zero
-        return (v[0] / length, v[1] / length)
-
     def dot_product(self, v1, v2):
         """Calculate the dot product of two vectors (tuples)."""
         return v1[0] * v2[0] + v1[1] * v2[1]
-
-    def get_axes(self, vertices):
-        """Get all the axes to test for SAT by finding normals to the polygon's edges."""
-        axes = []
-        for i in range(len(vertices)):
-            p1 = vertices[i]
-            p2 = vertices[(i + 1) % len(vertices)]  # Wrap around to the first vertex
-            edge = self.subtract_vectors(p2, p1)
-            normal = self.perpendicular_vector(edge)
-            axes.append(self.normalize_vector(normal))
-        return axes
 
     def project_polygon(self, axis, vertices):
         """Project all vertices of the polygon (list of tuples) onto the given axis."""
@@ -209,17 +205,21 @@ class MovementSystem(System):
     def is_colliding(self, entity, other_entity, new_position):
         entity_position = new_position
         other_entity_position = self.get_component(other_entity, PositionComponent).position
-    
-        entity_polygons = self.get_component(entity, CollisionComponent).polygons
-        other_polygons = self.get_component(other_entity, CollisionComponent).polygons
-    
-        for poly1 in entity_polygons:
+
+        entity_collision_component = self.get_component(entity, CollisionComponent)
+        other_collision_component = self.get_component(other_entity, CollisionComponent)
+
+        entity_polygons = entity_collision_component.polygons
+        other_polygons = other_collision_component.polygons
+
+        entity_axes = entity_collision_component.axes
+        other_axes = other_collision_component.axes
+
+        for poly1, axes1 in zip(entity_polygons, entity_axes):
             translated_poly1 = self.translate_polygon(poly1, entity_position)
-            for poly2 in other_polygons:
+            for poly2, axes2 in zip(other_polygons, other_axes):
                 translated_poly2 = self.translate_polygon(poly2, other_entity_position)
-    
-                axes1 = self.get_axes(translated_poly1)
-                axes2 = self.get_axes(translated_poly2)
+
                 for axis in axes1 + axes2:
                     minA, maxA = self.project_polygon(axis, translated_poly1)
                     minB, maxB = self.project_polygon(axis, translated_poly2)

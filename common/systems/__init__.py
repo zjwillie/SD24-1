@@ -9,3 +9,4 @@ from .movement_system import MovementSystem
 from .player_system import PlayerSystem
 from .render_system import RenderSystem
 from .time_system import TimeSystem
+from .testing_system import TestingSystem

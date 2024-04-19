@@ -30,7 +30,7 @@ class RenderSystem(System):
         self.blit_entities(entities_to_blit)
         self.draw_collisions()
 
-        self.draw_entity_info()
+        #self.draw_entity_info()
 
         pygame.display.flip()
 

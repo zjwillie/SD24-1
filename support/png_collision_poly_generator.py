@@ -5,10 +5,10 @@ import json
 # Initialize Pygame
 pygame.init()
 
-JSON_to_load = "entities/buildings/home.json"
+JSON_to_load = "_testing/_testing_bit_64x64.json"
 
 # Set up the scale factor
-SCALE_FACTOR = 4
+SCALE_FACTOR = 10
 
 # Load the JSON file
 with open(JSON_to_load, 'r') as f:

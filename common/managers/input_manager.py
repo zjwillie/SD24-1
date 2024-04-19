@@ -345,6 +345,7 @@ class InputManager:
 
             # Append any unhandled events to the event manager
             else:
+                # Handle ACTIVEEVENT like window being moved
                 #unhandled_event = Event("unflagged", event)
                 #print(event)
                 #TODO self.event_manager.events.append(unhandled_event)

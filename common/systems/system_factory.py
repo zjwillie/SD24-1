@@ -6,6 +6,7 @@ from common.systems.menu_system import MenuSystem
 from common.systems.movement_system import MovementSystem
 from common.systems.render_system import RenderSystem
 from common.systems.time_system import TimeSystem
+from common.systems.testing_system import TestingSystem
 
 class SystemFactory:
     def __init__(self):
@@ -17,7 +18,8 @@ class SystemFactory:
             'MenuSystem': MenuSystem,
             'MovementSystem': MovementSystem,
             'RenderSystem': RenderSystem,
-            'TimeSystem': TimeSystem
+            'TimeSystem': TimeSystem,
+            'TestingSystem': TestingSystem
         }
 
     def create_system(self, system_name, game_state, entity_manager, event_manager, logger):

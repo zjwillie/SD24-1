@@ -28,6 +28,7 @@ class PlayerSystem(System):
 
         self.event_manager.subscribe(self.event_manager.EVENT_LIGHT_ATTACK, self.update_action_queue)
         self.event_manager.subscribe(self.event_manager.EVENT_DODGE, self.update_action_queue)
+        self.event_manager.subscribe(self.event_manager.EVENT_INTERACT, self.update_action_queue)
 
         self.event_manager.subscribe(self.event_manager.PLAYER_ANIMATION_FINISHED, self.handle_animation_finished)
 
@@ -65,7 +66,9 @@ class PlayerSystem(System):
     def update_action_queue(self, event):
         self.logger.info(f"Key Event Received: {event.type, event.data}")
         if event.data[0] == self.event_manager.KEY_DOWN:
-            self.action_queue.append((event.type, event.data[1]))
+            if event.type == self.event_manager.EVENT_DODGE:
+                self.action_queue.clear()
+            self.action_queue.append((event.type, event.data[1]))          
             if len(self.action_queue) > self.ACTION_QUEUE_MAX_SIZE:
                 self.action_queue.pop(0)
 
@@ -163,26 +166,29 @@ class PlayerSystem(System):
             self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["dodge_" + direction_facing]
 
         #self.logger.info(f"Status: {self.get_component(self.player_ID, EntityStatusComponent).is_idle, self.get_component(self.player_ID, EntityStatusComponent).is_moving, self.get_component(self.player_ID, EntityStatusComponent).is_dashing, self.get_component(self.player_ID, EntityStatusComponent).is_attacking}")
-
-                                    
+                               
     def handle_actions(self, delta_time):
-            if not self.get_component(self.player_ID, EntityStatusComponent).is_acting:
-                action = self.action_queue.pop(0)
-                if action[0] == self.event_manager.EVENT_LIGHT_ATTACK:
-                    self.logger.info(f"Handle_Action: {self.event_manager.EVENT_LIGHT_ATTACK}")
-                    entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
-                    entity_status_component.reset()
-                    entity_status_component.is_attacking = True
-                    entity_status_component.is_acting = True
-                elif action[0] == self.event_manager.EVENT_DODGE:
-                    self.logger.info(f"Handle_Action: {self.event_manager.EVENT_DODGE}")
-                    entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
-                    entity_status_component.reset()
-                    entity_status_component.is_dodging = True
-                    entity_status_component.is_acting = True
+        if not self.get_component(self.player_ID, EntityStatusComponent).is_acting:
+            action = self.action_queue.pop(0)
+            if action[0] == self.event_manager.EVENT_LIGHT_ATTACK:
+                self.logger.info(f"Handle_Action: {self.event_manager.EVENT_LIGHT_ATTACK}")
+                entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
+                entity_status_component.reset()
+                entity_status_component.is_attacking = True
+                entity_status_component.is_acting = True
+            elif action[0] == self.event_manager.EVENT_DODGE:
+                self.logger.info(f"Handle_Action: {self.event_manager.EVENT_DODGE}")
+                entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
+                entity_status_component.reset()
+                entity_status_component.is_dodging = True
+                entity_status_component.is_acting = True
+            elif action[0] == self.event_manager.EVENT_INTERACT:
+                self.logger.info(f"Handle_Action: {self.event_manager.EVENT_INTERACT}")
+                #TODO Implement Interact
 
     def update(self, delta_time):
         control_component = self.get_component(self.player_ID, ControlComponent)
+
         if control_component.enabled == True:
             if len(self.action_queue) > 0:
                 self.handle_actions(delta_time)
