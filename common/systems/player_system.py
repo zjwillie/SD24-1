@@ -24,7 +24,7 @@ class PlayerSystem(System):
 
         self.event_manager.subscribe(self.event_manager.EVENT_TAB, self.open_main_menu)
 
-        self.event_manager.subscribe(self.event_manager.MOVEMENT_KEY_EVENT, self.update_direction_moving)
+        self.event_manager.subscribe(self.event_manager.MOVEMENT_KEY_EVENT, self.update_directions)
 
         self.event_manager.subscribe(self.event_manager.EVENT_LIGHT_ATTACK, self.update_action_queue)
         self.event_manager.subscribe(self.event_manager.EVENT_DODGE, self.update_action_queue)
@@ -73,7 +73,7 @@ class PlayerSystem(System):
             if len(self.action_queue) > self.ACTION_QUEUE_MAX_SIZE:
                 self.action_queue.pop(0)
 
-    def update_direction_moving(self, event):
+    def update_directions(self, event):
         if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
@@ -111,14 +111,14 @@ class PlayerSystem(System):
                         direction_facing = "up"
 
             # If no joystick events, handle keyboard events
-            if self.event_manager.EVENT_UP in event.data['keys_down_time'] or self.event_manager.EVENT_DOWN in event.data['keys_down_time'] or self.event_manager.EVENT_LEFT in event.data['keys_down_time'] or self.event_manager.EVENT_RIGHT in event.data['keys_down_time']:
-                if self.event_manager.EVENT_UP in event.data['keys_down_time']:
+            if self.event_manager.EVENT_MOVE_UP in event.data['keys_down_time'] or self.event_manager.EVENT_MOVE_DOWN in event.data['keys_down_time'] or self.event_manager.EVENT_MOVE_LEFT in event.data['keys_down_time'] or self.event_manager.EVENT_MOVE_RIGHT in event.data['keys_down_time']:
+                if self.event_manager.EVENT_MOVE_UP in event.data['keys_down_time']:
                     direction_moving.y = -1
-                if self.event_manager.EVENT_DOWN in event.data['keys_down_time']:
+                if self.event_manager.EVENT_MOVE_DOWN in event.data['keys_down_time']:
                     direction_moving.y = 1
-                if self.event_manager.EVENT_LEFT in event.data['keys_down_time']:
+                if self.event_manager.EVENT_MOVE_LEFT in event.data['keys_down_time']:
                     direction_moving.x = -1
-                if self.event_manager.EVENT_RIGHT in event.data['keys_down_time']:
+                if self.event_manager.EVENT_MOVE_RIGHT in event.data['keys_down_time']:
                     direction_moving.x = 1
 
                 # Set direction facing

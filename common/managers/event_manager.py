@@ -10,10 +10,16 @@ class Event:
 
 class EventManager:
     # region Event Types
-    EVENT_DOWN = "down"
-    EVENT_UP = "up"
-    EVENT_LEFT = "left"
-    EVENT_RIGHT = "right"
+    EVENT_MOVE_DOWN = "move_down"
+    EVENT_MOVE_UP = "move_up"
+    EVENT_MOVE_LEFT = "move_left"
+    EVENT_MOVE_RIGHT = "move_right"
+
+    EVENT_FACE_DOWN = "face_down"
+    EVENT_FACE_UP = "face_up"
+    EVENT_FACE_LEFT = "face_left"
+    EVENT_FACE_RIGHT = "face_right"
+
     EVENT_RETURN = "return"
     EVENT_ESCAPE = "escape"
     EVENT_TAB = "tab"

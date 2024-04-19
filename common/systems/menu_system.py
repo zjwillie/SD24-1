@@ -19,10 +19,10 @@ class MenuSystem(System):
         self.current_menu = None
         self.current_selector = None
 
-        self.event_manager.subscribe(self.event_manager.EVENT_DOWN, self.handle_menu_event)
-        self.event_manager.subscribe(self.event_manager.EVENT_RIGHT, self.handle_menu_event)
-        self.event_manager.subscribe(self.event_manager.EVENT_UP, self.handle_menu_event)
-        self.event_manager.subscribe(self.event_manager.EVENT_LEFT, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_MOVE_DOWN, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_MOVE_RIGHT, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_MOVE_UP, self.handle_menu_event)
+        self.event_manager.subscribe(self.event_manager.EVENT_MOVE_LEFT, self.handle_menu_event)
         self.event_manager.subscribe(self.event_manager.EVENT_RETURN, self.handle_menu_event)
 
         self.event_manager.subscribe(self.event_manager.MOUSE_POSITION, self.handle_menu_event)
@@ -65,12 +65,12 @@ class MenuSystem(System):
     def handle_menu_event(self, event):
         self.logger.info(f"Event received in menu system - Type '{event.type}', Data '{event.data}'")
 
-        if (event.type == self.event_manager.EVENT_DOWN) and event.data[0] == self.event_manager.KEY_DOWN:
+        if (event.type == self.event_manager.EVENT_MOVE_DOWN) and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.info(f"Down event received in menu system: {event.data}")
 
             self.update_selection(1)
 
-        elif (event.type == self.event_manager.EVENT_UP) and event.data[0] == self.event_manager.KEY_DOWN:
+        elif (event.type == self.event_manager.EVENT_MOVE_UP) and event.data[0] == self.event_manager.KEY_DOWN:
             self.logger.info(f"Up event received in menu system: {event.data}")
 
             self.update_selection(-1)
