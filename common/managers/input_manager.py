@@ -341,6 +341,16 @@ class InputManager:
                         self.joystick_axis["y"] = event.value
                     else:
                         self.joystick_axis["y"] = 0
+                elif event.axis == 2:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["facing_x"] = event.value
+                    else:
+                        self.joystick_axis["facing_x"] = 0
+                elif event.axis == 3:
+                    if abs(event.value) > TESTING_THRESHOLD:
+                        self.joystick_axis["facing_y"] = event.value
+                    else:
+                        self.joystick_axis["facing_y"] = 0
 
 
             # Append any unhandled events to the event manager

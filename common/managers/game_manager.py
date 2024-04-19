@@ -121,8 +121,6 @@ class GameManager:
 
         self.world.event_manager.post(Event(self.world.event_manager.SET_MENU, (self.world.event_manager.MAIN_MENU_BACKGROUND, self.world.event_manager.MAIN_MENU_SELECTOR, True)))
 
-
-
     def quit_game(self, event):
         self.logger.loggers['game_manager'].info("Quitting Game")
         self.game_state.exit_requested = True

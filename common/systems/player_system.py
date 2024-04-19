@@ -84,6 +84,25 @@ class PlayerSystem(System):
                     direction_moving.x = event.data['joystick_axis']['x']
                 if 'y' in event.data['joystick_axis']:
                     direction_moving.y = event.data['joystick_axis']['y']
+                if 'facing_x' in event.data['joystick_axis'] and 'facing_y' in event.data['joystick_axis']:
+                    if event.data['joystick_axis']['facing_x'] > 0:
+                        if event.data['joystick_axis']['facing_y'] > 0:
+                            direction_facing = "right_down"
+                        elif event.data['joystick_axis']['facing_y'] < 0:
+                            direction_facing = "right_up"
+                        else:
+                            direction_facing = "right"
+                    elif event.data['joystick_axis']['facing_x'] < 0:
+                        if event.data['joystick_axis']['facing_y'] > 0:
+                            direction_facing = "left_down"
+                        elif event.data['joystick_axis']['facing_y'] < 0:
+                            direction_facing = "left_up"
+                        else:
+                            direction_facing = "left"
+                    elif event.data['joystick_axis']['facing_y'] > 0:
+                        direction_facing = "down"
+                    elif event.data['joystick_axis']['facing_y'] < 0:
+                        direction_facing = "up"
 
                 # Normalize direction_moving for full 360 degree movement
                 if direction_moving.length() > 0:
