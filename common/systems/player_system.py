@@ -24,7 +24,7 @@ class PlayerSystem(System):
 
         self.event_manager.subscribe(self.event_manager.EVENT_TAB, self.open_main_menu)
 
-        self.event_manager.subscribe(self.event_manager.MOVEMENT_KEY_EVENT, self.update_direction)
+        self.event_manager.subscribe(self.event_manager.MOVEMENT_KEY_EVENT, self.update_direction_moving)
 
         self.event_manager.subscribe(self.event_manager.EVENT_LIGHT_ATTACK, self.update_action_queue)
         self.event_manager.subscribe(self.event_manager.EVENT_DODGE, self.update_action_queue)
@@ -59,6 +59,7 @@ class PlayerSystem(System):
         self.logger.info(f"Posting Event: {event.type, event.data}")
         self.event_manager.post(event)
 
+    #TODO this should be in a different system, but for now WEEEEEEEE
     def open_main_menu(self, event):
         self.logger.info("Opening Main Menu")
         self.post_event(Event(self.event_manager.CHANGE_STATE, (self.event_manager.MAIN_MENU, True)))
@@ -72,7 +73,7 @@ class PlayerSystem(System):
             if len(self.action_queue) > self.ACTION_QUEUE_MAX_SIZE:
                 self.action_queue.pop(0)
 
-    def update_direction(self, event):
+    def update_direction_moving(self, event):
         if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
