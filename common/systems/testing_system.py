@@ -52,7 +52,7 @@ class TestingSystem(System):
 
             return [{'x': x, 'y': y} for x, y in points]
 
-        num_entities = 20
+        num_entities = 30
         num_columns = math.ceil(math.sqrt(num_entities))
         num_rows = math.ceil(num_entities / num_columns)
         cell_width = 800 / num_columns
