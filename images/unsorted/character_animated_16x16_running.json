@@ -1,0 +1,60 @@
+{ "frames": {
+   "character_animated_16x16_running 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 48, "h": 192 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 192 },
+    "sourceSize": { "w": 48, "h": 192 },
+    "duration": 175
+   },
+   "character_animated_16x16_running 1.aseprite": {
+    "frame": { "x": 48, "y": 0, "w": 48, "h": 192 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 192 },
+    "sourceSize": { "w": 48, "h": 192 },
+    "duration": 175
+   },
+   "character_animated_16x16_running 2.aseprite": {
+    "frame": { "x": 96, "y": 0, "w": 48, "h": 192 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 192 },
+    "sourceSize": { "w": 48, "h": 192 },
+    "duration": 175
+   },
+   "character_animated_16x16_running 3.aseprite": {
+    "frame": { "x": 144, "y": 0, "w": 48, "h": 192 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 192 },
+    "sourceSize": { "w": 48, "h": 192 },
+    "duration": 175
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.6-x64",
+  "image": "character_animated_16x16_running.png",
+  "format": "RGBA8888",
+  "size": { "w": 192, "h": 192 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "weapon_back", "opacity": 255, "blendMode": "normal" },
+   { "name": "body", "opacity": 255, "blendMode": "normal" },
+   { "name": "body_details", "opacity": 255, "blendMode": "normal" },
+   { "name": "helmet", "opacity": 255, "blendMode": "normal" },
+   { "name": "chest", "opacity": 255, "blendMode": "normal" },
+   { "name": "arms", "opacity": 255, "blendMode": "normal" },
+   { "name": "gloves", "opacity": 255, "blendMode": "normal" },
+   { "name": "boots", "opacity": 255, "blendMode": "normal" },
+   { "name": "pants", "opacity": 255, "blendMode": "normal" },
+   { "name": "weapon_front", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
