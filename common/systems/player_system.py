@@ -19,8 +19,8 @@ class PlayerSystem(System):
 
         self.player_ID = self.entity_manager.player_ID
 
-        self.keys_down = {}
         self.action_queue = []
+        self.player_system_paused = False
 
         self.event_manager.subscribe(self.event_manager.EVENT_TAB, self.open_main_menu)
 
@@ -33,6 +33,20 @@ class PlayerSystem(System):
         self.event_manager.subscribe(self.event_manager.PLAYER_ANIMATION_FINISHED, self.handle_animation_finished)
 
         self.event_manager.subscribe(self.event_manager.EVENT_RUN, self.update_dashing_flag)
+
+    def pause(self):
+        self.player_system_paused = True
+        self.get_component(self.player_ID, ControlComponent).enabled = False
+        self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["idle_" + self.get_component(self.player_ID, DirectionFacingComponent).direction]
+        self.update(0)
+        self.action_queue.clear()
+        self.reset_status()
+
+    def unpause(self):
+        self.player_system_paused = False
+        self.get_component(self.player_ID, ControlComponent).enabled = True
+        self.action_queue.clear()
+        self.reset_status()
 
     def update_dashing_flag(self, event):
         if event.data[0] == self.event_manager.KEY_DOWN:
@@ -66,7 +80,8 @@ class PlayerSystem(System):
 
     def update_action_queue(self, event):
         self.logger.info(f"Key Event Received: {event.type, event.data}")
-        if event.data[0] == self.event_manager.KEY_DOWN:
+        control_component = self.get_component(self.player_ID, ControlComponent)
+        if control_component.enabled and event.data[0] == self.event_manager.KEY_DOWN:
             if event.type == self.event_manager.EVENT_DODGE:
                 self.action_queue.clear()
             self.action_queue.append((event.type, event.data[1]))          
@@ -74,7 +89,7 @@ class PlayerSystem(System):
                 self.action_queue.pop(0)
 
     def update_directions(self, event):
-        if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False:
+        if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False & self.get_component(self.player_ID, EntityStatusComponent).is_attacking == False:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
     
@@ -159,6 +174,13 @@ class PlayerSystem(System):
     
             self.get_component(self.player_ID, DirectionFacingComponent).direction = direction_facing.split("_")[0]
             self.get_component(self.player_ID, DirectionMovingComponent).direction = direction_moving
+        else:
+            if self.get_component(self.player_ID, EntityStatusComponent).is_attacking:
+                self.logger.info("Player is attacking, cannot move")
+                self.get_component(self.player_ID, DirectionMovingComponent).direction = Vector2(0,0) 
+
+    def reset_status(self):
+        self.get_component(self.player_ID, EntityStatusComponent).reset()
 
     def update_player_animation(self, delta_time):
         direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
@@ -185,21 +207,28 @@ class PlayerSystem(System):
                 entity_status_component.reset()
                 entity_status_component.is_attacking = True
                 entity_status_component.is_acting = True
+
             elif action[0] == self.event_manager.EVENT_DODGE:
                 self.logger.info(f"Handle_Action: {self.event_manager.EVENT_DODGE}")
                 entity_status_component = self.get_component(self.player_ID, EntityStatusComponent)
                 entity_status_component.reset()
                 entity_status_component.is_dodging = True
                 entity_status_component.is_acting = True
+
             elif action[0] == self.event_manager.EVENT_INTERACT:
                 self.logger.info(f"Handle_Action: {self.event_manager.EVENT_INTERACT}")
                 #TODO Implement Interact
 
     def update(self, delta_time):
-        control_component = self.get_component(self.player_ID, ControlComponent)
+        # If pause is requested, we check to see if the player is paused, if not we pause the player
+        if self.game_state.pause_requested and not self.player_system_paused:
+            self.pause()
+        # If pause is not requested then we check to see if the player was paused, if so we unpause
+        elif not self.game_state.pause_requested:
+            if self.player_system_paused:
+                self.unpause()
+            else:
+                if self.action_queue:
+                    self.handle_actions(delta_time)
 
-        if control_component.enabled == True:
-            if len(self.action_queue) > 0:
-                self.handle_actions(delta_time)
-
-            self.update_player_animation(delta_time)
+                self.update_player_animation(delta_time)
