@@ -1,0 +1,27 @@
+{
+    "dialogue_01": {
+        "text": "Hello, I am the portal 01. Would you like to teleport now?",
+        "responses": [
+            {
+                "text": "Yes, teleport me.",
+                "next": "dialogue_02",
+                "actions": ["teleport_player"],
+                "conditions": {
+                    "flags": ["has_teleportation_device"]
+                }
+            },
+            {
+                "text": "No, not yet.",
+                "next": "dialogue_03"
+            }
+        ]
+    },
+    "dialogue_02": {
+        "text": "Alright, teleporting you now.",
+        "actions": ["end_dialogue", "set_flag_teleported"]
+    },
+    "dialogue_03": {
+        "text": "Okay, let me know when you're ready.",
+        "actions": ["end_dialogue"]
+    }
+}

@@ -219,6 +219,8 @@ class PlayerSystem(System):
                 self.logger.info(f"Handle_Action: {self.event_manager.EVENT_INTERACT}")
                 #TODO Implement Interact
 
+#! UPDATE #######################################################
+
     def update(self, delta_time):
         # If pause is requested, we check to see if the player is paused, if not we pause the player
         if self.game_state.pause_requested and not self.player_system_paused:

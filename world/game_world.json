@@ -4,6 +4,9 @@
         "width": 4000,
         "height": 4000
     },
+    "dialogue":{
+        "portal_01": "dialogue/game_world/portal_01.json"
+    },
     "entities":[
         "entities/character/character_0.2.json",
         "entities/levels/home/homestead.json",
