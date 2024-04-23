@@ -112,15 +112,13 @@ class GameManager:
     def pause_game(self, event):
         if event.data[0] == self.world.event_manager.KEY_DOWN:
             self.logger.loggers['game_manager'].info("Pausing Game")
-            print("message recived to pause game")
+            print("Message from GameManager: Pausing Game")
             if self.world.game_state.pause_requested:
                 print("unpausing game")
                 self.world.game_state.pause_requested = False
-                self.world.system_manager.add_system("MovementSystem")
             else:
                 print("pausing game")
                 self.world.game_state.pause_requested = True
-                self.world.system_manager.remove_system("MovementSystem")
 
 
     '''       "AnimationSystem",

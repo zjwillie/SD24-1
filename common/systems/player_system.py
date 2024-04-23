@@ -36,11 +36,11 @@ class PlayerSystem(System):
 
     def pause(self):
         self.player_system_paused = True
-        self.get_component(self.player_ID, ControlComponent).enabled = False
         self.get_component(self.player_ID, AnimationComponent).current_animation = self.get_component(self.player_ID, AnimationComponent).animations["idle_" + self.get_component(self.player_ID, DirectionFacingComponent).direction]
         self.update(0)
         self.action_queue.clear()
         self.reset_status()
+        self.get_component(self.player_ID, ControlComponent).enabled = False
 
     def unpause(self):
         self.player_system_paused = False
@@ -89,7 +89,11 @@ class PlayerSystem(System):
                 self.action_queue.pop(0)
 
     def update_directions(self, event):
-        if self.get_component(self.player_ID, EntityStatusComponent).is_acting == False & self.get_component(self.player_ID, EntityStatusComponent).is_attacking == False:
+        control_component = self.get_component(self.player_ID, ControlComponent)
+        player = self.get_component(self.player_ID, EntityStatusComponent)
+
+
+        if player.is_acting == False and player.is_attacking == False and control_component.enabled == True:
             direction_moving = Vector2(0,0)
             direction_facing = self.get_component(self.player_ID, DirectionFacingComponent).direction
     

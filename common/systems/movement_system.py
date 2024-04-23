@@ -24,6 +24,14 @@ class MovementSystem(System):
 
         self.logger = logger.loggers['movement_system']
 
+        self.movement_system_paused = False
+
+    def pause(self):
+        self.movement_system_paused = True
+
+    def unpause(self):
+        self.movement_system_paused = False
+
     def post_event(self, event_type, data):
         self.event_manager.post(Event(event_type, data))
 
@@ -75,26 +83,32 @@ class MovementSystem(System):
     def update(self, delta_time):
         # Select components that need to be updated to move
         #TODO Would create a set that adds any components that have moved, and then only update those components
-        for entity in (self.entity_manager.component_sets[PositionComponent] &
-                    self.entity_manager.component_sets[VelocityComponent] &
-                    self.entity_manager.component_sets[AccelerationComponent]):
+        if self.game_state.pause_requested and not self.movement_system_paused:
+            self.pause()
+        elif not self.game_state.pause_requested:
+            if self.movement_system_paused:
+                self.unpause()
+            else:
+                for entity in (self.entity_manager.component_sets[PositionComponent] &
+                            self.entity_manager.component_sets[VelocityComponent] &
+                            self.entity_manager.component_sets[AccelerationComponent]):
 
-            # Retrieve necessary components
-            velocity_component = self.get_component(entity, VelocityComponent)
-            acceleration_component = self.get_component(entity, AccelerationComponent)
-            direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
+                    # Retrieve necessary components
+                    velocity_component = self.get_component(entity, VelocityComponent)
+                    acceleration_component = self.get_component(entity, AccelerationComponent)
+                    direction_moving_component = self.get_component(entity, DirectionMovingComponent).direction
 
-            # Update acceleration and velocity based on current direction
-            self.update_acceleration(entity, direction_moving_component, acceleration_component)
-            self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
-            
-            # check for collisions
-            collision_data = self.get_collision_data(entity, delta_time)
+                    # Update acceleration and velocity based on current direction
+                    self.update_acceleration(entity, direction_moving_component, acceleration_component)
+                    self.update_velocity(entity, acceleration_component, velocity_component, delta_time)
+                    
+                    # check for collisions
+                    collision_data = self.get_collision_data(entity, delta_time)
 
-            if collision_data["collision_x"] or collision_data["collision_y"]:
-                self.handle_collision(entity, collision_data)
+                    if collision_data["collision_x"] or collision_data["collision_y"]:
+                        self.handle_collision(entity, collision_data)
 
-            self.update_position(entity, delta_time)
+                    self.update_position(entity, delta_time)
 
     def get_collision_data(self, entity, delta_time):
         current_position = self.get_component(entity, PositionComponent).position
@@ -172,6 +186,7 @@ class MovementSystem(System):
             if entity == other_entity:
                 continue
 
+            # TODO Come back after textbox to see about interacting with the portal to allow for our first jump
             # Check if the entity is colliding with the other entity
             if self.is_colliding(entity, other_entity, new_position):
                 collisions[other_entity] = self.get_component(other_entity, CollisionComponent).collision_type
