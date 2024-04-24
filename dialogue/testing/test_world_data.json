@@ -1,0 +1,8 @@
+{
+    "player_data": {
+        "player_name": "John Doe",
+        "karma": 80,
+        "has_teleportation_device": true,
+        "has_interacted_with_teleporter": false
+    }
+}

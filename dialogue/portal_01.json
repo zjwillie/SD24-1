@@ -1,0 +1,43 @@
+{
+    "dialogue_ID": "portal_01",
+    "start": {
+        "text": [
+            {
+                "content": "You are standing in front of a mysterious portal.",
+                "flags": {"entered_portal": false}
+            },
+            {
+                "content": "You are again standing in front of the mysterious portal.",
+                "flags": {"entered_portal": true}
+            }
+        ],
+        "options": [
+            {
+                "text": "Enter the portal",
+                "next": "inside_portal",
+                "set_flags": {"entered_portal": true}
+            },
+            {
+                "text": "Walk away",
+                "next": "end"
+            }
+        ]
+    },
+    "inside_portal": {
+        "text": [
+            {
+                "content": "You are transported to a new location.",
+                "flags": {"entered_portal": true}
+            },
+            {
+                "content": "You are again transported to a new location.",
+                "flags": {"entered_portal": true}
+            }
+        ],
+        "options": []
+    },
+    "end": {
+        "text": "You step away from the portal.",
+        "options": []
+    }
+}

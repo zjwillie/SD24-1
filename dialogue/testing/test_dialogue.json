@@ -1,0 +1,95 @@
+{
+    "dialogue_01": {
+        "text": [
+            {
+                "content": "...",
+                "conditions": {
+                    "has_teleportation_device": false
+                },
+                "actions": {
+                    "end_dialogue": true
+                }
+            },
+            {
+                "content": "Hello, {player_name}, this is a teleporter. If you have other teleporters open, you can fast travel there, would you like to teleport?",
+                "conditions": {
+                    "has_teleportation_device": true,
+                    "has_interacted_with_teleporter": false
+                },
+                "actions":{
+                    "has_interacted_with_teleporter": true
+                }
+            },
+            {
+                "content": "Hey {player_name}, do you want to teleport?",
+                "conditions": {
+                    "karma": {"min": 75, "max": 100},
+                    "has_teleportation_device": true,
+                    "has_interacted_with_teleporter": true
+                }
+            },
+            {
+                "content": "Do you want to teleport, {player_name}?",
+                "conditions": {
+                    "karma": {"min": 50, "max": 74},
+                    "has_teleportation_device": true,
+                    "has_interacted_with_teleporter": true
+                }
+            },
+            {
+                "content": "You, {player_name}, do you want to teleport?",
+                "conditions": {
+                    "karma": {"min": 0, "max": 49},
+                    "has_teleportation_device": true,
+                    "has_interacted_with_teleporter": true
+                }
+            }
+        ],
+        "responses": [
+            {
+                "text": "Yes, teleport me.",
+                "next": "dialogue_02",
+                "actions": {
+                    "teleport_player": true
+                },
+                "conditions": {
+                    "has_teleportation_device": true
+                }
+            },
+            {
+                "text": "No, not yet.",
+                "next": "dialogue_03"
+            }
+        ]
+    },
+    "dialogue_02": {
+        "text": [
+            {
+                "content": "Alright, teleporting you now, {player_name}.",
+                "actions": {
+                    "end_dialogue": true,
+                    "has_teleported": true
+                }
+            }
+        ]
+    },
+    "dialogue_03": {
+        "text": [
+            {
+                "content": "Okay, {player_name}, let me know when you're ready.",
+                "conditions":{
+                    "karma": {"min": 50}
+                },
+                "actions": {
+                    "end_dialogue": true
+                }
+            },
+            {
+                "content": "Then go away.",
+                "actions": {
+                    "end_dialogue": true
+                }
+            }
+        ]
+    }
+}
