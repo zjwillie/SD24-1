@@ -1,6 +1,9 @@
 {
     "width": 32,
     "height": 48,
+    "space_width": 16,
+    "spacing": 1,
+    "line_height": 36,
     "character_map": [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ.!",
         "abcdefghijklmnopqrstuvwxyz"
