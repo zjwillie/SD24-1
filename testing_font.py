@@ -189,6 +189,23 @@ def create_text_box_surface(border, width, height):
     # Return the new surface with the border
     return surface
 
+def create_arrow_surface(border, border_image):
+    # Draw the arrow in the center of the surface
+    up_arrow = border.arrows[0]
+    down_arrow = border.arrows[1]
+
+    x = (border_image.get_width() - border.arrow_width * 2) 
+    y = (border_image.get_height() - border.arrow_height * 4)
+    
+    border_image.blit(up_arrow, (x, y))
+
+    y += border.arrow_height * 1.5
+
+    border_image.blit(down_arrow, (x, y))
+
+    # Return the new surface with the arrow
+    return border_image
+
 def main():
     # Initialize Pygame
     pygame.init()
@@ -237,8 +254,10 @@ def main():
 
         screen.fill((0, 0, 0))  # Clear the screen
         #pygame.draw.rect(screen, (0, 55, 55), (x-1, y-1, width+2, height+2), 0)  # Draw the box
-        border_image = create_text_box_surface(border, width+border.left_thickness+border.right_thickness, height+border.top_thickness+border.bottom_thickness)
-        screen.blit(border_image, (x - border.left_thickness, y - border.top_thickness))  # Draw the border
+        border_image = create_text_box_surface(border, width+border.left_thickness+border.right_thickness+border.arrow_width, height+border.top_thickness+border.bottom_thickness)
+        text_box_image = create_arrow_surface(border, border_image)
+        
+        screen.blit(text_box_image, (x - border.left_thickness, y - border.top_thickness))  # Draw the border)
         screen.blit(surfaces[current_surface_index], (x, y))  # Draw the current surface
         pygame.display.flip()  # Update the display
 
