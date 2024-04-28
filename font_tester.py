@@ -1,4 +1,5 @@
 import pygame
+
 from common.components.font_component import FontComponent
 
 def convert_text_to_surfaces(screen, font, text, width, height):
@@ -7,7 +8,7 @@ def convert_text_to_surfaces(screen, font, text, width, height):
     lines = []
     current_line = ""
     current_line_width = 0
-    current_lines_height = 0
+
     # add words until adding one would make its width is longer than the width of the box
     # so we need to get a word, then check if the current length plus the new word length fits, if it does, add it
     # if it does not finish the line
@@ -15,23 +16,29 @@ def convert_text_to_surfaces(screen, font, text, width, height):
     # less than the height of the box
 
     for word in words:
-        current_word_width = 0
+        current_word_width = 0  # Start with the width of 0
         for letter in word:
             if letter in font.character_list:
-                current_word_width += font.characters[letter].width
+                current_word_width += font.characters[letter].width + font.spacing  # Add the width of the letter and the spacing
             else:
                 print(f"Character {letter} not found in font character list")
                 continue  # Skip the letter if it's not in the character list
     
         # Check if adding the word would fit in the current box
         if (current_line_width + current_word_width + font.space_width) <= width:
-            current_line += word + " "
-            current_line_width += current_word_width + font.space_width
+            current_line += word
+            current_line_width += current_word_width
+            if word != words[-1]:  # If the word is not the last one in the line
+                current_line += " "
+                current_line_width += font.space_width  # Add the width of the space character here
         # If not append the line, add the word to the new current_line
         else:
             lines.append(current_line.strip())  # Remove trailing space from the line
-            current_line = word + " "
-            current_line_width = current_word_width + font.space_width
+            current_line = word
+            current_line_width = current_word_width
+            if word != words[-1]:  # If the word is not the last one in the line
+                current_line += " "
+                current_line_width += font.space_width  # Add the width of the space character here
     
     lines.append(current_line.strip())  # Remove trailing space from the last line
 
@@ -58,7 +65,6 @@ def convert_text_to_surfaces(screen, font, text, width, height):
         surfaces.append(surface)
 
     return surfaces
-
         
 def test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH):
     # Display the entire sprite sheet
@@ -107,18 +113,7 @@ def main():
 
     # Set up some constants
     SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-    SAMPLE_TEXT = """
-one two three four five six seven eight nine ten
-eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty
-twenty-one twenty-two twenty-three twenty-four twenty-five twenty-six twenty-seven twenty-eight twenty-nine thirty
-thirty-one thirty-two thirty-three thirty-four thirty-five thirty-six thirty-seven thirty-eight thirty-nine forty
-forty-one forty-two forty-three forty-four forty-five forty-six forty-seven forty-eight forty-nine fifty
-fifty-one fifty-two fifty-three fifty-four fifty-five fifty-six fifty-seven fifty-eight fifty-nine sixty
-sixty-one sixty-two sixty-three sixty-four sixty-five sixty-six sixty-seven sixty-eight sixty-nine seventy
-seventy-one seventy-two seventy-three seventy-four seventy-five seventy-six seventy-seven seventy-eight seventy-nine eighty
-eighty-one eighty-two eighty-three eighty-four eighty-five eighty-six eighty-seven eighty-eight eighty-nine ninety
-ninety-one ninety-two ninety-three ninety-four ninety-five ninety-six ninety-seven ninety-eight ninety-nine one hundred
-"""
+    SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_-"
 
     # strip the text of leading and trailing whitespace
     SAMPLE_TEXT = '\n'.join(line.strip() for line in SAMPLE_TEXT.split('\n'))
@@ -128,13 +123,16 @@ ninety-one ninety-two ninety-three ninety-four ninety-five ninety-six ninety-sev
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     # Create a FontComponent
-    font = FontComponent("entities/textbox/test_font.json")
+    #font = FontComponent("entities/textbox/test_font.json")
+    font = FontComponent("entities/textbox/test_font_16x16.json")
 
     #test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH)
 
     x = 100
     y = 100
-    surfaces = convert_text_to_surfaces(screen, font, SAMPLE_TEXT, 600, 200)
+    width = 600
+    height = 200
+    surfaces = convert_text_to_surfaces(screen, font, SAMPLE_TEXT, width, height)
     current_surface_index = 0
 
     # Wait until the user closes the window
@@ -150,6 +148,7 @@ ninety-one ninety-two ninety-three ninety-four ninety-five ninety-six ninety-sev
                     current_surface_index = (current_surface_index + 1) % len(surfaces)
 
         screen.fill((0, 0, 0))  # Clear the screen
+        pygame.draw.rect(screen, (0, 255, 255), (x-1, y-1, width+2, height+2))  # Draw the box
         screen.blit(surfaces[current_surface_index], (x, y))  # Draw the current surface
         pygame.display.flip()  # Update the display
 
