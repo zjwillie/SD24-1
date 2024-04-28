@@ -1,6 +1,16 @@
+import os
 import pygame
 
 from common.components.font_component import FontComponent
+
+def save_surfaces(surfaces, save_path):
+    if isinstance(surfaces, pygame.Surface):
+        # If a single surface is provided, save it
+        pygame.image.save(surfaces, os.path.join(save_path, 'surface.png'))
+    else:
+        # If a list of surfaces is provided, save each one
+        for i, surface in enumerate(surfaces):
+            pygame.image.save(surface, os.path.join(save_path, f'surface_{i}.png'))
 
 def convert_text_to_surfaces(screen, font, text, width, height):
     # split the words into a list list of words
@@ -44,7 +54,8 @@ def convert_text_to_surfaces(screen, font, text, width, height):
 
     surfaces = []
     for i in range(0, len(lines), height // font.line_height):
-        surface = pygame.Surface((width, height))
+        surface = pygame.Surface((width, height), pygame.SRCALPHA)  # Create a surface with per-pixel alpha
+        surface.fill((0, 0, 0, 0))  # Fill the surface with a transparent color
 
         x_offset = 0
         y_offset = 0
@@ -63,7 +74,6 @@ def convert_text_to_surfaces(screen, font, text, width, height):
             x_offset = 0
 
         surfaces.append(surface)
-
     return surfaces
         
 def test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH):
@@ -113,7 +123,7 @@ def main():
 
     # Set up some constants
     SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-    SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_-"
+    SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty."
 
     # strip the text of leading and trailing whitespace
     SAMPLE_TEXT = '\n'.join(line.strip() for line in SAMPLE_TEXT.split('\n'))
@@ -124,7 +134,8 @@ def main():
 
     # Create a FontComponent
     #font = FontComponent("entities/textbox/test_font.json")
-    font = FontComponent("entities/textbox/test_font_16x16.json")
+    #font = FontComponent("entities/textbox/test_font_16x16.json")
+    font = FontComponent("entities/textbox/test_font_16x16_outline.json")
 
     #test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH)
 
@@ -134,6 +145,9 @@ def main():
     height = 200
     surfaces = convert_text_to_surfaces(screen, font, SAMPLE_TEXT, width, height)
     current_surface_index = 0
+
+    save_path = "images/text/surfaces"
+    save_surfaces(surfaces, save_path)
 
     # Wait until the user closes the window
     while True:
@@ -148,7 +162,7 @@ def main():
                     current_surface_index = (current_surface_index + 1) % len(surfaces)
 
         screen.fill((0, 0, 0))  # Clear the screen
-        pygame.draw.rect(screen, (0, 255, 255), (x-1, y-1, width+2, height+2))  # Draw the box
+        pygame.draw.rect(screen, (0, 55, 55), (x-1, y-1, width+2, height+2), 0)  # Draw the box
         screen.blit(surfaces[current_surface_index], (x, y))  # Draw the current surface
         pygame.display.flip()  # Update the display
 

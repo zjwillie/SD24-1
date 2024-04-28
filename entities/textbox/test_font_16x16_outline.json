@@ -1,0 +1,14 @@
+{
+    "width": 16,
+    "height": 16,
+    "space_width": 8,
+    "spacing": 1,
+    "line_height": 20,
+    "character_map": [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "abcdefghijklmnopqrstuvwxyz",
+        "1234567890",
+        ".!?,;:'\"<>/\\[]{}()|_-"
+    ],
+    "font_sheet_location":"images/text/fonts/font_testing_16x16_outline.png"
+}
