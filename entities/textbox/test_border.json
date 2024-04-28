@@ -1,0 +1,9 @@
+{
+    "height": 32,
+    "width": 32,
+    "top_thickness": 11,
+    "bottom_thickness": 11,
+    "left_thickness": 11,
+    "right_thickness": 11,
+    "border_sheet_location": "images/textbox/border/font_border_blue_testing.png"
+}

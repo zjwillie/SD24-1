@@ -2,6 +2,7 @@
 
 from common.components.acceleration_component import AccelerationComponent
 from common.components.animation_component import AnimationComponent
+from common.components.border_component import BorderComponent
 from common.components.cameraanchor_component import CameraAnchorComponent
 from common.components.camera_component import CameraComponent
 from common.components.collision_component import CollisionComponent
@@ -35,6 +36,7 @@ class ComponentFactory:
         self.component_classes = {
             'AccelerationComponent': AccelerationComponent,
             'AnimationComponent': AnimationComponent,
+            'BorderComponent': BorderComponent,
             'CameraAnchorComponent': CameraAnchorComponent,
             'CameraComponent': CameraComponent,
             'CollisionComponent': CollisionComponent,
