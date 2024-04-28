@@ -6,7 +6,6 @@ from common.managers.event_manager import Event
 
 from common.components import AnimationComponent
 from common.components import ImageComponent
-from common.components import PlayerComponent
 
 class AnimationSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):

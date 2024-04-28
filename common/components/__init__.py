@@ -31,3 +31,4 @@ from .control_component import ControlComponent
 from .text_component import TextComponent
 from .collisionevent_component import CollisionEventComponent
 from .testingcollision_component import TestingCollisionComponent
+from .border_component import BorderComponent

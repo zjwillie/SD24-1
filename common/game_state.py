@@ -4,6 +4,8 @@ import pygame
 class GameState:
     def __init__(self, resolution = (800, 600)):
         self.exit_requested = False
+        self.pause_requested = False
+
         self.resolution = resolution
         self.screen = None
         self.clock = None

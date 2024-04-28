@@ -55,6 +55,7 @@ class EventManager:
 
     SET_MENU = "set_menu"
     QUIT = "quit"
+    PAUSE = "pause"
     CHANGE_STATE = "change_state"
     OPTIONS = "options"
     MAIN_MENU = "main_menu"

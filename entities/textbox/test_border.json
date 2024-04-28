@@ -1,0 +1,12 @@
+{
+    "height": 32,
+    "width": 32,
+    "top_thickness": 18,
+    "bottom_thickness": 18,
+    "left_thickness": 18,
+    "right_thickness": 18,
+    "border_sheet_location": "images/textbox/border/font_border_blue_testing.png",
+    "arrow_height": 16,
+    "arrow_width": 16,
+    "arrow_sheet_location": "images/textbox/arrows/textbox_arrow_black_white_16x16.png"
+}

@@ -3,9 +3,6 @@ import sys
 
 from pygame.math import Vector2
 
-if __name__ == "__main__":
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from common.components import *
 
 from common.managers.event_manager import Event
@@ -109,7 +106,29 @@ class GameManager:
 
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)
         self.world.event_manager.subscribe(self.world.event_manager.EVENT_ESCAPE, self.quit_game)
+        self.world.event_manager.subscribe(self.world.event_manager.PAUSE, self.pause_game)
         self.world.event_manager.subscribe(self.world.event_manager.CHANGE_STATE, self.change_state)
+
+    def pause_game(self, event):
+        if event.data[0] == self.world.event_manager.KEY_DOWN:
+            self.logger.loggers['game_manager'].info("Pausing Game")
+            print("Message from GameManager: Pausing Game")
+            if self.world.game_state.pause_requested:
+                print("unpausing game")
+                self.world.game_state.pause_requested = False
+            else:
+                print("pausing game")
+                self.world.game_state.pause_requested = True
+
+
+    '''       "AnimationSystem",
+            "CameraSystem",
+            "DialogueSystem",
+            "GridSystem",
+            "MovementSystem",
+            "PlayerSystem",
+            "RenderSystem"
+            "TimeSystem"'''
 
     def load_main_menu(self):
         main_menu_dict = get_JSON_data("world/main_menu_world.json")
@@ -140,25 +159,3 @@ class GameManager:
         self.world.event_manager.update()
         self.world.system_manager.update(delta_time)
         #self.logger.loggers["game_manager"].info(f"Keys that are down: {self.world.input_manager.keys_down}")
-
-
-
-####################################################################################################
-
-def main():
-    pass
-
-    """
-    game_manager = GameManager()
-
-    game_manager.test_initialize()
-    
-    for entity in game_manager.world.entity_manager.entities:
-        game_manager.logger.loggers['game_manager'].debug(f"Entity: {entity}")
-        game_manager.logger.loggers['game_manager'].warning(f"{game_manager.world.entity_manager.get_component(entity, NameComponent).name}")
-        game_manager.logger.loggers['game_manager'].critical(f"{game_manager.world.entity_manager.get_component(entity, UUIDComponent).uuid}")
-    """
-
-if __name__ == "__main__":
-    from common.components import *
-    main()

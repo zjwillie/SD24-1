@@ -22,10 +22,10 @@
         "height": 0
     },
     "BorderComponent": {
-        "border": null
+        "border_json_path": "entities/textbox/test_border.json"
     },
     "FontComponent": {
-        "font_json_path": "entities/text/test_font.json"
+        "font_json_path": "entities/textbox/test_font.json"
     },
     "TextComponent": {
         "text": "Hello World!"

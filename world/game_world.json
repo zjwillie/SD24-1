@@ -4,6 +4,9 @@
         "width": 4000,
         "height": 4000
     },
+    "dialogue":{
+        "portal_01": "dialogue/game_world/portal_01.json"
+    },
     "entities":[
         "entities/character/character_0.2.json",
         "entities/levels/home/homestead.json",
@@ -13,7 +16,7 @@
         "entities/buildings/home.json",
         "entities/foliage/trees/fir_tree.json",
         "entities/water/water_block.json",
-        "entities/text/text_test_box.json",
+        "entities/textbox/text_test_box.json",
         "entities/objects/portal_01.json",
         "entities/objects/portal_02.json"
     ],
@@ -56,6 +59,7 @@
             "e": "interact",
             "r": "heavy_attack",
             "f": "light_attack",
+            "p": "pause",
             "joystick_0": "dodge",
             "joystick_5": "light_attack"
         }
