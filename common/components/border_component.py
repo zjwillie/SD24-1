@@ -50,9 +50,10 @@ class BorderComponent(Component):
         self.arrow_height = border_dict["arrow_height"]
         self.arrow_width = border_dict["arrow_width"]
 
-        for row in range(2):
-            sprite = self.arrow_sheet.subsurface((0, row * self.arrow_height, self.arrow_width, self.arrow_height))
-            self.arrows.append(sprite)
+        for col in range(2):
+            for row in range(2):
+                sprite = self.arrow_sheet.subsurface((col * self.arrow_width, row * self.arrow_height, self.arrow_width, self.arrow_height))
+                self.arrows.append(sprite)
 
 
 
