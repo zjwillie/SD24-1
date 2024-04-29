@@ -3,6 +3,46 @@ import pygame
 
 from common.components.border_component import BorderComponent
 from common.components.font_component import FontComponent
+        
+def test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH):
+    # Display the entire sprite sheet
+    screen.blit(font.font_sheet, (0, 0))
+    pygame.display.flip()
+
+    # Display each individual character
+    x, y = 0, 100
+    for char, letter in font.characters.items():
+        screen.blit(letter.sprite, (x, y))
+        x += letter.width
+        if x > SCREEN_WIDTH:
+            x = 0
+            y += font.height
+    pygame.display.flip()
+
+    # Calculate the maximum height of all characters
+    max_height = max(letter.height for letter in font.characters.values())
+
+    # Display a sample text
+    x, y = 0, 200
+    for char in SAMPLE_TEXT:
+        if char in font.characters:
+            letter = font.characters[char]
+            # Check if the character will fit on the current line
+            if x + letter.width > SCREEN_WIDTH:
+                x = 0
+                y += font.height
+            screen.blit(letter.sprite, (x, y))
+            x += letter.width
+        elif char == " ":
+            x += font.width / 2
+            # Check if the space will fit on the current line
+            if x > SCREEN_WIDTH:
+                x = 0
+                y += font.height
+        elif char == "\n":
+            x = 0
+            y += font.height
+    pygame.display.flip()
 
 def save_surfaces(surfaces, save_path):
     if isinstance(surfaces, pygame.Surface):
@@ -13,14 +53,6 @@ def save_surfaces(surfaces, save_path):
         for i, surface in enumerate(surfaces):
             pygame.image.save(surface, os.path.join(save_path, f'surface_{i}.png'))
 
-def create_text_box_surface(screen, border, width, height):
-    # Create a surface with per-pixel alpha
-    surface = pygame.Surface((width, height), pygame.SRCALPHA)
-    # Fill the surface with a transparent color
-    surface.fill((0, 0, 0, 0))
-    # Draw a rectangle with the specified border color
-    pygame.draw.rect(surface, border, (0, 0, width, height), 2)
-    return surface
 
 def convert_text_to_surfaces(screen, font, text, width, height):
     # split the words into a list list of words
@@ -85,50 +117,11 @@ def convert_text_to_surfaces(screen, font, text, width, height):
 
         surfaces.append(surface)
     return surfaces
-        
-def test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH):
-    # Display the entire sprite sheet
-    screen.blit(font.font_sheet, (0, 0))
-    pygame.display.flip()
-
-    # Display each individual character
-    x, y = 0, 100
-    for char, letter in font.characters.items():
-        screen.blit(letter.sprite, (x, y))
-        x += letter.width
-        if x > SCREEN_WIDTH:
-            x = 0
-            y += font.height
-    pygame.display.flip()
-
-    # Calculate the maximum height of all characters
-    max_height = max(letter.height for letter in font.characters.values())
-
-    # Display a sample text
-    x, y = 0, 200
-    for char in SAMPLE_TEXT:
-        if char in font.characters:
-            letter = font.characters[char]
-            # Check if the character will fit on the current line
-            if x + letter.width > SCREEN_WIDTH:
-                x = 0
-                y += font.height
-            screen.blit(letter.sprite, (x, y))
-            x += letter.width
-        elif char == " ":
-            x += font.width / 2
-            # Check if the space will fit on the current line
-            if x > SCREEN_WIDTH:
-                x = 0
-                y += font.height
-        elif char == "\n":
-            x = 0
-            y += font.height
-    pygame.display.flip()
 
 def create_text_box_surface(border, width, height):
     # Create a new surface
-    surface = pygame.Surface((width, height))
+    surface = pygame.Surface((width, height), pygame.SRCALPHA)  # Create a surface with per-pixel alpha
+    surface.fill((0, 0, 0, 0))  # Fill the surface with a transparent color
 
     # Calculate the number of full tiles and the remainder for width and height
     full_tiles_width = (width - 2 * border.width) // border.width
@@ -189,22 +182,25 @@ def create_text_box_surface(border, width, height):
     # Return the new surface with the border
     return surface
 
-def create_arrow_surface(border, border_image):
+def create_arrow_surface(border):
+    surface = pygame.Surface((border.arrow_width, border.arrow_height * 3), pygame.SRCALPHA)  # Create a surface with per-pixel alpha
+    surface.fill((0, 0, 0, 0))  # Fill the surface with a transparent color
+
     # Draw the arrow in the center of the surface
     up_arrow = border.arrows[0]
     down_arrow = border.arrows[1]
 
-    x = (border_image.get_width() - border.arrow_width * 2) 
-    y = (border_image.get_height() - border.arrow_height * 4)
+    x = 0 
+    y = 0
     
-    border_image.blit(up_arrow, (x, y))
+    surface.blit(up_arrow, (x, y))
 
-    y += border.arrow_height * 1.5
+    y += border.arrow_height
 
-    border_image.blit(down_arrow, (x, y))
+    surface.blit(down_arrow, (x, border.arrow_height * 2))
 
     # Return the new surface with the arrow
-    return border_image
+    return surface
 
 def main():
     # Initialize Pygame
@@ -213,10 +209,16 @@ def main():
     # Set up some constants
     SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
     SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty. The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty.The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty.The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty.The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty.The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty.The quick brown fox jumps over the lazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()<>/\\|_- The weight of the flat land before you is remarkable with the towering mountains in the extreme distance. You can feel the soft winds coming from the south, still moist and salty."
+    SAMPLE_RESPONSES = ["Yes", "No", "Maybe"]
 
     # strip the text of leading and trailing whitespace
     SAMPLE_TEXT = '\n'.join(line.strip() for line in SAMPLE_TEXT.split('\n'))
-    SAMPLE_TEXT = SAMPLE_TEXT.replace("\n", " ")  
+    SAMPLE_TEXT = SAMPLE_TEXT.replace("\n", " ")
+
+    # strip the text of leading and trailing whitespace
+    for test in SAMPLE_RESPONSES:
+        test = '\n'.join(line.strip() for line in SAMPLE_TEXT.split('\n'))
+        test = SAMPLE_TEXT.replace("\n", " ")  
 
     # Create a screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -227,15 +229,36 @@ def main():
     font = FontComponent("entities/textbox/test_font_16x16_outline.json")
     border = BorderComponent("entities/textbox/test_border.json")
 
-
     #test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH)
 
     x = 100
     y = 100
     width = 600
     height = 200
-    surfaces = convert_text_to_surfaces(screen, font, SAMPLE_TEXT, width, height)
+
+    number_of_responses = len(SAMPLE_RESPONSES)
+
     current_surface_index = 0
+
+    surfaces = convert_text_to_surfaces(screen, font, SAMPLE_TEXT, width, height)
+    border_image = create_text_box_surface(border, 
+                                           width + border.left_thickness + border.right_thickness+border.arrow_width, 
+                                           height+ border.top_thickness+ border.bottom_thickness 
+                                           )
+    arrow_image = create_arrow_surface(border)
+
+    x_response = 100
+    y_response = 330
+    width_response = 600
+    width_height = 40
+    surfaces_responses = []
+    border_responses = []
+    for response in SAMPLE_RESPONSES:
+        surfaces_responses.append(convert_text_to_surfaces(screen, font, response, width_response, width_height))
+        border_responses.append(create_text_box_surface(border, 
+                                                  width_response + border.left_thickness + border.right_thickness+border.arrow_width, 
+                                                  width_height + border.top_thickness+ border.bottom_thickness 
+                                                  ))
 
     save_path = "images/textbox/surfaces"
     save_surfaces(surfaces, save_path)
@@ -254,11 +277,21 @@ def main():
 
         screen.fill((0, 0, 0))  # Clear the screen
         #pygame.draw.rect(screen, (0, 55, 55), (x-1, y-1, width+2, height+2), 0)  # Draw the box
-        border_image = create_text_box_surface(border, width+border.left_thickness+border.right_thickness+border.arrow_width, height+border.top_thickness+border.bottom_thickness)
-        text_box_image = create_arrow_surface(border, border_image)
-        
-        screen.blit(text_box_image, (x - border.left_thickness, y - border.top_thickness))  # Draw the border)
+
+        screen.blit(border_image, (x - border.left_thickness, y - border.top_thickness))  # Draw the border)
+        screen.blit(arrow_image, (x + width, y))  # Draw the arrow
         screen.blit(surfaces[current_surface_index], (x, y))  # Draw the current surface
+
+        offset = 0
+        for response_border in border_responses:
+            screen.blit(response_border, (x_response - border.left_thickness, y_response - border.top_thickness + offset))
+            offset += response_border.get_height()
+
+        offset = 0
+        for surface in surfaces_responses:
+            screen.blit(surface[0], (x_response, y_response + offset))
+            offset += surface[0].get_height()
+
         pygame.display.flip()  # Update the display
 
 if __name__ == "__main__":

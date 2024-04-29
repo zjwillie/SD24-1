@@ -5,7 +5,7 @@ from common.managers.event_manager import Event
 
 from common.components.control_component import ControlComponent
 from common.components.font_component import FontComponent
-from common.components.text_component import TextComponent
+from common.components.textbox_component import TextBoxComponent
 
 class DialogueSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
@@ -24,13 +24,7 @@ class DialogueSystem(System):
 
     def update(self, delta_time):
         #TODO Working here
-        for entity in self.entity_manager.component_sets[FontComponent]:
-            if self.get_component(entity, ControlComponent).enabled:
-                self.draw_text(entity)
-
-    def draw_text(self, entity):
-        text_component = self.get_component(entity, TextComponent)
-        print (text_component.text)
+        pass
 
     def draw_text_box(self, entity):
         pass

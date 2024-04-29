@@ -28,7 +28,8 @@ from .camera_component import CameraComponent
 from .description_component import DescriptionComponent
 from .font_component import FontComponent
 from .control_component import ControlComponent
-from .text_component import TextComponent
+from .textbox_component import TextBoxComponent
 from .collisionevent_component import CollisionEventComponent
 from .testingcollision_component import TestingCollisionComponent
 from .border_component import BorderComponent
+from .textbox_component import TextBoxComponent

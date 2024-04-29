@@ -26,7 +26,7 @@ from common.components.position_component import PositionComponent
 from common.components.render_component import RenderComponent
 from common.components.size_component import SizeComponent
 from common.components.testingcollision_component import TestingCollisionComponent
-from common.components.text_component import TextComponent
+from common.components.textbox_component import TextBoxComponent
 from common.components.type_component import TypeComponent
 from common.components.uuid_component import UUIDComponent
 from common.components.velocity_component import VelocityComponent
@@ -60,7 +60,7 @@ class ComponentFactory:
             'RenderComponent': RenderComponent,
             'SizeComponent': SizeComponent,
             'TestingCollisionComponent': TestingCollisionComponent,
-            'TextComponent': TextComponent,
+            'TextBoxComponent': TextBoxComponent,
             'TypeComponent': TypeComponent,
             'UUIDComponent': UUIDComponent,
             'VelocityComponent': VelocityComponent
