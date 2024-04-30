@@ -1,0 +1,13 @@
+{
+    "width": 5,
+    "height": 8,
+    "space_width": 4,
+    "spacing": 1,
+    "line_height": 12,
+    "character_map": [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "abcdefghijklmnopqrstuvwxyz",
+        "1234567890.!?,:;_/\\,[]()'%"
+    ],
+    "font_sheet_location":"images/textbox/fonts/font_5x8.png"
+}

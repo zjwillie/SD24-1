@@ -26,7 +26,9 @@ class BorderComponent(Component):
             border_dict = json.load(border_file)
 
         self.load_border(border_dict)
-        self.load_arrows(border_dict)
+        
+        # TODO, should be elsewhere, button component?
+        #self.load_arrows(border_dict)
 
     def load_border(self, border_dict):
         self.height = border_dict["height"]

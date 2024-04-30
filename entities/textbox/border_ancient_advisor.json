@@ -1,0 +1,9 @@
+{
+    "height": 32,
+    "width": 32,
+    "top_thickness": 8,
+    "bottom_thickness": 8,
+    "left_thickness": 8,
+    "right_thickness": 8,
+    "border_sheet_location": "images/textbox/border/border_ancient_advisor.png"
+}

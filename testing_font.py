@@ -85,35 +85,7 @@ def split_text_into_lines(font, text, width):
     lines.append(current_line.strip())
     return lines
 
-def convert_text_to_surface(font, text, width, height):
-    lines = split_text_into_lines(font, text, width)
-
-    for i in range(0, len(lines), height // font.line_height):
-        surface = pygame.Surface((width, height), pygame.SRCALPHA)
-        surface.fill((0, 0, 0, 0))
-
-        x_offset = 0
-        y_offset = 0
-        for line in lines[i:i + height // font.line_height]:
-            for letter in line:
-                if letter in font.character_list:
-                    char = font.characters[letter]
-                    surface.blit(char.sprite, (x_offset, y_offset))
-                    x_offset += char.width + font.spacing
-                elif letter == " ":
-                    x_offset += font.space_width
-                elif letter == "\n":
-                    x_offset = 0
-                    y_offset += font.line_height
-            y_offset += font.line_height
-            x_offset = 0
-
-    bounding_rect = surface.get_bounding_rect()
-    trimmed_surface = surface.subsurface(bounding_rect)
-
-    return trimmed_surface
-
-def convert_text_to_surfaces(font, text, width, height):
+def convert_text_to_surfaces(font, text, width, height, single_surface=False):
     lines = split_text_into_lines(font, text, width)
 
     surfaces = []
@@ -137,8 +109,11 @@ def convert_text_to_surfaces(font, text, width, height):
             y_offset += font.line_height
             x_offset = 0
 
-        surfaces.append(surface)
-    return surfaces
+        bounding_rect = surface.get_bounding_rect()
+        trimmed_surface = surface.subsurface(bounding_rect)
+        surfaces.append(trimmed_surface)
+
+    return surfaces[0] if single_surface else surfaces
 
 def blit_subsurface(surface, border, index, position, size=None):
     if size is not None:
@@ -216,13 +191,42 @@ def create_arrow_surface(border):
 def create_surface(image_location):
     return pygame.image.load(image_location).convert_alpha()
 
+def scale_surface_to_window(surface):
+    """
+    Scale a pygame.Surface object to fit the current window size while maintaining the original aspect ratio.
+
+    Args:
+        surface (pygame.Surface): The surface to scale.
+
+    Returns:
+        pygame.Surface: The scaled surface.
+    """
+    # Get the size of the current window
+    window = pygame.display.get_surface()
+    window_width, window_height = window.get_size()
+
+    # Calculate the new width and height for the surface
+    surface_width, surface_height = surface.get_size()
+    aspect_ratio = surface_width / surface_height
+    new_width = window_width
+    new_height = int(window_width / aspect_ratio)
+
+    # If the new height is greater than the window height, adjust the width and height
+    if new_height > window_height:
+        new_width = int(window_height * aspect_ratio)
+        new_height = window_height
+
+    # Scale the surface
+    scaled_surface = pygame.transform.scale(surface, (new_width, new_height))
+
+    return scaled_surface
 
 def main():
     # Initialize Pygame
     pygame.init()
 
     # Set up some constants
-    SAMPLE_TEXT = "Only through meditation do enternitie's creep not lead to madness. Long I have awaited your arrival, someone must come. Yes, yes. Enigma."
+    SAMPLE_TEXT = "Only through meditation does enternitie's creep not lead to madness. Long I have awaited your arrival, someone must come. Yes, yes. Enigma."
     SAMPLE_RESPONSES = ["1. Yes", "2. No", "3. Maybeazy dog. 1234567890 times! Isn't that amazing? Yes, it is. But, what's next? Well, let's see: []{}()", "4. Hi dog"]
 
 
@@ -236,28 +240,28 @@ def main():
         test = SAMPLE_TEXT.replace("\n", " ")  
 
     # Create a screen
-    """
-    infoObject = pygame.display.Info()
-    SCREEN_WIDTH, SCREEN_HEIGHT = infoObject.current_w, infoObject.current_h
-    """
-    SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))#, pygame.FULLSCREEN)
 
-    BACKGROUND_IMAGE = create_surface("images/unsorted/scene_meeting_ancient_advisor.png")
-    BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((1600, 900))
+
+    BACKGROUND_IMAGE = create_surface("images/unsorted/scene_meeting_ancient_advisor_320x180.png")
+    BACKGROUND_IMAGE = scale_surface_to_window(BACKGROUND_IMAGE)
 
     # Create a FontComponent
     #font = FontComponent("entities/textbox/test_font.json")
     #font = FontComponent("entities/textbox/test_font_16x16.json")
-    font = FontComponent("entities/textbox/test_font_16x16_outline.json")
+    #font = FontComponent("entities/textbox/test_font_16x16_outline.json")
+    font = FontComponent("entities/textbox/test_font_16x16_outline_black.json")
+    #font = FontComponent("entities/textbox/font_5x8_black.json")
+
     border = BorderComponent("entities/textbox/test_border.json")
+    #border = BorderComponent("entities/textbox/border_ancient_advisor.json")
 
     #test_font(screen, font, SAMPLE_TEXT, SCREEN_WIDTH)
 
     x = 160
-    y = 350
-    surface_width = 400
-    surface_height = 80
+    y = 250
+    surface_width = 600
+    surface_height = 200
 
     # Calculate the width and height of the text area based on the border
     text_area_width = surface_width - border.left_thickness - border.right_thickness
@@ -278,8 +282,7 @@ def main():
 
     response_surfaces = []
     for response in SAMPLE_RESPONSES:
-        response_surfaces.append(convert_text_to_surface(font, response, response_surface_width, response_surface_height))
-
+        response_surfaces.append(convert_text_to_surfaces(font, response, response_surface_width, response_surface_height, single_surface=True))
 
     # Wait until the user closes the window
     while True:
