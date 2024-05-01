@@ -9,7 +9,7 @@ class CollisionComponent(Component):
     BOUNCE = 3
     TRIGGER_EVENT = 10
 
-    def __init__(self, collision_type=STOP_SLIDE, polygons=None):
+    def __init__(self, polygons=None, collision_type=STOP_SLIDE):
         super().__init__()
         # Component initialization
         self.collision_type = collision_type

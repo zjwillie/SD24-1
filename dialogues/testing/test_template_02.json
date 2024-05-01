@@ -1,0 +1,96 @@
+{
+    "dialogue_name": "test_dialogue_01",
+    "metadata": "This is for keeping track of information about the dialogue",
+    "dialogue_01": {
+        "text": [
+            {
+                "content": "Dialogue_01 First option",
+                "conditions": [
+                    {
+                        "type": "flag",
+                        "name": "has_sword",
+                        "operator": "equals",
+                        "value": "true"
+                    },
+                    {
+                        "type": "stat",
+                        "name": "strength",
+                        "operator": "greater_than",
+                        "value": "10"
+                    }
+                ],
+                "events": [
+                    {
+                        "event_type": "event type 1",
+                        "event_data": "event data 1"
+                    },
+                    {
+                        "event_type": "event type 2",
+                        "event_data": "event data 2"
+                    }
+                ]
+            },
+            {
+                "content": "Dialogue_01 Second option",
+                "conditions": [
+                    {
+                        "type": "stat",
+                        "name": "karma",
+                        "operator": "range",
+                        "value": "0-50"
+                    }
+                ],
+                "events": [
+                    {
+                        "event_type": "event type",
+                        "event_data": "event data"
+                    }
+                ]
+            }
+        ],
+        "responses": [
+            {
+                "content": "Dialogue_01 First response.",
+                "conditions": [
+                    {
+                        "type": "flag",
+                        "name": "has_sword",
+                        "operator": "equals",
+                        "value": "true"
+                    }
+                ],
+                "next_dialogue": "dialogue_02",
+                "response_event": [
+                    {
+                        "event_type": "event type",
+                        "event_data": "event data"
+                    }
+                ]
+            },
+            {
+                "content": "Dialogue_01 Second response.",
+                "conditions": [
+                    {
+                        "type": "stat",
+                        "name": "strength",
+                        "operator": "less_than",
+                        "value": "5"
+                    }
+                ],
+                "next_dialogue": "dialogue_03",
+                "events": [
+                    {
+                        "event_type": "event type",
+                        "event_data": "event data"
+                    }
+                ]
+            }
+        ],
+        "events": [
+            {
+                "event_type": "dialogue event",
+                "event_data": "dialogue event data"
+            }
+        ]
+    }
+}

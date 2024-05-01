@@ -3,9 +3,7 @@ from .base_system import System
 
 from common.managers.event_manager import Event
 
-from common.components.control_component import ControlComponent
-from common.components.font_component import FontComponent
-from common.components.textbox_component import TextBoxComponent
+from common.components.dialogue_component import DialogueComponent
 
 class DialogueSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
@@ -24,7 +22,4 @@ class DialogueSystem(System):
 
     def update(self, delta_time):
         #TODO Working here
-        pass
-
-    def draw_text_box(self, entity):
         pass

@@ -1,0 +1,109 @@
+{
+    "dialogue_portal_01": {
+        "metadata": {
+            "version": "1.0",
+            "author": "GameDev",
+            "description": "Player encounters a mysterious portal for the first time."
+        },
+        "text": [
+            {
+                "content": "You are standing in front of a mysterious portal. It pulses with an eerie light.",
+                "conditions": [
+                    {"type": "flag", "name": "encountered_a_portal", "value": false}
+                ],
+                "actions": [],
+                "note": "This is the first encounter with the portal. No previous flag is set."
+            },
+            {
+                "content": "You are again standing in front of the mysterious portal. It seems to beckon you closer.",
+                "conditions": [
+                    {"type": "flag", "name": "encountered_a_portal", "value": true}
+                ],
+                "actions": [],
+                "note": "This text is displayed if the player has previously encountered the portal."
+            }
+        ],
+        "responses": [
+            {
+                "content": "Step through the portal.",
+                "conditions": [],
+                "actions": [
+                    {"type": "set_flag", "name": "protal_used", "value": true},
+                    {"type": "log_event", "name": "portal_decision", "value": "entered"}
+                ],
+                "next": "dialogue_inside_portal",
+                "note": "Choosing this response sets the 'portal_used' flag to true and logs the event."
+            },
+            {
+                "content": "Decide against it and walk away.",
+                "conditions": [],
+                "actions": [
+                    {"type": "log_event", "name": "portal_decision", "value": "walked_away"}
+                ],
+                "next": null,
+                "note": "Choosing this response ends the conversation and logs the event."
+            }
+        ],
+        "actions": [
+            {"type": "set_flag", "name": "portal_encountered", "value": true},
+            {"type": "log_event", "name": "portal_encountered", "value": "player encountered portal"}
+        ],
+        "note": "Actions to set the portal_encountered flag and log the encounter are executed at the start of the dialogue."
+    },
+    "dialogue_inside_portal": {
+        "metadata": {
+            "version": "1.0",
+            "author": "GameDev",
+            "description": "Player has entered the portal and finds themselves in a different realm."
+        },
+        "text": [
+            {
+                "content": "As you step through the portal, your vision blurs and you find yourself in a surreal, dreamlike landscape.",
+                "conditions": [],
+                "actions": [],
+                "note": "Describes the new location inside the portal."
+            }
+        ],
+        "responses": [
+            {
+                "content": "Explore the area.",
+                "conditions": [],
+                "actions": [
+                    {"type": "log_event", "name": "inside_portal_decision", "value": "explored"}
+                ],
+                "next": null,
+                "note": "This response ends the dialogue and logs the exploration event."
+            }
+        ],
+        "actions": [],
+        "note": "No additional actions at this point."
+    },
+    "dialogue_end": {
+        "metadata": {
+            "version": "1.0",
+            "author": "GameDev",
+            "description": "Dialogue after choosing to walk away or after exploring inside the portal."
+        },
+        "text": [
+            {
+                "content": "You decide it's time to leave the strange phenomena behind and return to your normal life.",
+                "conditions": [],
+                "actions": [],
+                "note": "Marks the conclusion of the encounter or exploration."
+            }
+        ],
+        "responses": [
+            {
+                "content": "Reflect on the experience.",
+                "conditions": [],
+                "actions": [
+                    {"type": "log_event", "name": "end_reflection", "value": "reflected"}
+                ],
+                "next": null,
+                "note": "This response ends the dialogue and logs the reflective event, cycling back to the main game flow."
+            }
+        ],
+        "actions": [],
+        "note": "No actions are performed at the end; it simply concludes the dialogue sequence."
+    }
+}

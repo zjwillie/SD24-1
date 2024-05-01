@@ -11,6 +11,9 @@
         "x": 0,
         "y": 0
     },
+    "DialogueComponent":{
+        "dialogue_id": "dialogues/testing/test_template_02.json"
+    },
     "CollisionEventComponent": {
         "event_name": "portal",
         "event_data": {

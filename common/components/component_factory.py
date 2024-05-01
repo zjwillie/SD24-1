@@ -10,6 +10,7 @@ from common.components.collisionevent_component import CollisionEventComponent
 from common.components.control_component import ControlComponent
 from common.components.dashing_component import DashingComponent
 from common.components.description_component import DescriptionComponent
+from common.components.dialogue_component import DialogueComponent
 from common.components.directionmoving_component import DirectionMovingComponent
 from common.components.directionfacing_component import DirectionFacingComponent
 from common.components.entitystatus_component import EntityStatusComponent
@@ -44,6 +45,7 @@ class ComponentFactory:
             'ControlComponent': ControlComponent,
             'DashingComponent': DashingComponent,
             'DescriptionComponent': DescriptionComponent,
+            'DialogueComponent': DialogueComponent,
             'DirectionMovingComponent': DirectionMovingComponent,
             'DirectionFacingComponent': DirectionFacingComponent,
             'EntityStatusComponent': EntityStatusComponent,
