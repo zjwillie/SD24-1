@@ -1,7 +1,7 @@
 {
     "dialogue_name": "test_dialogue_01",
     "metadata": "This is for keeping track of information about the dialogue",
-    "dialogue_01": {
+    "start": {
         "text": [
             {
                 "content": "Dialogue_01 First option",

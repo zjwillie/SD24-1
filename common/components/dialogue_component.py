@@ -65,4 +65,33 @@ class DialogueComponent(Component):
         
         self.dialogue_name = dialogue_data['dialogue_name']
         self.metadata = dialogue_data['metadata']
+
         self.dialogues = {k: Dialogue.from_dict(k, v) for k, v in dialogue_data.items() if k not in ['dialogue_name', 'metadata']}
+
+        self.current_dialogue = self.dialogues['start']
+
+    def print_dialogues(self):
+        for dialogue_name, dialogue in self.dialogues.items():
+            print(f"Dialogue Name: {dialogue_name}")
+            print("Texts:")
+            for text in dialogue.texts:
+                print(f"  Content: {text.content}")
+                print("  Conditions:")
+                for condition in text.conditions:
+                    print(f"    Type: {condition.type}, Name: {condition.name}, Operator: {condition.operator}, Value: {condition.value}")
+                print("  Events:")
+                for event in text.events:
+                    print(f"    Event Type: {event.event_type}, Event Data: {event.event_data}")
+            print("Responses:")
+            for response in dialogue.responses:
+                print(f"  Content: {response.content}, Next Dialogue: {response.next_dialogue}")
+                print("  Conditions:")
+                for condition in response.conditions:
+                    print(f"    Type: {condition.type}, Name: {condition.name}, Operator: {condition.operator}, Value: {condition.value}")
+                print("  Events:")
+                for event in response.events:
+                    print(f"    Event Type: {event.event_type}, Event Data: {event.event_data}")
+            print("Events:")
+            for event in dialogue.events:
+                print(f"  Event Type: {event.event_type}, Event Data: {event.event_data}")
+            print("\n")

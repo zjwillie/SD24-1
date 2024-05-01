@@ -22,4 +22,6 @@ class DialogueSystem(System):
 
     def update(self, delta_time):
         #TODO Working here
-        pass
+        for entity in self.entity_manager.component_sets[DialogueComponent]:
+            dialogue_component = self.get_component(entity, DialogueComponent)
+            print(dialogue_component.current_dialogue.texts[0].content)
