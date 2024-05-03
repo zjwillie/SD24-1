@@ -53,6 +53,7 @@ class RenderSystem(System):
         def sorting_key(entity):
             render_layer = self.entity_manager.get_component(entity, RenderComponent).layer
             position = self.entity_manager.get_component(entity, PositionComponent).position
+            # TODO if no focus point use position instead
             focus_point = self.entity_manager.get_component(entity, FocusPointComponent).focus_point
             return (render_layer, position.y + focus_point.y)
         return sorted(entities, key=sorting_key)

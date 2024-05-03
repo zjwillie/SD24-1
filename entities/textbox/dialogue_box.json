@@ -1,0 +1,31 @@
+{
+    "IDComponent": {
+        "id": "dialogue_01"
+    },
+    "NameComponent": {
+        "name": "Dialogue Box"
+    },
+    "DialogueComponent": {
+        "dialogue": null
+    },
+    "UUIDComponent": {},
+    "PositionComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "SizeComponent": {
+        "width": 0,
+        "height": 0
+    },
+    "RenderComponent": {
+        "layer": 1,
+        "render": false
+    },
+    "FocusPointComponent": {
+        "x": 0,
+        "y": 0
+    },
+    "ImageComponent": {
+        "image_data": null
+    }
+}

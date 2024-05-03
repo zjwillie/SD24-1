@@ -3,6 +3,8 @@ import json
 
 from .base_component import Component
 
+from common.managers.event_manager import Event
+
 
 class Condition:
     def __init__(self, type, name, operator, value):
@@ -14,15 +16,6 @@ class Condition:
     @classmethod
     def from_dict(cls, data):
         return cls(data['type'], data['name'], data['operator'], data['value'])
-
-class Event:
-    def __init__(self, event_type, event_data):
-        self.event_type = event_type
-        self.event_data = event_data
-
-    @classmethod
-    def from_dict(cls, data):
-        return cls(data['event_type'], data['event_data'])
 
 class Text:
     def __init__(self, content, conditions, events):
@@ -60,6 +53,14 @@ class Dialogue:
 
 class DialogueComponent(Component):
     def __init__(self, dialogue_id):
+
+        if dialogue_id:
+            self.set_dialogue_id(dialogue_id)
+
+    def set_current_dialogue(self, dialogue_name):
+        self.current_dialogue = self.dialogues[dialogue_name]
+
+    def set_dialogue_id(self, dialogue_id):
         with open(dialogue_id, 'r') as dialogue_file:
             dialogue_data = json.load(dialogue_file)
         

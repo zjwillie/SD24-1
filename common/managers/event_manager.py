@@ -5,6 +5,10 @@ class Event:
         self.type = event_type
         self.data = data
 
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data['event_type'], data.get('data'))
+
     def __str__(self):
         return f"Event: Type({self.type}) Data{self.data} <- EVENT OBJECT"
 
