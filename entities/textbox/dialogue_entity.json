@@ -1,12 +1,16 @@
 {
+    "MetaData": {
+        "version": 1,
+        "Note": "This entity is used to display dialogue text on the screen. It is used by the Dialogue System to display dialogue text."
+    },
     "IDComponent": {
-        "id": "dialogue_01"
+        "id": "dialogue_entity"
     },
     "NameComponent": {
-        "name": "Dialogue Box"
+        "name": "Dialogue Entity"
     },
     "DialogueComponent": {
-        "dialogue": null
+        "dialogue_id": "dialogues/testing/test_dialogue_simple.json"
     },
     "UUIDComponent": {},
     "PositionComponent": {

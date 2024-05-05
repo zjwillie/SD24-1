@@ -13,9 +13,9 @@
         "entities/buildings/home.json",
         "entities/foliage/trees/fir_tree.json",
         "entities/water/water_block.json",
-        "entities/textbox/text_test_box.json",
         "entities/objects/portal_01.json",
-        "entities/objects/portal_02.json"
+        "entities/objects/portal_02.json",
+        "entities/textbox/dialogue_entity.json"
     ],
     "systems":[
         "AnimationSystem",

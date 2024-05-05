@@ -23,5 +23,10 @@ class DialogueSystem(System):
     def update(self, delta_time):
         #TODO Working here
         for entity in self.entity_manager.component_sets[DialogueComponent]:
+
             dialogue_component = self.get_component(entity, DialogueComponent)
-            print(dialogue_component.current_dialogue.texts[0].content)
+
+            if dialogue_component.dialogue_name:
+                self.logger.debug(f"Entity {entity} has dialogue {dialogue_component.dialogue_name}")
+            else:
+                self.logger.debug(f"Entity {entity} has no dialogue")
