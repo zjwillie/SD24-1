@@ -6,8 +6,6 @@ from .base_component import Component
 class TextBoxComponent(Component):
     def __init__(self):
         super().__init__()
-        self.dialogue = None
-        self.responses = []
         
         self.font = None
         self.border = None

@@ -153,7 +153,7 @@ class MovementSystem(System):
         self.logger.info(f"Handling collision for {entity} with {collision_data['collisions']}")  # Debugging log
         self.logger.info(collision_data)
 
-        current_position = self.get_component(entity, PositionComponent).position
+        #current_position = self.get_component(entity, PositionComponent).position
         current_velocity = self.get_component(entity, VelocityComponent).current_velocity
 
         final_collision_type = 100

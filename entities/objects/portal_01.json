@@ -14,6 +14,10 @@
     "DialogueComponent":{
         "dialogue_id": "dialogues/testing/test_template_02.json"
     },
+    "TextboxComponent": {
+        "font": "entities/textbox/test_font_16x16_outline_black.json",
+        "border": "entities/textbox/test_border.json"
+    },
     "CollisionEventComponent": {
         "event_name": "portal",
         "event_data": {

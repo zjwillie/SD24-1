@@ -6,6 +6,8 @@ class GameState:
         self.exit_requested = False
         self.pause_requested = False
 
+        self.keys_down = {}
+
         self.resolution = resolution
         self.screen = None
         self.clock = None

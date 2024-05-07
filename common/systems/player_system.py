@@ -10,7 +10,7 @@ from common.components import DirectionFacingComponent
 from common.components import EntityStatusComponent
 
 class PlayerSystem(System):
-    ACTION_QUEUE_MAX_SIZE = 5
+    ACTION_QUEUE_MAX_SIZE = 3
 
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
@@ -229,6 +229,9 @@ class PlayerSystem(System):
         # If pause is requested, we check to see if the player is paused, if not we pause the player
         if self.game_state.pause_requested and not self.player_system_paused:
             self.pause()
+
+        # TODO player stops dashing even if pressed if does another action, needs to be seamless
+
         # If pause is not requested then we check to see if the player was paused, if so we unpause
         elif not self.game_state.pause_requested:
             if self.player_system_paused:

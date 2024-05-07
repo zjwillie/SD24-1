@@ -25,7 +25,7 @@ class GameManager:
             'camera_system': "OFF",
             'component': 'OFF',
             'current': 'OFF',
-            'dialogue_system': "OFF",
+            'dialogue_system': "ON",
             'entity_manager': 'OFF',
             'event_manager': 'OFF',
             'game_manager': 'OFF',

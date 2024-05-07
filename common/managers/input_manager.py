@@ -388,3 +388,6 @@ class InputManager:
         # If the keys down or keys down time has changed, post a movementment key event
         self.logger.info(f"Keys Down: {self.keys_down}, Keys Down Time: {self.keys_down_time}, Joystick Axis: {self.joystick_axis}")
         self.event_manager.post(Event(self.event_manager.MOVEMENT_KEY_EVENT, {'keys_down_time': self.keys_down_time, 'joystick_axis': self.joystick_axis}))
+
+        # Nice to have access to the current keys that are down
+        self.game_state.keys_down = self.keys_down

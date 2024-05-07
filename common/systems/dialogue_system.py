@@ -11,7 +11,7 @@ class DialogueSystem(System):
 
         self.logger = logger.loggers['dialogue_system']
 
-    def post_event(self, event_type, data):
+    def post_event(self, event_type, data):                                         
         self.event_manager.post(Event(event_type, data))
 
     def get_component(self, entity, component):
