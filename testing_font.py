@@ -260,8 +260,8 @@ def main():
 
     x = 160
     y = 250
-    surface_width = 600
-    surface_height = 200
+    surface_width = 400
+    surface_height = 100
 
     # Calculate the width and height of the text area based on the border
     text_area_width = surface_width - border.left_thickness - border.right_thickness

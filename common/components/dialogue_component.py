@@ -27,6 +27,7 @@ class Text:
         conditions = data.get('conditions', [])
         events = data.get('events', [])
         return cls(data['content'], conditions, events)
+
 class Response:
     def __init__(self, content, conditions=None, next_dialogue=None, events=None):
         self.content = content
@@ -39,6 +40,7 @@ class Response:
         conditions = data.get('conditions', [])
         events = data.get('events', [])
         return cls(data['content'], conditions, data.get('next_dialogue'), events)
+
 class Dialogue:
     def __init__(self, dialogue_id, texts, responses, events):
         self.dialogue_id = dialogue_id
@@ -52,21 +54,28 @@ class Dialogue:
 
 class DialogueComponent(Component):
     def __init__(self, dialogue_id=None):
-
         self.dialogue_id = dialogue_id
 
-        if self.dialogue_id:
-            self.set_dialogue_id(self.dialogue_id)
+        self.current_dialogue = None
+        self.dialogue_name = None
+        self.metadata = None
 
-    def set_dialogue_id(self, dialogue_id):
+        if self.dialogue_id:
+            self.load_dialogue_id(self.dialogue_id)
+
+    def load_dialogue_id(self, dialogue_id):
         with open(dialogue_id, 'r') as dialogue_file:
             dialogue_data = json.load(dialogue_file)
         
         self.dialogue_name = dialogue_data['dialogue_name']
-        print(f"Dialogue Name: {self.dialogue_name}")
+        
+        (f"Dialogue Name: {self.dialogue_name}")
         self.metadata = dialogue_data['metadata']
 
-        self.dialogues = {k: Dialogue.from_dict(k, v) for k, v in dialogue_data.items() if k not in ['dialogue_name', 'metadata']}
+        self.dialogues = {}
+        for k, v in dialogue_data.items():
+            if k not in ['dialogue_name', 'metadata']:
+                self.dialogues[k] = Dialogue.from_dict(k, v)
 
         self.current_dialogue = self.dialogues['start']
 
