@@ -110,6 +110,7 @@ class DialogueSystem(System):
         self.trigger_events()
 
     def trigger_events(self):
+        # TODO, event likely not storing correctly
         for event in self.event_queue:
             self.logger.info(f"Event Triggered: {event}")
             self.post_event(event.type, event.data)
