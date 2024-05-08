@@ -2,7 +2,7 @@
     "dialogue_name": "test_dialogue_simple_01",
     "metadata": "This is for keeping track of information about the dialogue",
     "start":{
-        "text":[            {
+        "text":[
             {
                 "content":"Hello, I am a bot. What is your name?",
                 "conditions":[],

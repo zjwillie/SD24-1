@@ -67,6 +67,8 @@ class EventManager:
     EXIT_REQUESTED = "exit_requested"
 
     START_GAME = "start_game"
+    EVENT_START_DIALOGUE = "start_dialogue"
+    EVENT_END_DIALOGUE = "end_dialogue"
     # endregion
 
     def __init__(self, logger):

@@ -113,12 +113,17 @@ class GameManager:
         if event.data[0] == self.world.event_manager.KEY_DOWN:
             self.logger.loggers['game_manager'].info("Pausing Game")
             print("Message from GameManager: Pausing Game")
+
+
             if self.world.game_state.pause_requested:
                 print("unpausing game")
                 self.world.game_state.pause_requested = False
+                self.world.event_manager.post(Event(self.world.event_manager.EVENT_END_DIALOGUE))
+
             else:
                 print("pausing game")
                 self.world.game_state.pause_requested = True
+                self.world.event_manager.post(Event(self.world.event_manager.EVENT_START_DIALOGUE, {'entity': 8}))
 
 
     '''       "AnimationSystem",

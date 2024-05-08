@@ -4,7 +4,7 @@
     "start": {
         "text": [
             {
-                "content": "Dialogue_01 First option",
+                "content": "Dialogue_01 First option, the quick brown fox jumped over the lazy dog 123456789.",
                 "conditions": [
                     {
                         "type": "flag",
@@ -31,15 +31,24 @@
                 ]
             },
             {
-                "content": "Dialogue_01 Second option",
+                "content": "Dialogue_01 Second option, encountered_a_port is true",
                 "conditions": [
                     {
-                        "type": "stat",
-                        "name": "karma",
-                        "operator": "range",
-                        "value": "0-50"
+                        "type": "world_flag",
+                        "name": "encountered_a_portal",
+                        "operator": "==",
+                        "value": true
                     }
                 ],
+                "events": [
+                    {
+                        "event_type": "event type",
+                        "event_data": "event data"
+                    }
+                ]
+            },
+            {
+                "content": "Dialogue_01 Third option, encountered_a_port is false",
                 "events": [
                     {
                         "event_type": "event type",
@@ -68,15 +77,25 @@
                 ]
             },
             {
-                "content": "Dialogue_01 Second response.",
+                "content": "Dialogue_01 Second response, used_a_portal is true.",
                 "conditions": [
                     {
-                        "type": "stat",
-                        "name": "strength",
-                        "operator": "less_than",
-                        "value": "5"
+                        "type": "world_flag",
+                        "name": "used_a_portal",
+                        "operator": "==",
+                        "value": true
                     }
                 ],
+                "next_dialogue": "dialogue_03",
+                "events": [
+                    {
+                        "event_type": "event type",
+                        "event_data": "event data"
+                    }
+                ]
+            },
+            {
+                "content": "Dialogue_01 Third response.",
                 "next_dialogue": "dialogue_03",
                 "events": [
                     {

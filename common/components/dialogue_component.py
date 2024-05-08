@@ -5,7 +5,6 @@ from .base_component import Component
 
 from common.managers.event_manager import Event
 
-
 class Condition:
     def __init__(self, type, name, operator, value):
         self.type = type
@@ -16,6 +15,9 @@ class Condition:
     @classmethod
     def from_dict(cls, data):
         return cls(data['type'], data['name'], data['operator'], data['value'])
+
+    def __str__(self):
+        return f"Condition: Type({self.type}) Name({self.name}) Operator({self.operator}) Value({self.value}) <- CONDITION OBJECT"
 class Text:
     def __init__(self, content, conditions=None, events=None):
         self.content = content
@@ -56,8 +58,9 @@ class DialogueComponent(Component):
     def __init__(self, dialogue_id=None):
         self.dialogue_id = dialogue_id
 
-        self.current_dialogue = None
         self.dialogue_name = None
+        self.dialogues = {}
+
         self.metadata = None
 
         if self.dialogue_id:
@@ -76,12 +79,6 @@ class DialogueComponent(Component):
         for k, v in dialogue_data.items():
             if k not in ['dialogue_name', 'metadata']:
                 self.dialogues[k] = Dialogue.from_dict(k, v)
-
-        self.current_dialogue = self.dialogues['start']
-
-    @property
-    def get_current_dialogue(self):
-        return self.current_dialogue
 
     def print_dialogues(self):
         for dialogue_name, dialogue in self.dialogues.items():
