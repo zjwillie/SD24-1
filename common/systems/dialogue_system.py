@@ -9,8 +9,11 @@ from common.managers.event_manager import Event
 from common.components.border_component import BorderComponent
 from common.components.dialogue_component import DialogueComponent
 from common.components.font_component import FontComponent
+from common.components.image_component import ImageComponent
 from common.components.textbox_component import TextBoxComponent
 
+# TODO can remove after testing
+from common.components.name_component import NameComponent
 class DialogueSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
@@ -22,6 +25,8 @@ class DialogueSystem(System):
         #print(f"Textbox Dialogue Entity: {self.get_component(self.textbox_dialogue_entity, DialogueComponent).dialogue_id}")
 
         self.current_dialogue = None
+        self.text_surfaces = []
+        self.response_surfaces = []
 
         self.active_font = None
         self.active_border = None
@@ -103,9 +108,8 @@ class DialogueSystem(System):
 
         # Create a copy of the dialogue
         new_dialogue = DialogueComponent(self.get_component(self.dialogue_source_entity, DialogueComponent).dialogue_id)
-        # Remove the existing DialogueComponent from textbox_dialogue_entity
+        # Remove the existing DialogueComponent from textbox_dialogue_entity then add it
         self.entity_manager.remove_component(self.textbox_dialogue_entity, DialogueComponent)
-        # Add the new dialogue to textbox_dialogue_entity
         self.entity_manager.add_component(self.textbox_dialogue_entity, new_dialogue)
 
         # Set the control component
@@ -116,14 +120,26 @@ class DialogueSystem(System):
 
         # Get the parts for the textbox_component
         # Font
-        print("dialogue_source_entity:", self.dialogue_source_entity)
-        print("TextBoxComponent:", self.get_component(self.dialogue_source_entity, TextBoxComponent))
-        print("Font:", self.get_component(self.dialogue_source_entity, TextBoxComponent).font)
         new_font = FontComponent(self.get_component(self.dialogue_source_entity, TextBoxComponent).font)
         new_border = BorderComponent(self.get_component(self.dialogue_source_entity, TextBoxComponent).border)
         width = self.get_component(self.dialogue_source_entity, TextBoxComponent).width
         height = self.get_component(self.dialogue_source_entity, TextBoxComponent).height
         location = self.get_component(self.dialogue_source_entity, TextBoxComponent).location
+
+        # Remove old and add new textbox component with the new parts
+        self.entity_manager.remove_component(self.textbox_dialogue_entity, TextBoxComponent)
+        self.entity_manager.add_component(self.textbox_dialogue_entity, TextBoxComponent(new_font, new_border, width, height, location.x, location.y))
+
+        # Create the surfaces for the text and responses
+        self.text_surfaces = self.convert_text_to_surfaces(new_font, self.get_next_text().content, width, height)
+        self.response_surfaces = self.convert_text_to_surfaces(new_font, self.get_next_responses()[0].content, width, height, single_surface=False)
+
+        # TODO HERE
+        # Add surgaces to textbot_dialogue_entity images and set current text and response index to 0
+        self.get_component(self.textbox_dialogue_entity, ImageComponent).images = self.text_surfaces
+        self.get_component(self.textbox_dialogue_entity, ImageComponent).current_index = 0
+        self.get_component(self.textbox_dialogue_entity, ImageComponent).render = True
+
 
         # Queue all events associated with starting the dialogue
         self.event_queue.extend(self.current_dialogue.events)
