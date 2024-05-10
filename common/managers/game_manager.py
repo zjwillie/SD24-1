@@ -102,6 +102,7 @@ class GameManager:
                                                     )
                                                 )
         
+        # Move player to the center of the screen
         self.world.entity_manager.get_component(self.world.entity_manager.player_ID, PositionComponent).position = Vector2(self.game_state.resolution[0] // 2, self.game_state.resolution[1] // 2)
 
         self.world.event_manager.subscribe(self.world.event_manager.QUIT, self.quit_game)

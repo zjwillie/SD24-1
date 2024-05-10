@@ -1,20 +1,30 @@
 import json
+import pygame
 
 # Dialogue System
 from .base_system import System
 
 from common.managers.event_manager import Event
 
+from common.components.border_component import BorderComponent
 from common.components.dialogue_component import DialogueComponent
+from common.components.font_component import FontComponent
+from common.components.textbox_component import TextBoxComponent
 
 class DialogueSystem(System):
     def __init__(self, game_state, entity_manager, event_manager, logger):
         super().__init__(game_state, entity_manager, event_manager, logger)
 
-        self.dialogue_entity = None
+        self.dialogue_source_entity = None
         self.is_active = False
-        self.active_dialogue = DialogueComponent()
+
+        self.textbox_dialogue_entity = self.entity_manager.get_entity_by_ID("textbox_dialogue_entity")
+        #print(f"Textbox Dialogue Entity: {self.get_component(self.textbox_dialogue_entity, DialogueComponent).dialogue_id}")
+
         self.current_dialogue = None
+
+        self.active_font = None
+        self.active_border = None
 
         self.event_queue = []
 
@@ -47,7 +57,7 @@ class DialogueSystem(System):
                     elif condition.operator == "!=":
                         if world_flags[condition.name] != condition.value:
                             return True
-                
+            #TODO duh
             elif condition.type == "entity_flag":
                 pass
             elif condition.type == "player_flag":
@@ -87,35 +97,113 @@ class DialogueSystem(System):
         # Let the system know that the dialogue is active
         self.is_active = True
 
-        # Get the dialogue entity
-        self.dialogue_entity = event.data['entity']
+        # Get the dialogue source entity
+        self.dialogue_source_entity = event.data['entity']
+        print(f"Dialogue Source Entity: {self.dialogue_source_entity}")
 
         # Create a copy of the dialogue
-        self.active_dialogue = DialogueComponent(self.get_component(self.dialogue_entity, DialogueComponent).dialogue_id)
-        
+        new_dialogue = DialogueComponent(self.get_component(self.dialogue_source_entity, DialogueComponent).dialogue_id)
+        # Remove the existing DialogueComponent from textbox_dialogue_entity
+        self.entity_manager.remove_component(self.textbox_dialogue_entity, DialogueComponent)
+        # Add the new dialogue to textbox_dialogue_entity
+        self.entity_manager.add_component(self.textbox_dialogue_entity, new_dialogue)
+
         # Set the control component
-        self.entity_manager.add_component(self.dialogue_entity, "ControlComponent")
+        self.entity_manager.add_component(self.dialogue_source_entity, "ControlComponent")
         
         # Grab the start of the dialogue
-        self.current_dialogue = self.active_dialogue.dialogues["start"]
-        
+        self.current_dialogue = self.get_component(self.textbox_dialogue_entity, DialogueComponent).dialogues['start']
+
+        # Get the parts for the textbox_component
+        # Font
+        print("dialogue_source_entity:", self.dialogue_source_entity)
+        print("TextBoxComponent:", self.get_component(self.dialogue_source_entity, TextBoxComponent))
+        print("Font:", self.get_component(self.dialogue_source_entity, TextBoxComponent).font)
+        new_font = FontComponent(self.get_component(self.dialogue_source_entity, TextBoxComponent).font)
+        new_border = BorderComponent(self.get_component(self.dialogue_source_entity, TextBoxComponent).border)
+        width = self.get_component(self.dialogue_source_entity, TextBoxComponent).width
+        height = self.get_component(self.dialogue_source_entity, TextBoxComponent).height
+        location = self.get_component(self.dialogue_source_entity, TextBoxComponent).location
+
         # Queue all events associated with starting the dialogue
         self.event_queue.extend(self.current_dialogue.events)
 
+
     def deactivate_dialogue(self, event):
         self.is_active = False
-        self.entity_manager.remove_component(self.dialogue_entity, "ControlComponent")
-        self.active_dialogue = None
-        self.dialogue_entity = None
-        self.trigger_events()
+        self.entity_manager.remove_component(self.dialogue_source_entity, "ControlComponent")
+        self.textbox_dialogue_entity = None
+        self.dialogue_source_entity = None
+        self.activate_stored_dialogue_events()
 
-    def trigger_events(self):
+    def activate_stored_dialogue_events(self):
         # TODO, event likely not storing correctly
         for event in self.event_queue:
             self.logger.info(f"Event Triggered: {event}")
             self.post_event(event.type, event.data)
         self.event_queue = []
 
+    def split_text_into_lines(self, font, text, width):
+        words = text.split(" ")
+        lines = []
+        current_line = ""
+        current_line_width = 0
+
+        for word in words:
+            current_word_width = 0
+            for letter in word:
+                if letter in font.character_list:
+                    current_word_width += font.characters[letter].width + font.spacing
+                else:
+                    print(f"Character {letter} not found in font character list")
+                    continue
+
+            if (current_line_width + current_word_width + font.space_width) <= width:
+                current_line += word
+                current_line_width += current_word_width
+                if word != words[-1]:
+                    current_line += " "
+                    current_line_width += font.space_width
+            else:
+                lines.append(current_line.strip())
+                current_line = word
+                current_line_width = current_word_width
+                if word != words[-1]:
+                    current_line += " "
+                    current_line_width += font.space_width
+
+        lines.append(current_line.strip())
+        return lines
+
+    def convert_text_to_surfaces(self, font, text, width, height, single_surface=False):
+        lines = self.split_text_into_lines(font, text, width)
+
+        surfaces = []
+        for i in range(0, len(lines), height // font.line_height):
+            surface = pygame.Surface((width, height), pygame.SRCALPHA)
+            surface.fill((0, 0, 0, 0))
+
+            x_offset = 0
+            y_offset = 0
+            for line in lines[i:i + height // font.line_height]:
+                for letter in line:
+                    if letter in font.character_list:
+                        char = font.characters[letter]
+                        surface.blit(char.sprite, (x_offset, y_offset))
+                        x_offset += char.width + font.spacing
+                    elif letter == " ":
+                        x_offset += font.space_width
+                    elif letter == "\n":
+                        x_offset = 0
+                        y_offset += font.line_height
+                y_offset += font.line_height
+                x_offset = 0
+
+            bounding_rect = surface.get_bounding_rect()
+            trimmed_surface = surface.subsurface(bounding_rect)
+            surfaces.append(trimmed_surface)
+
+        return surfaces[0] if single_surface else surfaces
     
 #? *************************
 

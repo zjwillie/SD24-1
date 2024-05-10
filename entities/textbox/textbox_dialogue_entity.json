@@ -4,10 +4,10 @@
         "Note": "This entity is used to display dialogue text on the screen. It is used by the Dialogue System to display dialogue text."
     },
     "IDComponent": {
-        "id": "dialogue_entity"
+        "id": "textbox_dialogue_entity"
     },
     "NameComponent": {
-        "name": "Dialogue Entity"
+        "name": "TextBox Dialogue Entity"
     },
     "DialogueComponent": {
         "dialogue_id": "dialogues/testing/test_dialogue_simple.json"

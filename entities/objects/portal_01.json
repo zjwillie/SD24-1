@@ -14,9 +14,10 @@
     "DialogueComponent":{
         "dialogue_id": "dialogues/testing/test_template_02.json"
     },
-    "TextboxComponent": {
+    "TextBoxComponent": {
         "font": "entities/textbox/test_font_16x16_outline_black.json",
         "border": "entities/textbox/test_border.json",
+        "arrows": null,
         "width": 100,
         "height": 100,
         "x": 0,

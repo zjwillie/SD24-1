@@ -15,7 +15,7 @@
         "entities/water/water_block.json",
         "entities/objects/portal_01.json",
         "entities/objects/portal_02.json",
-        "entities/textbox/dialogue_entity.json"
+        "entities/textbox/textbox_dialogue_entity.json"
     ],
     "systems":[
         "AnimationSystem",
