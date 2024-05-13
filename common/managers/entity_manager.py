@@ -15,6 +15,7 @@ from common.components.camera_component import CameraComponent
 from common.components.collision_component import CollisionComponent
 from common.components.control_component import ControlComponent
 from common.components.font_component import FontComponent
+from common.components.id_component import IDComponent
 from common.components.image_component import ImageComponent
 from common.components.name_component import NameComponent
 from common.components.menu_component import MenuComponent
@@ -99,10 +100,16 @@ class EntityManager:
     def get_component(self, entity_id: int, component_type: typing.Type[Component]) -> typing.Optional[Component]:
         return self.component_maps.get(component_type, {}).get(entity_id, None)
 
+    def get_entity_by_ID(self, name: str) -> typing.Optional[int]:
+        for entity_ID, component in self.component_maps.get(IDComponent, {}).items():
+            if component.id == name:
+                return entity_ID
+        return None
+
     def get_entity_by_name(self, name: str) -> typing.Optional[int]:
-        for entity_id, component in self.component_maps.get(NameComponent, {}).items():
+        for entity_name, component in self.component_maps.get(NameComponent, {}).items():
             if component.name == name:
-                return entity_id
+                return entity_name
         return None
 
     def has_component(self, entity_id: int, component_type: typing.Type[Component]) -> bool:

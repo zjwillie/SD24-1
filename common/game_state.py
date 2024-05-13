@@ -10,6 +10,7 @@ class GameState:
 
         self.resolution = resolution
         self.screen = None
+        
         self.clock = None
         self.start_time = None
 

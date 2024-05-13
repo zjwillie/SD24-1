@@ -1,4 +1,7 @@
 {
+    "NameComponent": {
+        "name": "portal_01"
+    },
     "IDComponent": {
         "id": "portal_01"
     },
@@ -14,7 +17,7 @@
     "DialogueComponent":{
         "dialogue_id": "dialogues/testing/test_template_02.json"
     },
-    "TextboxComponent": {
+    "TextBoxComponent": {
         "font": "entities/textbox/test_font_16x16_outline_black.json",
         "border": "entities/textbox/test_border.json",
         "width": 100,

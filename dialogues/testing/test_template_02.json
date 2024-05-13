@@ -51,8 +51,8 @@
                 "content": "Dialogue_01 Third option, encountered_a_port is false",
                 "events": [
                     {
-                        "event_type": "event type",
-                        "event_data": "event data"
+                        "event_type": "event type third option",
+                        "event_data": "event data third option"
                     }
                 ]
             }
@@ -95,14 +95,12 @@
                 ]
             },
             {
-                "content": "Dialogue_01 Third response.",
-                "next_dialogue": "dialogue_03",
-                "events": [
-                    {
-                        "event_type": "event type",
-                        "event_data": "event data"
-                    }
-                ]
+                "content": "Dialogue_01 Third response part 2.",
+                "next_dialogue": "dialogue_03"
+            },
+            {
+                "content": "Dialogue_01 Third response part 3.",
+                "next_dialogue": "dialogue_03"
             }
         ],
         "events": [
