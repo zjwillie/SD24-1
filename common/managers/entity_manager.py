@@ -138,6 +138,18 @@ class EntityManager:
             entities.append(new_entity)
         return entities
 
+    def get_class_type(self, entity_id: int, component_type: typing.Type[Component]):
+        component = self.get_component(entity_id, component_type)
+        if component:
+            return type(component)
+        raise ValueError(f"No component of type {component_type} found for entity {entity_id}")
+    
+    def create_new_instance(self, entity_id: int, component_type: typing.Type[Component]):
+        class_type = self.get_class_type(entity_id, component_type)
+        if class_type:
+            return class_type()
+        raise ValueError(f"Failed to create a new instance of {component_type} for entity {entity_id}")
+
 def main():
     entity_manager = EntityManager()
 

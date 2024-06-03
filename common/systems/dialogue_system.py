@@ -1,3 +1,4 @@
+import copy
 import json
 import pygame
 
@@ -21,7 +22,8 @@ class DialogueSystem(System):
         self.dialogue_source_entity = None
         self.is_active = False
 
-        self.textbox_dialogue_entity = self.entity_manager.get_entity_by_ID("textbox_dialogue_entity")
+        # Only needed when activating?
+        #self.textbox_dialogue_entity = self.entity_manager.get_entity_by_ID("textbox_dialogue_entity")
         #print(f"Textbox Dialogue Entity: {self.get_component(self.textbox_dialogue_entity, DialogueComponent).dialogue_id}")
 
         self.current_dialogue = None
@@ -102,12 +104,17 @@ class DialogueSystem(System):
         # Let the system know that the dialogue is active
         self.is_active = True
 
+        self.textbox_dialogue_entity = self.entity_manager.get_entity_by_ID("textbox_dialogue_entity")
+
         # Get the dialogue source entity
         self.dialogue_source_entity = event.data['entity']
         print(f"Dialogue Source Entity: {self.dialogue_source_entity}")
 
-        # Create a copy of the dialogue
-        new_dialogue = DialogueComponent(self.get_component(self.dialogue_source_entity, DialogueComponent).dialogue_id)
+        enity_name = self.get_component(self.dialogue_source_entity, NameComponent).name
+        print(f"Entity Name: {enity_name}")
+
+        dialogue_component = self.get_component(self.dialogue_source_entity, DialogueComponent)
+        new_dialogue = copy.deepcopy(dialogue_component)
         # Remove the existing DialogueComponent from textbox_dialogue_entity then add it
         self.entity_manager.remove_component(self.textbox_dialogue_entity, DialogueComponent)
         self.entity_manager.add_component(self.textbox_dialogue_entity, new_dialogue)
@@ -139,7 +146,6 @@ class DialogueSystem(System):
         self.get_component(self.textbox_dialogue_entity, ImageComponent).images = self.text_surfaces
         self.get_component(self.textbox_dialogue_entity, ImageComponent).current_index = 0
         self.get_component(self.textbox_dialogue_entity, ImageComponent).render = True
-
 
         # Queue all events associated with starting the dialogue
         self.event_queue.extend(self.current_dialogue.events)
