@@ -11,6 +11,7 @@ from common.components.border_component import BorderComponent
 from common.components.dialogue_component import DialogueComponent
 from common.components.font_component import FontComponent
 from common.components.image_component import ImageComponent
+from common.components.render_component import RenderComponent
 from common.components.textbox_component import TextBoxComponent
 
 # TODO can remove after testing
@@ -104,6 +105,7 @@ class DialogueSystem(System):
         # Let the system know that the dialogue is active
         self.is_active = True
 
+        # Get the textbox_dialogue_entity to store current dialogue data for rendering etc.
         self.textbox_dialogue_entity = self.entity_manager.get_entity_by_ID("textbox_dialogue_entity")
 
         # Get the dialogue source entity
@@ -114,10 +116,10 @@ class DialogueSystem(System):
         print(f"Entity Name: {enity_name}")
 
         dialogue_component = self.get_component(self.dialogue_source_entity, DialogueComponent)
-        new_dialogue = copy.deepcopy(dialogue_component)
+        
         # Remove the existing DialogueComponent from textbox_dialogue_entity then add it
         self.entity_manager.remove_component(self.textbox_dialogue_entity, DialogueComponent)
-        self.entity_manager.add_component(self.textbox_dialogue_entity, new_dialogue)
+        self.entity_manager.add_component(self.textbox_dialogue_entity, dialogue_component)
 
         # Set the control component
         self.entity_manager.add_component(self.dialogue_source_entity, "ControlComponent")
@@ -142,10 +144,21 @@ class DialogueSystem(System):
         self.response_surfaces = self.convert_text_to_surfaces(new_font, self.get_next_responses()[0].content, width, height, single_surface=False)
 
         # TODO HERE
+        # Need to combine text and response surfaces
         # Add surgaces to textbot_dialogue_entity images and set current text and response index to 0
         self.get_component(self.textbox_dialogue_entity, ImageComponent).images = self.text_surfaces
         self.get_component(self.textbox_dialogue_entity, ImageComponent).current_index = 0
-        self.get_component(self.textbox_dialogue_entity, ImageComponent).render = True
+        self.get_component(self.textbox_dialogue_entity, RenderComponent).render = True
+
+        # Create an orange square surface
+        orange_square = pygame.Surface((width, height))  # Use the width and height from your TextBoxComponent
+        orange_square.fill((255, 165, 0))  # RGB color for orange
+
+        # Assign the orange square surface to the ImageComponent of textbox_dialogue_entity
+        image_component = self.get_component(self.textbox_dialogue_entity, ImageComponent)
+        image_component.images = [orange_square]
+        image_component.current_index = 0
+        image_component.render = True
 
         # Queue all events associated with starting the dialogue
         self.event_queue.extend(self.current_dialogue.events)

@@ -23,7 +23,7 @@
         "height": 0
     },
     "RenderComponent": {
-        "layer": 1,
+        "layer": 10,
         "render": false
     },
     "FocusPointComponent": {

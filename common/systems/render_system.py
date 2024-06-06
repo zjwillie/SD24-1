@@ -8,6 +8,7 @@ from common.components import (
     FocusPointComponent,
     IDComponent,
     ImageComponent,
+    NameComponent,
     PositionComponent,
     RenderComponent,
     SizeComponent
@@ -41,10 +42,17 @@ class RenderSystem(System):
 
     def get_entities_to_render(self):
         entities_to_blit = []
-        entities_to_render = self.entity_manager.component_sets[RenderComponent].intersection(self.entity_manager.component_sets[ImageComponent])
+        entities_to_render = self.entity_manager.component_sets[ImageComponent] & self.entity_manager.component_sets[RenderComponent]
         sorted_entities = self.sort_entities_by_layer_and_focus_point(entities_to_render)
         for entity in sorted_entities:
+            """
+            if self.entity_manager.has_component(entity, NameComponent):
+                name = self.entity_manager.get_component(entity, NameComponent).name
+                print(name, self.entity_manager.get_component(entity, RenderComponent).layer)
+            """
+
             blit_info = self.get_entity_blit_info(entity)
+
             if blit_info:
                 entities_to_blit.append(blit_info)
         return entities_to_blit
