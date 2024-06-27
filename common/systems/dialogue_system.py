@@ -142,8 +142,7 @@ class DialogueSystem(System):
         print("Location: ", location)
 
         # Update position of text location
-        self.entity_manager.get_component(self.textbox_dialogue_entity, PositionComponent).x = location.x
-        self.entity_manager.get_component(self.textbox_dialogue_entity, PositionComponent).y = location.y
+        self.entity_manager.get_component(self.textbox_dialogue_entity, PositionComponent).position = location
 
         # Remove old and add new textbox component with the new parts
         self.entity_manager.remove_component(self.textbox_dialogue_entity, TextBoxComponent)
