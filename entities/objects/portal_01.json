@@ -20,10 +20,10 @@
     "TextBoxComponent": {
         "font": "entities/textbox/test_font_16x16_outline_black.json",
         "border": "entities/textbox/test_border.json",
-        "width": 100,
-        "height": 100,
-        "x": 100,
-        "y": 100
+        "width": 800,
+        "height": 600,
+        "x": 101,
+        "y": 101
     },
     "CollisionEventComponent": {
         "event_name": "portal",

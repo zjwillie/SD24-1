@@ -12,12 +12,8 @@
     "DialogueComponent": {
         "dialogue_id": "dialogues/testing/test_dialogue_simple.json"
     },
-    "TextBoxComponet":{},
     "UUIDComponent": {},
-    "PositionComponent": {
-        "x": 0,
-        "y": 0
-    },
+    "PositionComponent": {},
     "SizeComponent": {
         "width": 0,
         "height": 0

@@ -29,8 +29,9 @@ class RenderSystem(System):
 
         entities_to_blit = self.get_entities_to_render()
         self.blit_entities(entities_to_blit)
-        self.draw_collisions()
 
+        #^ Testing puproses
+        self.draw_collisions()
         #self.draw_entity_info()
 
         pygame.display.flip()
@@ -42,13 +43,15 @@ class RenderSystem(System):
 
     def get_entities_to_render(self):
         entities_to_blit = []
+
         entities_to_render = self.entity_manager.component_sets[ImageComponent] & self.entity_manager.component_sets[RenderComponent]
         sorted_entities = self.sort_entities_by_layer_and_focus_point(entities_to_render)
+
         for entity in sorted_entities:
             
-            if self.entity_manager.has_component(entity, NameComponent):
-                name = self.entity_manager.get_component(entity, NameComponent).name
-                print(name, self.entity_manager.get_component(entity, RenderComponent).layer)
+            #if self.entity_manager.has_component(entity, NameComponent):
+                #name = self.entity_manager.get_component(entity, NameComponent).name
+                #print(name, self.entity_manager.get_component(entity, RenderComponent).layer)
             
 
             blit_info = self.get_entity_blit_info(entity)
@@ -83,6 +86,10 @@ class RenderSystem(System):
         size_component = self.entity_manager.get_component(entity, SizeComponent)
         entity_rect = pygame.Rect(position.x, position.y, size_component.width, size_component.height)
         camera_view = self.get_camera_view_rect(camera_component)
+
+        #if self.entity_manager.has_component(entity, NameComponent):
+            #name = self.entity_manager.get_component(entity, NameComponent).name
+            #print(name, entity_rect, camera_view)
 
         if camera_view.colliderect(entity_rect):
             intersection = camera_view.clip(entity_rect)
