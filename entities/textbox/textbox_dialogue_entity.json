@@ -24,7 +24,7 @@
     },
     "RenderComponent": {
         "layer": 10,
-        "render": false
+        "render": true
     },
     "FocusPointComponent": {
         "x": 0,

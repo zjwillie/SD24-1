@@ -45,11 +45,11 @@ class RenderSystem(System):
         entities_to_render = self.entity_manager.component_sets[ImageComponent] & self.entity_manager.component_sets[RenderComponent]
         sorted_entities = self.sort_entities_by_layer_and_focus_point(entities_to_render)
         for entity in sorted_entities:
-            """
+            
             if self.entity_manager.has_component(entity, NameComponent):
                 name = self.entity_manager.get_component(entity, NameComponent).name
                 print(name, self.entity_manager.get_component(entity, RenderComponent).layer)
-            """
+            
 
             blit_info = self.get_entity_blit_info(entity)
 

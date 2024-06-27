@@ -146,8 +146,9 @@ class DialogueSystem(System):
         # TODO HERE
         # Need to combine text and response surfaces
         # Add surgaces to textbot_dialogue_entity images and set current text and response index to 0
-        self.get_component(self.textbox_dialogue_entity, ImageComponent).images = self.text_surfaces
+        self.get_component(self.textbox_dialogue_entity, ImageComponent).images = self.text_surfaces #! INCOMPLETE
         self.get_component(self.textbox_dialogue_entity, ImageComponent).current_index = 0
+        self.get_component(self.textbox_dialogue_entity, ImageComponent).current_image = self.text_surfaces[0]
         self.get_component(self.textbox_dialogue_entity, RenderComponent).render = True
 
         # Create an orange square surface
